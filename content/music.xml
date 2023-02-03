@@ -1,0 +1,155 @@
+<music root="music/">
+	<track name="Basement (tainted)" intro="Basement - Innocence Glitched [Intro].ogg" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
+	<track name="Basement (tainted) nointro" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
+	<track name="Basement (tainted) altloop" path="Basement - Innocence Glitched [Loop - Alt].ogg" loop="true" />
+	<track name="Caves (tainted)" intro="Caves - Subterranean Homesick Malign [Intro].ogg" path="Caves - Subterranean Homesick Malign [Loop].ogg" loop="true"/>
+	<track name="Caves (tainted) nointro" path="Caves - Subterranean Homesick Malign [Loop].ogg" loop="true"/>
+	<track name="Caves (tainted) altloop" path="Caves - Subterranean Homesick Malign [Loop - Alt].ogg" loop="true"/>
+	<track name="Depths (tainted)" intro="Depths - Innocence Mangled [Intro].ogg" path="Depths - Innocence Mangled [Loop].ogg" loop="true"/>
+	<track name="Depths (tainted) nointro" path="Depths - Innocence Mangled [Loop].ogg" loop="true"/>
+	<track name="Depths (tainted) altloop" path="Depths - Innocence Mangled [Loop - Alt].ogg" loop="true"/>
+	<track name="Cellar (tainted)" intro="Cellar - Outside the Fold [Intro].ogg" path="Cellar - Outside the Fold [Loop].ogg" loop="true"/>
+	<track name="Cellar (tainted) nointro" path="Cellar - Outside the Fold [Loop].ogg" loop="true"/>
+	<track name="Cellar (tainted) altloop" path="Cellar - Outside the Fold [Loop - Alt].ogg" loop="true"/>
+	<track name="Catacombs (tainted)" intro="Catacombs - Marble Forest [Intro].ogg" path="Catacombs - Marble Forest [Loop].ogg" loop="true" />
+	<track name="Catacombs (tainted) nointro" path="Catacombs - Marble Forest [Loop].ogg" loop="true" />
+	<track name="Catacombs (tainted) altloop" path="Catacombs - Marble Forest [Loop - Alt].ogg" loop="true" />
+	<track name="Necropolis (tainted)" intro="Necropolis - The Hammer of Pompeli [Intro].ogg" path="Necropolis - The Hammer of Pompeli [Loop].ogg" loop="true" />
+	<track name="Necropolis (tainted) nointro" path="Necropolis - The Hammer of Pompeli [Loop].ogg" loop="true" />
+	<track name="Necropolis (tainted) altloop" path="Necropolis - The Hammer of Pompeli [Loop - Alt].ogg" loop="true" />
+	<track name="Womb (tainted)" intro="Womb - Dystension [Intro].ogg" path="Womb - Dystension [Loop].ogg" loop="true" />
+	<track name="Womb (tainted) nointro" path="Womb - Dystension [Loop].ogg" loop="true" />
+	<track name="Womb (tainted) altloop" path="Womb - Dystension [Loop - Alt].ogg" loop="true" />
+	<track name="Boss (tainted)" path="Fights/Basic Boss - Invictus [Loop].ogg" loop="true" />
+	<track name="Game Over (tainted)" intro="Credits - Underscore [Intro].ogg" path="Credits - Underscore [Loop].ogg" loop="true" />
+	<track name="Cathedral (tainted)" intro="Cathedral - The Thief [Intro].ogg" path="Cathedral - The Thief [Loop].ogg" loop="true"/>
+	<track name="Cathedral (tainted) nointro" path="Cathedral - The Thief [Loop].ogg" loop="true"/>
+	<track name="Cathedral (tainted) altloop" path="Cathedral - The Thief [Loop - Alt].ogg" loop="true"/>
+	<track name="Sheol (tainted)" intro="Sheol - Shadowdance [Intro].ogg" path="Sheol - Shadowdance [Loop].ogg" loop="true" />
+	<track name="Sheol (tainted) nointro" path="Sheol - Shadowdance [Loop].ogg" loop="true" />
+	<track name="Sheol (tainted) altloop" path="Sheol - Shadowdance [Loop - Alt].ogg" loop="true" />
+	<track name="Dark Room (tainted)" intro="Dark Room - Morphine [Intro].ogg" path="Dark Room - Morphine [Loop].ogg" loop="true" />
+	<track name="Dark Room (tainted) nointro" path="Dark Room - Morphine [Loop].ogg" loop="true" />
+	<track name="Dark Room (tainted) altloop" path="Dark Room - Morphine [Loop - Alt].ogg" loop="true" />
+	<track name="Chest (tainted)" intro="Chest - Ultimort [Intro].ogg" path="Chest - Ultimort [Loop].ogg" loop="true" />
+	<track name="Chest (tainted) nointro" path="Chest - Ultimort [Loop].ogg" loop="true" />
+	<track name="Chest (tainted) altloop" path="Chest - Ultimort [Loop - Alt].ogg" loop="true" />
+	<track name="Burning Basement (tainted)" intro="Burning Basement - Flashpoint [Intro].ogg" path="Burning Basement - Flashpoint [Loop].ogg" loop="true" />
+	<track name="Burning Basement (tainted) nointro" path="Burning Basement - Flashpoint [Loop].ogg" loop="true" />
+	<track name="Burning Basement (tainted) altloop" path="Burning Basement - Flashpoint [Loop - Alt].ogg" loop="true" />
+	<track name="Flooded Caves (tainted)" intro="Flooded Caves - Foreigner in Zeal [Intro].ogg" path="Flooded Caves - Foreigner in Zeal [Loop].ogg" loop="true"/>
+	<track name="Flooded Caves (tainted) nointro" path="Flooded Caves - Foreigner in Zeal [Loop].ogg" loop="true"/>
+	<track name="Flooded Caves (tainted) altloop" path="Flooded Caves - Foreigner in Zeal [Loop - Alt].ogg" loop="true"/>
+	<track name="Dank Depths (tainted)" intro="Dank Depths - Mithraeum [Intro].ogg" path="Dank Depths - Mithraeum [Loop].ogg" loop="true"/>
+	<track name="Dank Depths (tainted) nointro" path="Dank Depths - Mithraeum [Loop].ogg" loop="true"/>
+	<track name="Dank Depths (tainted) altloop" path="Dank Depths - Mithraeum [Loop - Alt].ogg" loop="true"/>
+	<track name="Scarred Womb (tainted)" intro="Scarred Womb - Lethe [Intro].ogg" path="Scarred Womb - Lethe [Loop].ogg" loop="true" />
+	<track name="Scarred Womb (tainted) altloop" path="Scarred Womb - Lethe [Loop - Alt].ogg" loop="true" />
+	<track name="Blue Womb (tainted)" intro="Blue Womb - An Armistice [Intro].ogg" path="Blue Womb - An Armistice [Loop].ogg" loop="true" />
+	<track name="Blue Womb (tainted) altloop" path="Blue Womb - An Armistice [Loop - Alt].ogg" loop="true" />
+	<track name="Utero (tainted)" intro="Womb - Dystension [Intro].ogg" path="Womb - Dystension [Loop].ogg" loop="true" />
+	<track name="Utero (tainted) nointro" path="Womb - Dystension [Loop].ogg" loop="true" />
+	<track name="Utero (tainted) altloop" path="Womb - Dystension [Loop - Alt].ogg" loop="true" />
+	<track name="Boss (Depths - Mom, tainted)" path="Fights/Mom Fight - The Turn [Loop].ogg" loop="true" />
+	<track name="Boss (Womb - Mom's Heart, tainted)" intro="Fights/Mom's Heart - Gloria Filio [Intro].ogg" path="Fights/Mom's Heart - Gloria Filio [Loop].ogg" loop="true" />
+	<track name="Boss (Cathedral - Isaac, tainted)" intro="Fights/Isaac - Misericorde [Intro].ogg" path="Fights/Isaac - Misericorde [Loop].ogg" loop="true" />
+	<track name="Boss (Sheol - Satan, tainted)" path="Fights/Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Boss (Dark Room, tainted)" intro="Fights/The Lamb - Fitnah [Intro].ogg" path="Fights/The Lamb - Fitnah [Loop].ogg" loop="true" />
+	<track name="Boss (Chest - ???, tainted)" intro="Fights/Blue Baby - Rapturepunk [Intro].ogg" path="Fights/Blue Baby - Rapturepunk [Loop].ogg" loop="true" />
+	<track name="Boss (alternate, tainted)" intro="Fights/Basic Boss 2 - The Flagbearer [Intro].ogg" path="Fights/Basic Boss 2 - The Flagbearer [Loop].ogg" loop="true" mul="1.5" />
+	<track name="Boss (Blue Womb - Hush, tainted)" intro="Fights/Hush - Howl [Intro].ogg" path="Fights/Hush - Howl [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Boss (Ultra Greed, tainted)" intro="Fights/Ultra Greed - Non Funkible Token [Intro].ogg" path="Fights/Ultra Greed - Non Funkible Token [Loop].ogg" loop="true" />
+	<track name="Library Room (tainted)" path="Library - Lucidate [Loop].ogg" loop="true" />
+	<track name="Secret Room (tainted)" path="Secret Room - Forgotten Lullaby [Loop].ogg" loop="true" />
+	<track name="Secret Room Alt (tainted)" path="Forgotten Lullaby [crying].ogg" loop="true" />
+	<track name="Devil Room (tainted)" intro="Devil Room - Blackpath [Intro].ogg" path="Devil Room - Blackpath [Loop].ogg" loop="true" />
+	<!--<track name="Angel Room (tainted)" path="Room of Angel - The Thief [Intro - Alt.].ogg" loop="true" />-->
+	<track name="Angel Room (tainted)" intro="Angel Room - Whitepath [Intro].ogg" path="Angel Room - Whitepath [Loop].ogg" loop="true" />
+	<track name="Shop Room (tainted)" path="Shop - Depression Shop [Loop].ogg" loop="true" />
+	<track name="Arcade Room (tainted)" intro="Arcade - Esc [Intro].ogg" path="Arcade - Esc [Loop].ogg" loop="true" />
+    <track name="Boss Room (empty, tainted)" intro="Fights/Boss Beaten - Spinning out of Orbit [Intro].ogg" path="Fights/Boss Beaten - Spinning out of Orbit [Loop].ogg" loop="true" />
+	<track name="Challenge Room (fight, tainted)" path="Fights/Challenge Fight - A Baleful Circus [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Boss Rush (tainted)" intro="Fights/Boss Rush - A Baleful Circus [Intro].ogg" path="Fights/Boss Rush - A Baleful Circus [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Boss Rush Outro (jingle, tainted)" path="Fights/Boss Rush - A Baleful Circus [Outro].ogg" loop="false" mul="1.25" />
+	<track name="Boss (alternate alternate, tainted)" path="Fights/Boss - Tandava [Loop].ogg" loop="true" />
+	<track name="Boss Death Alternate Alternate (jingle, tainted)" path="Fights/Boss - Tandava [Beaten].ogg" loop="false" />
+	<track name="Boss (Mother, tainted)" intro="Fights/Mother - Memento Mori [Intro].ogg" path="Fights/Mother - Memento Mori [Loop].ogg" loop="true" />
+	<!--<track name="Boss (Dogma, tainted)" /> -->
+	<!--<track name="Boss (Beast, tainted)" /> -->
+	<track name="Boss Mother Death (jingle, tainted)" path="Fights/Mother - Memento Mori [Outro].ogg" loop="false" />
+	<!--<track name="Boss Dogma Death (jingle, tainted)" /> -->
+	<!--<track name="Boss Beast Death (jingle, tainted)" /> -->
+	<track name="Planetarium (tainted)" intro="Game Over - Journey from a Jar to the Sky [Intro].ogg" path="Game Over - Journey from a Jar to the Sky [Loop].ogg" loop="true" />
+	<track name="Secret Room Alt Alt (tainted)" path="Forgotten Lullaby [crying].ogg" loop="true" />
+	<track name="Boss Room (empty, twisted, tainted)" intro="Spinning Intensifies [Intro].ogg" path="Spinning Intensifies [Loop].ogg" loop="true" />
+	<!--<track name="Mom's Shadow Intro (tainted)" /> -->
+	<!--<track name="Dogma Intro (tainted)" /> -->
+	<track name="Strange Door (jingle, tainted)" path="Strange Door jingle.ogg" loop="false" />
+	<!--<track name="Echoes Reverse (tainted)" /> -->
+	<!--<track name="Boss (jingle, tainted)" /> -->
+	<track name="Boss Death (jingle, tainted)" path="Fights/Basic Boss - Invictus [Outro].ogg" loop="false" />
+	<!--<track name="Holy Room Find (jingle, tainted)" /> -->
+	<track name="Secret Room Find (jingle, tainted)" path="Secret room jingle.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 1" path="Item Room 1.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 2" path="Item Room 2.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 3" path="Item Room 5.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 4" path="Item Room 8.ogg" loop="false" />
+	<!--<track name="Challenge Room Entry (jingle, tainted)" /> -->
+	<track name="Challenge Room Outro (jingle, tainted)" path="Fights/Challenge Fight - A Baleful Circus [Outro].ogg" loop="false" mul="1.25" />
+	<track name="Game Over (jingle, tainted)" path="You Died jingle short.ogg" loop="false" />
+	<!--<track name="Devil Room appear (jingle, tainted)" /> -->
+	<track name="Boss Death Alternate (jingle, tainted)" path="Fights/Basic Boss - Invictus [Outro].ogg" loop="false" />
+	<track name="Boss Hush Death (jingle, tainted)" path="Fights/Hush - Howl [Outro].ogg" loop="false" mul="1.25" />
+	<track name="Void (tainted)" intro="Void - Allnoise [Intro].ogg" path="Void - Allnoise [Loop].ogg" loop="true" />
+	<track name="Void (tainted) nointro" path="Void - Allnoise [Loop].ogg" loop="true" />
+	<track name="Void (tainted) altloop" path="Void - Allnoise [Loop - Alt].ogg" loop="true" />
+	<track name="Boss (Void, tainted)" intro="Fights/Delirium - Terminal Lucidity [Intro].ogg" path="Fights/Delirium - Terminal Lucidity [Loop].ogg" loop="true" />
+	<track name="Downpour (tainted)" intro="Downpour - Hallowed Ground [Intro].ogg" path="Downpour - Hallowed Ground [Loop].ogg" loop="true" />
+	<track name="Downpour (tainted) nointro" path="Downpour - Hallowed Ground [Loop].ogg" loop="true" />
+	<track name="Downpour (tainted) altloop" path="Downpour - Hallowed Ground [Loop - Alt].ogg" loop="true" />
+	<track name="Mines (tainted)" intro="Mines - Fault Lines [Intro].ogg" path="Mines - Fault Lines [Loop].ogg" loop="true" />
+	<track name="Mines (tainted) nointro" path="Mines - Fault Lines [Loop].ogg" loop="true" />
+	<track name="Mines (tainted) altloop" path="Mines - Fault Lines [Loop - Alt].ogg" loop="true" />
+	<track name="Mausoleum (tainted)" intro="Mausoleum - The Machine in the Walls [Intro].ogg" path="Mausoleum - The Machine in the Walls [Loop].ogg" loop="true" />
+	<track name="Mausoleum (tainted) nointro" path="Mausoleum - The Machine in the Walls [Loop].ogg" loop="true" />
+	<track name="Mausoleum (tainted) altloop" path="Mausoleum - The Machine in the Walls [Loop - Alt].ogg" loop="true" />
+	<track name="Corpse (tainted)" intro="Corpse - Drowning [Intro].ogg" path="Corpse - Drowning [Loop].ogg" loop="true" />
+	<track name="Corpse (tainted) nointro" path="Corpse - Drowning [Loop].ogg" loop="true" />
+	<track name="Corpse (tainted) altloop" path="Corpse - Drowning [Loop - Alt].ogg" loop="true" />
+	<!--<track name="Dross (tainted)" intro="Downpour - Hallowed Ground [Intro].ogg" path="Downpour - Hallowed Ground [Loop].ogg" loop="true" />-->
+	<!--<track name="Ashpit (tainted)" intro="Mines - Fault Lines [Intro].ogg" path="Mines - Fault Lines [Loop].ogg" loop="true" />-->
+	<!--<track name="Gehenna (tainted)" intro="The Machine in the Walls [Intro].ogg" path="The Machine in the Walls [Loop].ogg" loop="true" />-->
+	<!--<track name="not done (tainted)" intro="Scarred Womb - Drowning [Intro].ogg" path="Scarred Womb - Drowning [Loop].ogg" loop="true" />-->
+	<!--<track name="Home (tainted)" /> -->
+	<track name="Downpour (reversed, tainted)" path="Downpour - Hallowed Ground [Loop - Reversed].ogg" loop="true" />
+	<!--<track name="Dross (reversed, tainted)" path="Downpour - Hallowed Ground [Loop - Short, Reversed].ogg" loop="true" />-->
+	<!--<track name="Abandoned Mineshaft (tainted)" /> -->
+	<!--<track name="Mineshaft Escape (tainted)" /> -->
+	<track name="Genesis (reversed, tainted)" intro="Title  - Descent [Intro].ogg" path="Title  - Descent [Loop].ogg" loop="true" />
+	<track name="Genesis (reversed, tainted) nointro" path="Title  - Descent [Loop].ogg" loop="true" />
+	<track name="Genesis (reversed, tainted) altloop" path="Title  - Descent [Loop - Alt].ogg" loop="true" />
+	<track name="Angel Fight (tainted)" path="Room of Angel - The Thief [Intro - Alt].ogg" loop="true" />
+	<track name="Angel Fight (tainted) outro" path="You Died jingle.ogg" loop="false" />
+	<track name="Ultra Greedier (tainted)" path="Fights/Ultra Greedier - Memento Mori Metal [Loop - Alt].ogg" loop="true" mul="2.0" />
+	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="2.0" />
+	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Black Market (tainted)" path="Black Market - Depression Shop [Loop].ogg" loop="true" />
+	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
+	
+	<!-- TRACKS BELOW ARE ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH -->
+	<track name="Satan 666" path="Extra/satan 666.ogg" loop="true" mul="1.25" />
+	<track name="Satan 666 Outro" path="Extra/satan 666 outro.ogg" loop="false" mul="1.25" />
+	<track name="Pool of Yule" path="Extra/pool of yule.ogg" loop="true" mul="1.25" />
+	<track name="Pool of Yule outro" path="JINGLE OGG/Ambush Jinle outro V3_04.ogg" loop="false" />
+	<track name="Black Market" intro="Extra/black market intro.ogg" path="Extra/black market loop.ogg" loop="true" mul="1.25" />
+	<track name="Depths (greed)" intro="Greed/the depths greed intro.ogg" path="Greed/the depths greed.ogg" loop="true" mul="1.25" />
+	<track name="Catacombs (greed)" path="Greed/catacombs greed.ogg" loop="true" mul="1.2" />
+	<track name="Sheol (greed)" intro="Greed/sheol greed intro.ogg" path="Greed/sheol greed.ogg" loop="true" mul="1.5" />
+	<track name="Utero (greed)" intro="Greed/utero greed intro.ogg" path="Greed/utero greed.ogg" layerintro="Greed/utero greed layer intro.ogg" layer="Greed/utero greed layer.ogg" loop="true" />
+	<track name="Greed Floor 6" intro="Greed/ante lucem intro.ogg" path="Greed/ante lucem loop.ogg" loop="true" />
+	<track name="Devil Room (late)" path="Extra/devil room layer.ogg" loop="true" mul="1.5" />
+	<track name="Shop Room (late)" path="Extra/shop layer.ogg" loop="true" mul="1.2" />
+	<track name="Boss Room (empty, greed)" intro="Greed/the calm greed intro.ogg" path="Greed/the calm greed.ogg" loop="true" />
+	<track name="Ultra Greedier" path="Greed/locus fight altloop.ogg" loop="true" mul="1.25" />
+	<track name="Ultra Greedier outro" path="Greed/locus outro.ogg" loop="false" mul="1.25" />
+</music>

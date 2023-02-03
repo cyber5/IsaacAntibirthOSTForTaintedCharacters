@@ -1,0 +1,19 @@
+<sounds root="sfx/">
+	<sound name="Treasure Jingle (tainted)">
+		<sample weight="1" path="tainted_treasure_jingle_1.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_2.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_3.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_4.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_5.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_6.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_7.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_8.wav" />
+		<sample weight="1" path="tainted_treasure_jingle_9.wav" />
+	</sound>
+	<sound name="Secret Room Jingle (tainted)">
+		<sample weight="1" path="tainted_secret_room_jingle.wav" />
+	</sound>
+	<sound name="Strange Door Jingle (tainted)">
+		<sample weight="1" path="tainted_strange_door_jingle.wav" />
+	</sound>
+</sounds>
