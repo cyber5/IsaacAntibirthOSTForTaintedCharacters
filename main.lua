@@ -1,4 +1,4 @@
-local custommusiccollection = RegisterMod("Custom Music Collection", 1)
+local taintedmudeth = RegisterMod("Tainted Mudeth", 1)
 
 if MMC == nil then
 	return
@@ -197,12 +197,12 @@ end
 local function CheckCoopMixOnGameStart()
 	coopMixedSoundtrack = normalAndTaintedPresent()
 end
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, CheckCoopMixOnGameStart)
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, CheckCoopMixOnGameStart)
 
 local function CheckCoopMixOnSpawn(entityPlayer)
 	newPlayerSpawned = true
 end
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, CheckCoopMixOnSpawn, 0) --0 is true player, 1 is co-op baby
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, CheckCoopMixOnSpawn, 0) --0 is true player, 1 is co-op baby
 
 local function CheckCoopMixOnRender()
 	if newPlayerSpawned then
@@ -210,18 +210,18 @@ local function CheckCoopMixOnRender()
 		newPlayerSpawned = false
 	end
 end
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, CheckCoopMixOnRender)
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_RENDER, CheckCoopMixOnRender)
 
 local function resetCoopMix()
 	coopMixedSoundtrack = false
 end
-custommusiccollection:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, resetCoopMix)
+taintedmudeth:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, resetCoopMix)
 
 local function resetLoopVersion()
 	loopversion = 0
 end
-custommusiccollection:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, resetLoopVersion)
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_END, resetLoopVersion)
+taintedmudeth:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, resetLoopVersion)
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_GAME_END, resetLoopVersion)
 
 function TaintedVersion(trackId)
 	if normaltotainted[trackId] then
@@ -288,7 +288,7 @@ end
 
 --TODO: for items and effects that reset the current floor, call the function resetLoopVersion
 
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, function()
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, function()
 	local level = Game():GetLevel()
 	currentstage = level:GetStage()
 	currentstagetype = level:GetStageType()
@@ -325,7 +325,7 @@ local function CheckMaybeRoomConditions(roomtype)
 	return false
 end
 
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
     local room = Game():GetRoom()
 	local roomtype = room:GetType()
 	
@@ -339,7 +339,7 @@ custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
 	end
 end)
 
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
+taintedmudeth:AddCallback(ModCallbacks.MC_POST_RENDER, function()
 	local room = Game():GetRoom()
 	local roomtype = room:GetType()
 	
@@ -499,7 +499,7 @@ function NormalOrTainted(trackId)
 	end
 end
 
-MMC.AddMusicCallback(custommusiccollection, function()
+MMC.AddMusicCallback(taintedmudeth, function()
 	if not Game():IsGreedMode() then
 		local level = Game():GetLevel()
 		local stage = level:GetStage()
@@ -509,7 +509,7 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_SATAN_BOSS)
 
-MMC.AddMusicCallback(custommusiccollection, function()
+MMC.AddMusicCallback(taintedmudeth, function()
 	local level = Game():GetLevel()
 	local stage = level:GetStage()
 	local stage_type = level:GetStageType()
@@ -538,7 +538,7 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_JINGLE_BOSS)
 
-MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+MMC.AddMusicCallback(taintedmudeth, function(self, trackId)
 	if trackId > 0 then
 		--local trackToReturn = NormalOrTainted(trackId)
 		
