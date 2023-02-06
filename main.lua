@@ -6,7 +6,7 @@ end
 
 local musicmgr = MMC.Manager()
 
-Music.MUSIC_MEGASATAN_BOSS = Music.MUSIC_SATAN_BOSS
+Music.MUSIC_MEGASATAN_BOSS = Isaac.GetMusicIdByName("Mega Satan (tainted)")
 
 normaltotainted = {
 	[Music.MUSIC_BASEMENT] = Isaac.GetMusicIdByName("Basement (tainted)"),
@@ -93,7 +93,6 @@ normaltotainted = {
 	--[Music.MUSIC_MINESHAFT_AMBIENT] = Isaac.GetMusicIdByName("Abandoned Mineshaft (tainted)"),
 	--[Music.MUSIC_MINESHAFT_ESCAPE] = Isaac.GetMusicIdByName("Mineshaft Escape (tainted)"),
 	[Music.MUSIC_REVERSE_GENESIS] = Isaac.GetMusicIdByName("Genesis (reversed, tainted)"),
-	[Music.MUSIC_MEGASATAN_BOSS] = Isaac.GetMusicIdByName("Mega Satan (tainted)"),
 }
 
 normaltotaintedalt1 = {
