@@ -135,6 +135,9 @@
 	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Black Market (tainted)" path="Black Market - Depression Shop [Loop].ogg" loop="true" />
 	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
+	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" />
+	<track name="Greed Floor 6 (tainted) nointro" path="Greed/Stars and spades loop.ogg" loop="true" />
+	<track name="Greed Floor 6 (tainted) altloop" path="Greed/Stars and spades altloop.ogg" loop="true" />
 	
 	<!-- TRACKS BELOW ARE ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH -->
 	<track name="Satan 666" path="Extra/satan 666.ogg" loop="true" mul="1.25" />
