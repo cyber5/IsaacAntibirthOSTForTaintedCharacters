@@ -112,7 +112,7 @@ normaltotainted = {
 	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Depths (tainted)"),
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted)"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted)"),
-	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Genesis (reversed, tainted)"),
+	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted)"),
 	[Music.MUSIC_BOSS_OVER_GREED] = Isaac.GetMusicIdByName("Boss Room (empty, tainted)"),
 	[Music.MUSIC_ULTRAGREEDIER_BOSS] = Isaac.GetMusicIdByName("Ultra Greedier (tainted)"),
 	[Music.MUSIC_ANGEL_BOSS] = Isaac.GetMusicIdByName("Angel Fight (tainted)"),
@@ -156,7 +156,7 @@ normaltotaintedalt1 = {
 	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Depths (tainted) nointro"),
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted) nointro"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted) nointro"),
-	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Genesis (reversed, tainted) nointro"),
+	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) nointro"),
 }
 
 normaltotaintedalt2 = {
@@ -189,7 +189,7 @@ normaltotaintedalt2 = {
 	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Depths (tainted) altloop"),
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted) altloop"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted) altloop"),
-	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Genesis (reversed, tainted) altloop"),
+	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) altloop"),
 }
 
 taintedjinglelength = {
@@ -464,10 +464,10 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[67] = Music.MUSIC_DOWNPOUR_REVERSE,
 	[68] = Music.MUSIC_DROSS_REVERSE, --doesn't exist yet
 	[69] = Music.MUSIC_MINESHAFT_ESCAPE, --doesn't exist yet
-	[70] = Music.MUSIC_REVERSE_GENESIS, --this is currently used as Greed floor 6 (tainted)
-	--[71] = Isaac.GetMusicIdByName("Greed floor 6 (tainted)")
+	[70] = Music.MUSIC_REVERSE_GENESIS,
+	[71] = Music.MUSIC_FLOOR_6_GREED,
 }
-local random_music_size = 71
+local random_music_size = 72
 local random_music_tainted_threshold = 39
 
 local random_boss_music = {
