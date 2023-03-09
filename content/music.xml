@@ -1,4 +1,8 @@
 <music root="music/">
+	<track name="Credits original" path="Credits/Credits Roll.ogg" loop="true" />
+	<track name="Credits home" path="Credits/Take Me Home.ogg" loop="false" />
+	<track name="Credits greed" path="Credits/He's the Number One.ogg" loop="false" />
+	<track name="Credits greedier" path="Credits/Dear Diary.ogg" loop="false" />
 	<track name="Basement (tainted)" intro="Basement - Innocence Glitched [Intro].ogg" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
 	<track name="Basement (tainted) nointro" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
 	<track name="Basement (tainted) altloop" path="Basement - Innocence Glitched [Loop - Alt].ogg" loop="true" />
