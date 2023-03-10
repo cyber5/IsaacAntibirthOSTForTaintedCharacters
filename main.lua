@@ -6,6 +6,136 @@ end
 
 local musicmgr = MMC.Manager()
 
+if not BossMusicForSacrificeRoomAngelsFlag then
+
+	local function angelBossMusic()
+		local game = Game()
+		local level = game:GetLevel()
+		local stage_type = level:GetStageType()
+		local room = game:GetRoom()
+		if stage_type == StageType.STAGETYPE_REPENTANCE or stage_type == StageType.STAGETYPE_REPENTANCE_B then
+			return Music.MUSIC_BOSS3
+		else
+			if room:GetDecorationSeed() % 2 == 0 then
+				return Music.MUSIC_BOSS
+			else
+				return Music.MUSIC_BOSS2
+			end
+		end
+	end
+
+	local function angelBossDeathJingle()
+		local game = Game()
+		local level = game:GetLevel()
+		local stage_type = level:GetStageType()
+		local room = game:GetRoom()
+		if stage_type == StageType.STAGETYPE_REPENTANCE or stage_type == StageType.STAGETYPE_REPENTANCE_B then
+			return Music.MUSIC_JINGLE_BOSS_OVER3
+		else
+			if room:GetDecorationSeed() % 2 == 0 then
+				return Music.MUSIC_JINGLE_BOSS_OVER
+			else
+				return Music.MUSIC_JINGLE_BOSS_OVER2
+			end
+		end
+	end
+
+	function custommusiccollection:StartAngelFight()
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		
+		if roomtype == RoomType.ROOM_SACRIFICE then
+			musicmgr:Crossfade(angelBossMusic())
+		end
+	end
+
+	function custommusiccollection:EndAngelFight()
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		
+		if roomtype == RoomType.ROOM_SACRIFICE and Isaac.CountBosses() <= 1 then
+			musicmgr:Crossfade(angelBossDeathJingle())
+			musicmgr:Queue(Music.MUSIC_BOSS_OVER)
+		end
+	end
+
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NPC_INIT, custommusiccollection.StartAngelFight, EntityType.ENTITY_URIEL)
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NPC_INIT, custommusiccollection.StartAngelFight, EntityType.ENTITY_GABRIEL)
+
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, custommusiccollection.EndAngelFight, EntityType.ENTITY_URIEL)
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, custommusiccollection.EndAngelFight, EntityType.ENTITY_GABRIEL)
+	
+end
+
+if not DontInterruptBlueWombFlag then
+	
+	DontInterruptBlueWombFlag = true
+	MMC.AddMusicCallback(custommusiccollection, function()
+		local level = Game():GetLevel()
+		if level:GetStage() == LevelStage.STAGE4_3 then
+			local room = Game():GetRoom()
+			if not room:IsFirstVisit() then
+				musicmgr:Crossfade(Music.MUSIC_BLUE_WOMB)
+				return 0
+			end
+		end
+	end, Music.MUSIC_BOSS_OVER)
+	
+end
+
+local playingBlackMarketTheme = false
+if not BlackMarketMusicFlag then
+	
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
+		playingBlackMarketTheme = false
+	end)
+	
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		
+		if roomtype == RoomType.ROOM_BLACK_MARKET and not playingBlackMarketTheme then
+			local currentMusicId = musicmgr:GetCurrentMusicID()
+			
+			if currentMusicId ~= Music.MUSIC_JINGLE_GAME_START and currentMusicId ~= Music.MUSIC_JINGLE_GAME_START_ALT then
+				playingBlackMarketTheme = true
+				musicmgr:Crossfade(Music.MUSIC_SHOP_ROOM)
+			end
+		end
+	end)
+	
+end
+
+local sound = SFXManager()
+local darkroomstartroom = false
+if not DarkRoomDevilDealSoundEffect then
+
+	function custommusiccollection:CheckDarkRoomStartRoom()
+		darkroomstartroom = false
+		local level = Game():GetLevel()
+		local stagetype = level:GetStageType()
+		if stagetype == StageType.STAGETYPE_ORIGINAL then
+			local room = Game():GetRoom()
+			local door = room:GetDoor(DoorSlot.UP0)
+			if door and door.TargetRoomIndex == GridRooms.ROOM_MEGA_SATAN_IDX then
+				darkroomstartroom = true
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.CheckDarkRoomStartRoom)
+
+	function custommusiccollection:ReplaceChoirSound()
+		if darkroomstartroom then
+			if sound:IsPlaying(SoundEffect.SOUND_CHOIR_UNLOCK) then
+				sound:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
+				sound:Play(SoundEffect.SOUND_DEVILROOM_DEAL,1,0,false,1)
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, custommusiccollection.ReplaceChoirSound)
+	
+end
+
 Music.MUSIC_CATACOMBS_GREED = Isaac.GetMusicIdByName("Catacombs (greed)")
 Music.MUSIC_DEPTHS_GREED = Isaac.GetMusicIdByName("Depths (greed)")
 Music.MUSIC_UTERO_GREED = Isaac.GetMusicIdByName("Utero (greed)") --TODO: check for Descensum mod; should be able to prevent the change using just this value
