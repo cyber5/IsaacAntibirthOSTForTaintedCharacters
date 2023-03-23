@@ -6,7 +6,7 @@
 		<!--
 		<temporary text="Credits sequence." />
 		-->
-		<anm2part anm2="Credits.anm2" anim="Credits" music="203" width="480" height="270" letterbox="true" />
+		<anm2part anm2="Credits.anm2" anim="Credits" music="204" width="480" height="270" letterbox="true" /> <!-- He's the Number One -->
 	</cutscene>
 	<cutscene id="3" name="Epilogue">
 		<anm2part anm2="Epilogue.anm2" subtitles="epilogue.srt" anim="Scene" music="101" musicDelay="0" width="427" height="240" />
@@ -117,7 +117,7 @@
 	<cutscene id="21" name="Greed Mode">
 		<!--<temporary text="Isaac dies and turns into a keeper." />-->
 		<videopart file="Krystal_Isaac_Ending_2.ogv" />
-		<anm2part anm2="Credits.anm2" anim="Credits" music="205" width="480" height="270" letterbox="true" />
+		<anm2part anm2="Credits.anm2" anim="Credits" music="205" width="480" height="270" letterbox="true" /> <!-- Tears of A Child -->
 	</cutscene>
 	<cutscene id="22" name="The Void">
 		<videopart file="The_Void_Ending.ogv" />
@@ -125,7 +125,7 @@
 	</cutscene>
 	<cutscene id="23" name="Greedier">
 		<videopart file="Krystal_Greedier_Ending.ogv" />
-		<anm2part anm2="Credits.anm2" anim="Credits" music="206" width="480" height="270" letterbox="true" />
+		<anm2part anm2="Credits.anm2" anim="Credits" music="206" width="480" height="270" letterbox="true" /> <!-- Dear Diary -->
 	</cutscene>
 	
 	<cutscene id="24" name="Mother">
@@ -137,6 +137,6 @@
 	</cutscene>
 	<cutscene id="26" name="The Beast">
 		<anm2part anm2="Final.anm2" subtitles="final.srt" anim="Scene" music="113" musicDelay="0" width="427" height="240" />
-		<anm2part anm2="Credits.anm2" anim="Credits" music="204" width="480" height="270" letterbox="true" />
+		<anm2part anm2="Credits.anm2" anim="Credits" music="207" width="480" height="270" letterbox="true" /> <!-- Take Me Back Home -->
 	</cutscene>
 </cutscenes>
