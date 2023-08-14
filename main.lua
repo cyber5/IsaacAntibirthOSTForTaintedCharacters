@@ -344,6 +344,35 @@ local playingMainTrack = true
 local coopMixedSoundtrack = false
 local newPlayerSpawned = false --used as a flag to call a function on post render
 
+local function PlayerIsTainted(player) --player is an EntityPlayer
+	local playerType = player:GetPlayerType()
+	if playerType < PlayerType.NUM_PLAYER_TYPES then
+		--base game characters
+		if playerType >= PlayerType.PLAYER_ISAAC_B then
+			return true
+		else
+			return false
+		end
+	else
+		--modded characters
+		local playerName = player:GetName()
+		local taintedPlayerType = Isaac.GetPlayerTypeByName(playerName,true)
+		if playerType == taintedPlayerType then
+			return true
+		else
+			--check for "Tainted" in the name (the Mei mod does this)
+			local posU = string.find(playerName,"Tainted")
+			local posL = string.find(playerName,"tainted")
+			if posU == nil and posL == nil then
+				return false
+			else
+				return true
+			end
+		end
+	end
+	return false --failsafe
+end
+
 local function normalAndTaintedPresent()
 	local normalPresent = false
 	local taintedPresent = false
@@ -351,7 +380,7 @@ local function normalAndTaintedPresent()
 		local tempPlayer = Isaac.GetPlayer(i)
 		if tempPlayer and tempPlayer.Variant == 0 --0 is true player, 1 is co-op baby
 		and not (tempPlayer:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and not tempPlayer:GetSubPlayer()) then --check for "Soul of the Forgotten"
-			if tempPlayer:GetPlayerType() >= PlayerType.PLAYER_ISAAC_B then
+			if PlayerIsTainted(tempPlayer) then
 				taintedPresent = true
 			else
 				normalPresent = true
@@ -1045,7 +1074,7 @@ function NormalOrTainted(trackId)
 		playTaintedVersion = SeededCoopTaintedMix(trackId)
 	else
 		local player = Isaac.GetPlayer()
-		playTaintedVersion = (player:GetPlayerType() >= PlayerType.PLAYER_ISAAC_B)
+		playTaintedVersion = PlayerIsTainted(player)
 	end
 	
 	if playTaintedVersion then
@@ -1153,7 +1182,7 @@ MMC.AddMusicCallback(custommusiccollection, function()
 			skipBossJingle = SeededCoopTaintedMix(bosstrack)
 		else
 			local player = Isaac.GetPlayer()
-			skipBossJingle = (player:GetPlayerType() >= PlayerType.PLAYER_ISAAC_B)
+			skipBossJingle = PlayerIsTainted(player)
 		end
 		
 		if skipBossJingle then
