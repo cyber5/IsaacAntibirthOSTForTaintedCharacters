@@ -52,9 +52,9 @@
 	<track name="Scarred Womb (tainted) altloop" path="Scarred Womb - Lethe [Loop - Alt].ogg" loop="true" />
 	<track name="Blue Womb (tainted)" intro="Blue Womb - An Armistice [Intro].ogg" path="Blue Womb - An Armistice [Loop].ogg" loop="true" />
 	<track name="Blue Womb (tainted) altloop" path="Blue Womb - An Armistice [Loop - Alt].ogg" loop="true" />
-	<track name="Utero (tainted)" intro="Womb - Dystension [Intro].ogg" path="Womb - Dystension [Loop].ogg" loop="true" />
-	<track name="Utero (tainted) nointro" path="Womb - Dystension [Loop].ogg" loop="true" />
-	<track name="Utero (tainted) altloop" path="Womb - Dystension [Loop - Alt].ogg" loop="true" />
+	<track name="Utero (tainted)" intro="bsides/Tsunami intro.ogg" path="bsides/Tsunami loop.ogg" loop="true" />
+	<track name="Utero (tainted) nointro" path="bsides/Tsunami loop.ogg" loop="true" />
+	<track name="Utero (tainted) altloop" path="bsides/Tsunami altloop.ogg" loop="true" />
 	<track name="Boss (Depths - Mom, tainted)" path="Fights/Mom Fight - The Turn [Loop].ogg" loop="true" />
 	<track name="Boss (Womb - Mom's Heart, tainted)" intro="Fights/Mom's Heart - Gloria Filio [Intro].ogg" path="Fights/Mom's Heart - Gloria Filio [Loop].ogg" loop="true" />
 	<track name="Boss (Cathedral - Isaac, tainted)" intro="Fights/Isaac - Misericorde [Intro].ogg" path="Fights/Isaac - Misericorde [Loop].ogg" loop="true" />
@@ -68,7 +68,6 @@
 	<track name="Secret Room (tainted)" path="Secret Room - Forgotten Lullaby [Loop].ogg" loop="true" />
 	<track name="Secret Room Alt (tainted)" path="Forgotten Lullaby [crying].ogg" loop="true" />
 	<track name="Devil Room (tainted)" intro="Devil Room - Blackpath [Intro].ogg" path="Devil Room - Blackpath [Loop].ogg" loop="true" />
-	<!--<track name="Angel Room (tainted)" path="Room of Angel - The Thief [Intro - Alt.].ogg" loop="true" />-->
 	<track name="Angel Room (tainted)" intro="Angel Room - Whitepath [Intro].ogg" path="Angel Room - Whitepath [Loop].ogg" loop="true" />
 	<track name="Shop Room (tainted)" path="Shop - Depression Shop [Loop].ogg" loop="true" />
 	<track name="Arcade Room (tainted)" intro="Arcade - Esc [Intro].ogg" path="Arcade - Esc [Loop].ogg" loop="true" />
@@ -121,14 +120,20 @@
 	<track name="Corpse (tainted)" intro="Corpse - Drowning [Intro].ogg" path="Corpse - Drowning [Loop].ogg" loop="true" />
 	<track name="Corpse (tainted) nointro" path="Corpse - Drowning [Loop].ogg" loop="true" />
 	<track name="Corpse (tainted) altloop" path="Corpse - Drowning [Loop - Alt].ogg" loop="true" />
-	<!--<track name="Dross (tainted)" intro="Downpour - Hallowed Ground [Intro].ogg" path="Downpour - Hallowed Ground [Loop].ogg" loop="true" />-->
-	<!--<track name="Ashpit (tainted)" intro="Mines - Fault Lines [Intro].ogg" path="Mines - Fault Lines [Loop].ogg" loop="true" />-->
-	<!--<track name="Gehenna (tainted)" intro="The Machine in the Walls [Intro].ogg" path="The Machine in the Walls [Loop].ogg" loop="true" />-->
+	<track name="Dross (tainted)" intro="bsides/Torrent intro.ogg" path="bsides/Torrent loop.ogg" loop="true" />
+	<track name="Dross (tainted) nointro" path="bsides/Torrent loop.ogg" loop="true" />
+	<track name="Dross (tainted) altloop" path="bsides/Torrent altloop.ogg" loop="true" />
+	<track name="Ashpit (tainted)" intro="bsides/Chum intro.ogg" path="bsides/Chum loop.ogg" loop="true" />
+	<track name="Ashpit (tainted) nointro" path="bsides/Chum loop.ogg" loop="true" />
+	<track name="Ashpit (tainted) altloop" path="bsides/Chum altloop.ogg" loop="true" />
+	<track name="Gehenna (tainted)" intro="bsides/Red Tide intro.ogg" path="bsides/Red Tide loop.ogg" loop="true" />
+	<track name="Gehenna (tainted) nointro" path="bsides/Red Tide loop.ogg" loop="true" />
+	<track name="Gehenna (tainted) altloop" path="bsides/Red Tide altloop.ogg" loop="true" />
 	<!--<track name="not done (tainted)" intro="Scarred Womb - Drowning [Intro].ogg" path="Scarred Womb - Drowning [Loop].ogg" loop="true" />-->
 	<!--<track name="Home (tainted)" /> -->
 	<track name="Downpour (reversed, tainted)" path="Downpour - Hallowed Ground [Loop - Reversed].ogg" loop="true" />
-	<!--<track name="Dross (reversed, tainted)" path="Downpour - Hallowed Ground [Loop - Short, Reversed].ogg" loop="true" />-->
-	<!--<track name="Abandoned Mineshaft (tainted)" /> -->
+	<track name="Dross (reversed, tainted)" path="bsides/Torrent reversed.ogg" loop="true" />
+	<track name="Abandoned Mineshaft (tainted)" path="bsides/Want for Naught.ogg" loop="true" />
 	<!--<track name="Mineshaft Escape (tainted)" /> -->
 	<track name="Genesis (reversed, tainted)" intro="Title  - Descent [Intro].ogg" path="Title  - Descent [Loop].ogg" loop="true" />
 	<track name="Genesis (reversed, tainted) nointro" path="Title  - Descent [Loop].ogg" loop="true" />
@@ -143,6 +148,20 @@
 	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="3" />
 	<track name="Greed Floor 6 (tainted) nointro" path="Greed/Stars and spades loop.ogg" loop="true" mul="3" />
 	<track name="Greed Floor 6 (tainted) altloop" path="Greed/Stars and spades altloop.ogg" loop="true" mul="3" />
+	
+	<!-- B-Sides -->
+	<!-- <track name="Caves (greed)" intro="bsides/Chum intro.ogg" path="bsides/Chum loop.ogg" loop="true" />
+	<track name="Caves (greed) nointro" path="bsides/Chum loop.ogg" loop="true" />
+	<track name="Caves (greed) altloop" path="bsides/Chum altloop.ogg" loop="true" />
+	<track name="Flooded Caves (greed)" intro="bsides/Torrent intro.ogg" path="bsides/Torrent loop.ogg" loop="true" />
+	<track name="Flooded Caves (greed) nointro" path="bsides/Torrent loop.ogg" loop="true" />
+	<track name="Flooded Caves (greed) altloop" path="bsides/Torrent altloop.ogg" loop="true" />
+	<track name="Necropolis (greed)" intro="bsides/Red Tide intro.ogg" path="bsides/Red Tide loop.ogg" loop="true" />
+	<track name="Necropolis (greed) nointro" path="bsides/Red Tide loop.ogg" loop="true" />
+	<track name="Necropolis (greed) altloop" path="bsides/Red Tide altloop.ogg" loop="true" />
+	<track name="Dank Depths (greed)" intro="bsides/Tsunami intro.ogg" path="bsides/Tsunami loop.ogg" loop="true" />
+	<track name="Dank Depths (greed) nointro" path="bsides/Tsunami loop.ogg" loop="true" />
+	<track name="Dank Depths (greed) altloop" path="bsides/Tsunami altloop.ogg" loop="true" /> -->
 	
 	<!-- TRACKS BELOW ARE ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH -->
 	<track name="Satan 666" path="Extra/satan 666.ogg" loop="true" mul="1.25" />
