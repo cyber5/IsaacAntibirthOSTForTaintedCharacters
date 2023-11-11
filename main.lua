@@ -153,6 +153,11 @@ Music.MUSIC_BLACKMARKET_ROOM = Isaac.GetMusicIdByName("Black Market")
 Music.MUSIC_DEVIL_ROOM_ALT = Isaac.GetMusicIdByName("Devil Room (late)")
 Music.MUSIC_SHOP_ROOM_ALT = Isaac.GetMusicIdByName("Shop Room (late)")
 
+--[[Music.MUSIC_CAVES_GREED = Isaac.GetMusicIdByName("Caves (greed)")
+Music.MUSIC_FLOODED_CAVES_GREED = Isaac.GetMusicIdByName("Flooded Caves (greed)")
+Music.MUSIC_NECROPOLIS_GREED = Isaac.GetMusicIdByName("Necropolis (greed)")
+Music.MUSIC_DANK_DEPTHS_GREED = Isaac.GetMusicIdByName("Dank Depths (greed)")--]]
+
 normaltotainted = {
 	[Music.MUSIC_BASEMENT] = Isaac.GetMusicIdByName("Basement (tainted)"),
 	[Music.MUSIC_CAVES] = Isaac.GetMusicIdByName("Caves (tainted)"),
@@ -228,14 +233,14 @@ normaltotainted = {
 	[Music.MUSIC_MINES] = Isaac.GetMusicIdByName("Mines (tainted)"),
 	[Music.MUSIC_MAUSOLEUM] = Isaac.GetMusicIdByName("Mausoleum (tainted)"),
 	[Music.MUSIC_CORPSE] = Isaac.GetMusicIdByName("Corpse (tainted)"),
-	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Downpour (tainted)"),
-	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Mines (tainted)"),
-	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Mausoleum (tainted)"),
+	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Dross (tainted)"),
+	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Ashpit (tainted)"),
+	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Gehenna (tainted)"),
 	--[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("not done (tainted)"),
 	--[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted)"),
 	[Music.MUSIC_DOWNPOUR_REVERSE] = Isaac.GetMusicIdByName("Downpour (reversed, tainted)"),
-	[Music.MUSIC_DROSS_REVERSE] = Isaac.GetMusicIdByName("Downpour (reversed, tainted)"),
-	--[Music.MUSIC_MINESHAFT_AMBIENT] = Isaac.GetMusicIdByName("Abandoned Mineshaft (tainted)"),
+	[Music.MUSIC_DROSS_REVERSE] = Isaac.GetMusicIdByName("Dross (reversed, tainted)"),
+	[Music.MUSIC_MINESHAFT_AMBIENT] = Isaac.GetMusicIdByName("Abandoned Mineshaft (tainted)"),
 	--[Music.MUSIC_MINESHAFT_ESCAPE] = Isaac.GetMusicIdByName("Mineshaft Escape (tainted)"),
 	[Music.MUSIC_REVERSE_GENESIS] = Isaac.GetMusicIdByName("Genesis (reversed, tainted)"),
 	[Music.MUSIC_CATACOMBS_GREED] = Isaac.GetMusicIdByName("Catacombs (tainted)"),
@@ -254,6 +259,10 @@ normaltotainted = {
 	[Music.MUSIC_BLACKMARKET_ROOM] = Isaac.GetMusicIdByName("Black Market (tainted)"),
 	[Music.MUSIC_DEVIL_ROOM_ALT] = Isaac.GetMusicIdByName("Devil Room (tainted)"),
 	[Music.MUSIC_SHOP_ROOM_ALT] = Isaac.GetMusicIdByName("Shop Room (tainted)"),
+	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted)"),
+	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted)"),
+	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted)"),
+	[Music.MUSIC_DANK_DEPTHS_GREED] = Isaac.GetMusicIdByName("Dank Depths (tainted)"),--]]
 }
 
 normaltotaintedalt1 = {
@@ -279,14 +288,18 @@ normaltotaintedalt1 = {
 	[Music.MUSIC_MINES] = Isaac.GetMusicIdByName("Mines (tainted) nointro"),
 	[Music.MUSIC_MAUSOLEUM] = Isaac.GetMusicIdByName("Mausoleum (tainted) nointro"),
 	[Music.MUSIC_CORPSE] = Isaac.GetMusicIdByName("Corpse (tainted) nointro"),
-	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Downpour (tainted) nointro"),
-	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Mines (tainted) nointro"),
-	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Mausoleum (tainted) nointro"),
+	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Dross (tainted) nointro"),
+	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Ashpit (tainted) nointro"),
+	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Gehenna (tainted) nointro"),
 	[Music.MUSIC_CATACOMBS_GREED] = Isaac.GetMusicIdByName("Catacombs (tainted) nointro"),
 	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Depths (tainted) nointro"),
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted) nointro"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted) nointro"),
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) nointro"),
+	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted) nointro"),
+	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted) nointro"),
+	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted) nointro"),
+	[Music.MUSIC_DANK_DEPTHS_GREED] = Isaac.GetMusicIdByName("Dank Depths (tainted) nointro"),--]]
 }
 
 normaltotaintedalt2 = {
@@ -312,14 +325,18 @@ normaltotaintedalt2 = {
 	[Music.MUSIC_MINES] = Isaac.GetMusicIdByName("Mines (tainted) altloop"),
 	[Music.MUSIC_MAUSOLEUM] = Isaac.GetMusicIdByName("Mausoleum (tainted) altloop"),
 	[Music.MUSIC_CORPSE] = Isaac.GetMusicIdByName("Corpse (tainted) altloop"),
-	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Downpour (tainted) altloop"),
-	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Mines (tainted) altloop"),
-	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Mausoleum (tainted) altloop"),
+	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Dross (tainted) altloop"),
+	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Ashpit (tainted) altloop"),
+	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Gehenna (tainted) altloop"),
 	[Music.MUSIC_CATACOMBS_GREED] = Isaac.GetMusicIdByName("Catacombs (tainted) altloop"),
 	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Depths (tainted) altloop"),
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted) altloop"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted) altloop"),
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) altloop"),
+	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted) altloop"),
+	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted) altloop"),
+	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted) altloop"),
+	[Music.MUSIC_DANK_DEPTHS_GREED] = Isaac.GetMusicIdByName("Dank Depths (tainted) altloop"),--]]
 }
 
 taintedjinglelength = {
@@ -597,19 +614,19 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[41] = Music.MUSIC_CELLAR,
 	[42] = Music.MUSIC_BURNING_BASEMENT,
 	[43] = Music.MUSIC_DOWNPOUR,
-	[44] = Music.MUSIC_DROSS, --doesn't exist yet
+	[44] = Music.MUSIC_DROSS,
 	[45] = Music.MUSIC_CAVES,
 	[46] = Music.MUSIC_CATACOMBS,
 	[47] = Music.MUSIC_FLOODED_CAVES,
 	[48] = Music.MUSIC_MINES,
-	[49] = Music.MUSIC_ASHPIT, --doesn't exist yet
+	[49] = Music.MUSIC_ASHPIT,
 	[50] = Music.MUSIC_DEPTHS,
 	[51] = Music.MUSIC_NECROPOLIS,
 	[52] = Music.MUSIC_DANK_DEPTHS,
 	[53] = Music.MUSIC_MAUSOLEUM,
-	[54] = Music.MUSIC_GEHENNA, --doesn't exist yet
+	[54] = Music.MUSIC_GEHENNA,
 	[55] = Music.MUSIC_WOMB_UTERO,
-	[56] = Music.MUSIC_UTERO, --doesn't exist yet
+	[56] = Music.MUSIC_UTERO,
 	[57] = Music.MUSIC_SCARRED_WOMB,
 	[58] = Music.MUSIC_CORPSE,
 	[59] = Music.MUSIC_MORTIS, --doesn't exist yet
@@ -621,7 +638,7 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[65] = Music.MUSIC_VOID,
 	[66] = Music.MUSIC_ISAACS_HOUSE, --doesn't exist yet
 	[67] = Music.MUSIC_DOWNPOUR_REVERSE,
-	[68] = Music.MUSIC_DROSS_REVERSE, --doesn't exist yet
+	[68] = Music.MUSIC_DROSS_REVERSE,
 	[69] = Music.MUSIC_MINESHAFT_ESCAPE, --doesn't exist yet
 	[70] = Music.MUSIC_REVERSE_GENESIS,
 	[71] = Music.MUSIC_FLOOR_6_GREED,
@@ -711,7 +728,7 @@ local random_special_music = {
 	[30] = Music.MUSIC_PLANETARIUM,
 	[31] = Music.MUSIC_BOSS_OVER_TWISTED,
 	[32] = Music.MUSIC_DARK_CLOSET, --doesn't exist yet
-	[33] = Music.MUSIC_MINESHAFT_AMBIENT, --doesn't exist yet
+	[33] = Music.MUSIC_MINESHAFT_AMBIENT,
 	[34] = Music.MUSIC_BLACKMARKET_ROOM,
 }
 local random_special_music_size = 35
@@ -1320,6 +1337,30 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_SATAN_BOSS)
 --END CALLBACKS ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH
+
+--[[MMC.AddMusicCallback(custommusiccollection, function()
+	if Game():IsGreedMode() then
+		return NormalOrTainted(Music.MUSIC_CAVES_GREED)
+	end
+end, Music.MUSIC_CAVES)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if Game():IsGreedMode() then
+		return NormalOrTainted(Music.MUSIC_FLOODED_CAVES_GREED)
+	end
+end, Music.MUSIC_FLOODED_CAVES)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if Game():IsGreedMode() then
+		return NormalOrTainted(Music.MUSIC_NECROPOLIS_GREED)
+	end
+end, Music.MUSIC_NECROPOLIS)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if Game():IsGreedMode() then
+		return NormalOrTainted(Music.MUSIC_DANK_DEPTHS_GREED)
+	end
+end, Music.MUSIC_DANK_DEPTHS)--]]
 
 MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
 	if trackId > 0 then
