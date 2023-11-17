@@ -201,8 +201,8 @@ normaltotainted = {
 	[Music.MUSIC_BOSS3] = Isaac.GetMusicIdByName("Boss (alternate alternate, tainted)"),
 	[Music.MUSIC_JINGLE_BOSS_OVER3] = Isaac.GetMusicIdByName("Boss Death Alternate Alternate (jingle, tainted)"),
 	[Music.MUSIC_MOTHER_BOSS] = Isaac.GetMusicIdByName("Boss (Mother, tainted)"),
-	--[Music.MUSIC_DOGMA_BOSS] = Isaac.GetMusicIdByName("Boss (Dogma, tainted)"),
-	--[Music.MUSIC_BEAST_BOSS] = Isaac.GetMusicIdByName("Boss (Beast, tainted)"),
+	[Music.MUSIC_DOGMA_BOSS] = Isaac.GetMusicIdByName("Boss (Dogma, tainted)"),
+	[Music.MUSIC_BEAST_BOSS] = Isaac.GetMusicIdByName("Boss (Beast, tainted)"),
 	[Music.MUSIC_JINGLE_MOTHER_OVER] = Isaac.GetMusicIdByName("Boss Mother Death (jingle, tainted)"),
 	--[Music.MUSIC_JINGLE_DOGMA_OVER] = Isaac.GetMusicIdByName("Boss Dogma Death (jingle, tainted)"),
 	--[Music.MUSIC_JINGLE_BEAST_OVER] = Isaac.GetMusicIdByName("Boss Beast Death (jingle, tainted)"),
@@ -210,9 +210,9 @@ normaltotainted = {
 	[Music.MUSIC_SECRET_ROOM_ALT_ALT] = Isaac.GetMusicIdByName("Secret Room Alt Alt (tainted)"),
 	[Music.MUSIC_BOSS_OVER_TWISTED] = Isaac.GetMusicIdByName("Boss Room (empty, twisted, tainted)"),
 	--[Music.MUSIC_MOTHERS_SHADOW_INTRO] = Isaac.GetMusicIdByName("Mom's Shadow Intro (tainted)"),
-	--[Music.MUSIC_DOGMA_INTRO] = Isaac.GetMusicIdByName("Dogma Intro (tainted)"),
+	[Music.MUSIC_DOGMA_INTRO] = Isaac.GetMusicIdByName("Dogma Intro (tainted)"),
 	[Music.MUSIC_STRANGE_DOOR_JINGLE] = Isaac.GetMusicIdByName("Strange Door (jingle, tainted)"),
-	--[Music.MUSIC_DARK_CLOSET] = Isaac.GetMusicIdByName("Echoes Reverse (tainted)"),
+	[Music.MUSIC_DARK_CLOSET] = Isaac.GetMusicIdByName("Echoes Reverse (tainted)"),
 	--[Music.MUSIC_JINGLE_BOSS] = Isaac.GetMusicIdByName("Boss (jingle, tainted)"),
 	[Music.MUSIC_JINGLE_BOSS_OVER] = Isaac.GetMusicIdByName("Boss Death (jingle, tainted)"),
 	--[Music.MUSIC_JINGLE_HOLYROOM_FIND] = Isaac.GetMusicIdByName("Holy Room Find (jingle, tainted)"),
@@ -237,11 +237,11 @@ normaltotainted = {
 	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Ashpit (tainted)"),
 	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Gehenna (tainted)"),
 	--[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("not done (tainted)"),
-	--[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted)"),
+	[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted)"),
 	[Music.MUSIC_DOWNPOUR_REVERSE] = Isaac.GetMusicIdByName("Downpour (reversed, tainted)"),
 	[Music.MUSIC_DROSS_REVERSE] = Isaac.GetMusicIdByName("Dross (reversed, tainted)"),
 	[Music.MUSIC_MINESHAFT_AMBIENT] = Isaac.GetMusicIdByName("Abandoned Mineshaft (tainted)"),
-	--[Music.MUSIC_MINESHAFT_ESCAPE] = Isaac.GetMusicIdByName("Mineshaft Escape (tainted)"),
+	[Music.MUSIC_MINESHAFT_ESCAPE] = Isaac.GetMusicIdByName("Mineshaft Escape (tainted)"),
 	[Music.MUSIC_REVERSE_GENESIS] = Isaac.GetMusicIdByName("Genesis (reversed, tainted)"),
 	[Music.MUSIC_CATACOMBS_GREED] = Isaac.GetMusicIdByName("Catacombs (tainted)"),
 	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Depths (tainted)"),
@@ -296,6 +296,7 @@ normaltotaintedalt1 = {
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted) nointro"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted) nointro"),
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) nointro"),
+	[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted) nointro"),
 	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted) nointro"),
 	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted) nointro"),
 	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted) nointro"),
@@ -333,6 +334,7 @@ normaltotaintedalt2 = {
 	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Utero (tainted) altloop"),
 	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Sheol (tainted) altloop"),
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) altloop"),
+	[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted) altloop"),
 	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted) altloop"),
 	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted) altloop"),
 	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted) altloop"),
@@ -588,63 +590,61 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[16] = Music.MUSIC_UTERO,
 	[17] = Music.MUSIC_SCARRED_WOMB,
 	[18] = Music.MUSIC_CORPSE,
-	[19] = Music.MUSIC_MORTIS, --doesn't exist yet
-	[20] = Music.MUSIC_BLUE_WOMB,
-	[21] = Music.MUSIC_SHEOL,
-	[22] = Music.MUSIC_CATHEDRAL,
-	[23] = Music.MUSIC_DARK_ROOM,
-	[24] = Music.MUSIC_CHEST,
-	[25] = Music.MUSIC_VOID,
-	[26] = Music.MUSIC_ISAACS_HOUSE,
-	[27] = Music.MUSIC_DOWNPOUR_REVERSE,
-	[28] = Music.MUSIC_DROSS_REVERSE,
-	[29] = Music.MUSIC_MINESHAFT_ESCAPE,
-	[30] = Music.MUSIC_REVERSE_GENESIS,
-	[31] = Music.MUSIC_CREDITS,
-	[32] = Music.MUSIC_TITLE,
-	[33] = Music.MUSIC_TITLE_AFTERBIRTH,
-	[34] = Music.MUSIC_TITLE_REPENTANCE,
-	[35] = Music.MUSIC_DEPTHS_GREED,
-	[36] = Music.MUSIC_CATACOMBS_GREED,
-	[37] = Music.MUSIC_SHEOL_GREED,
-	[38] = Music.MUSIC_UTERO_GREED,
-	[39] = Music.MUSIC_FLOOR_6_GREED,
+	[19] = Music.MUSIC_BLUE_WOMB,
+	[20] = Music.MUSIC_SHEOL,
+	[21] = Music.MUSIC_CATHEDRAL,
+	[22] = Music.MUSIC_DARK_ROOM,
+	[23] = Music.MUSIC_CHEST,
+	[24] = Music.MUSIC_VOID,
+	[25] = Music.MUSIC_ISAACS_HOUSE,
+	[26] = Music.MUSIC_DOWNPOUR_REVERSE,
+	[27] = Music.MUSIC_DROSS_REVERSE,
+	[28] = Music.MUSIC_MINESHAFT_ESCAPE,
+	[29] = Music.MUSIC_REVERSE_GENESIS,
+	[30] = Music.MUSIC_CREDITS,
+	[31] = Music.MUSIC_TITLE,
+	[32] = Music.MUSIC_TITLE_AFTERBIRTH,
+	[33] = Music.MUSIC_TITLE_REPENTANCE,
+	[34] = Music.MUSIC_DEPTHS_GREED,
+	[35] = Music.MUSIC_CATACOMBS_GREED,
+	[36] = Music.MUSIC_SHEOL_GREED,
+	[37] = Music.MUSIC_UTERO_GREED,
+	[38] = Music.MUSIC_FLOOR_6_GREED,
 	--TAINTED START
-	[40] = Music.MUSIC_BASEMENT,
-	[41] = Music.MUSIC_CELLAR,
-	[42] = Music.MUSIC_BURNING_BASEMENT,
-	[43] = Music.MUSIC_DOWNPOUR,
-	[44] = Music.MUSIC_DROSS,
-	[45] = Music.MUSIC_CAVES,
-	[46] = Music.MUSIC_CATACOMBS,
-	[47] = Music.MUSIC_FLOODED_CAVES,
-	[48] = Music.MUSIC_MINES,
-	[49] = Music.MUSIC_ASHPIT,
-	[50] = Music.MUSIC_DEPTHS,
-	[51] = Music.MUSIC_NECROPOLIS,
-	[52] = Music.MUSIC_DANK_DEPTHS,
-	[53] = Music.MUSIC_MAUSOLEUM,
-	[54] = Music.MUSIC_GEHENNA,
-	[55] = Music.MUSIC_WOMB_UTERO,
-	[56] = Music.MUSIC_UTERO,
-	[57] = Music.MUSIC_SCARRED_WOMB,
-	[58] = Music.MUSIC_CORPSE,
-	[59] = Music.MUSIC_MORTIS, --doesn't exist yet
-	[60] = Music.MUSIC_BLUE_WOMB,
-	[61] = Music.MUSIC_SHEOL,
-	[62] = Music.MUSIC_CATHEDRAL,
-	[63] = Music.MUSIC_DARK_ROOM,
-	[64] = Music.MUSIC_CHEST,
-	[65] = Music.MUSIC_VOID,
-	[66] = Music.MUSIC_ISAACS_HOUSE, --doesn't exist yet
-	[67] = Music.MUSIC_DOWNPOUR_REVERSE,
-	[68] = Music.MUSIC_DROSS_REVERSE,
-	[69] = Music.MUSIC_MINESHAFT_ESCAPE, --doesn't exist yet
-	[70] = Music.MUSIC_REVERSE_GENESIS,
-	[71] = Music.MUSIC_FLOOR_6_GREED,
+	[39] = Music.MUSIC_BASEMENT,
+	[40] = Music.MUSIC_CELLAR,
+	[41] = Music.MUSIC_BURNING_BASEMENT,
+	[42] = Music.MUSIC_DOWNPOUR,
+	[43] = Music.MUSIC_DROSS,
+	[44] = Music.MUSIC_CAVES,
+	[45] = Music.MUSIC_CATACOMBS,
+	[46] = Music.MUSIC_FLOODED_CAVES,
+	[47] = Music.MUSIC_MINES,
+	[48] = Music.MUSIC_ASHPIT,
+	[49] = Music.MUSIC_DEPTHS,
+	[50] = Music.MUSIC_NECROPOLIS,
+	[51] = Music.MUSIC_DANK_DEPTHS,
+	[52] = Music.MUSIC_MAUSOLEUM,
+	[53] = Music.MUSIC_GEHENNA,
+	[54] = Music.MUSIC_WOMB_UTERO,
+	[55] = Music.MUSIC_UTERO,
+	[56] = Music.MUSIC_SCARRED_WOMB,
+	[57] = Music.MUSIC_CORPSE,
+	[58] = Music.MUSIC_BLUE_WOMB,
+	[59] = Music.MUSIC_SHEOL,
+	[60] = Music.MUSIC_CATHEDRAL,
+	[61] = Music.MUSIC_DARK_ROOM,
+	[62] = Music.MUSIC_CHEST,
+	[63] = Music.MUSIC_VOID,
+	[64] = Music.MUSIC_ISAACS_HOUSE,
+	[65] = Music.MUSIC_DOWNPOUR_REVERSE,
+	[66] = Music.MUSIC_DROSS_REVERSE,
+	[67] = Music.MUSIC_REVERSE_GENESIS,
+	[68] = Music.MUSIC_FLOOR_6_GREED,
+	--[69] = Music.MUSIC_MINESHAFT_ESCAPE,
 }
-local random_music_size = 72
-local random_music_tainted_threshold = 39
+local random_music_size = 69
+local random_music_tainted_threshold = 38
 
 local random_boss_music = {
 	[0] = Music.MUSIC_NULL,
@@ -684,8 +684,8 @@ local random_boss_music = {
 	[33] = Music.MUSIC_ULTRAGREED_BOSS,
 	[34] = Music.MUSIC_VOID_BOSS,
 	[35] = Music.MUSIC_MOTHER_BOSS,
-	[36] = Music.MUSIC_DOGMA_BOSS, --doesn't exist yet
-	[37] = Music.MUSIC_BEAST_BOSS, --doesn't exist yet
+	[36] = Music.MUSIC_DOGMA_BOSS,
+	[37] = Music.MUSIC_BEAST_BOSS,
 	[38] = Music.MUSIC_ULTRAGREEDIER_BOSS,
 	[39] = Music.MUSIC_ANGEL_BOSS,
 	[40] = Music.MUSIC_MEGASATAN_BOSS,
@@ -719,7 +719,7 @@ local random_special_music = {
 	[21] = Music.MUSIC_LIBRARY_ROOM,
 	[22] = Music.MUSIC_SECRET_ROOM,
 	[23] = Music.MUSIC_SECRET_ROOM2,
-	[24] = Music.MUSIC_SECRET_ROOM_ALT_ALT, --doesn't exist yet
+	[24] = Music.MUSIC_SECRET_ROOM_ALT_ALT,
 	[25] = Music.MUSIC_DEVIL_ROOM,
 	[26] = Music.MUSIC_ANGEL_ROOM,
 	[27] = Music.MUSIC_SHOP_ROOM,
@@ -727,7 +727,7 @@ local random_special_music = {
 	[29] = Music.MUSIC_BOSS_OVER,
 	[30] = Music.MUSIC_PLANETARIUM,
 	[31] = Music.MUSIC_BOSS_OVER_TWISTED,
-	[32] = Music.MUSIC_DARK_CLOSET, --doesn't exist yet
+	[32] = Music.MUSIC_DARK_CLOSET,
 	[33] = Music.MUSIC_MINESHAFT_AMBIENT,
 	[34] = Music.MUSIC_BLACKMARKET_ROOM,
 }
@@ -758,16 +758,16 @@ local random_fight_jingle = {
 	[19] = Music.MUSIC_JINGLE_CHALLENGE_OUTRO,
 	[20] = Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO,
 	[21] = Music.MUSIC_JINGLE_GAME_OVER,
-	[22] = Music.MUSIC_JINGLE_HUSH_OVER, --doesn't exist
-	[23] = Music.MUSIC_JINGLE_MOTHER_OVER,
-	[24] = Music.MUSIC_JINGLE_DOGMA_OVER, --doesn't exist
-	[25] = Music.MUSIC_JINGLE_BEAST_OVER, --doesn't exist
-	[26] = Music.MUSIC_MOTHERS_SHADOW_INTRO, --doesn't exist
-	[27] = Music.MUSIC_JINGLE_ANGEL_OVER,
-	[28] = Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER,
-	[29] = Music.MUSIC_JINGLE_DELIRIUM_OVER,
+	[22] = Music.MUSIC_JINGLE_ANGEL_OVER,
+	[23] = Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER,
+	[24] = Music.MUSIC_JINGLE_DELIRIUM_OVER,
+	[25] = Music.MUSIC_JINGLE_MOTHER_OVER,
+	--[22] = Music.MUSIC_JINGLE_HUSH_OVER, --doesn't exist
+	--[24] = Music.MUSIC_JINGLE_DOGMA_OVER, --doesn't exist
+	--[25] = Music.MUSIC_JINGLE_BEAST_OVER, --doesn't exist
+	--[26] = Music.MUSIC_MOTHERS_SHADOW_INTRO, --doesn't exist
 }
-local random_fight_jingle_size = 30
+local random_fight_jingle_size = 26
 local random_fight_jingle_tainted_threshold = 15
 
 local random_sound_jingle = {
@@ -1101,6 +1101,48 @@ function NormalOrTainted(trackId)
 	end
 end
 
+--TODO: play Armarium in Blue Womb after encountering/killing Hush
+--use callbacks for floor start or game start (to initialize a bool or set to false) and post_render to check if in a cleared Hush boss room (set bool to true)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	local playTaintedVersion = false
+	if coopMixedSoundtrack then
+		playTaintedVersion = SeededCoopTaintedMix(Music.MUSIC_DOGMA_BOSS)
+	else
+		local player = Isaac.GetPlayer()
+		playTaintedVersion = PlayerIsTainted(player)
+	end
+	
+	if playTaintedVersion then
+		return TaintedVersion(Music.MUSIC_DOGMA_INTRO), TaintedVersion(Music.MUSIC_DOGMA_BOSS)
+	else
+		return Music.MUSIC_DOGMA_INTRO
+	end
+end, Music.MUSIC_DOGMA_INTRO)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if not Game():IsGreedMode() then
+		local level = Game():GetLevel()
+		local stage = level:GetStage()
+		if stage == LevelStage.STAGE8 then
+			local stage_type = level:GetStageType()
+			if stage_type == StageType.STAGETYPE_WOTL then
+				local playTaintedVersion = false
+				if coopMixedSoundtrack then
+					playTaintedVersion = SeededCoopTaintedMix(Music.MUSIC_ISAACS_HOUSE)
+				else
+					local player = Isaac.GetPlayer()
+					playTaintedVersion = PlayerIsTainted(player)
+				end
+				
+				if playTaintedVersion then
+					return TaintedVersion(Music.MUSIC_DARK_CLOSET)
+				end
+			end
+		end
+	end
+end, Music.MUSIC_ISAACS_HOUSE)
+
 MMC.AddMusicCallback(custommusiccollection, function()
 	if not Game():IsGreedMode() then
 		local level = Game():GetLevel()
@@ -1152,7 +1194,7 @@ custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
 	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		return
 	end
-	
+	--TODO: add back the original layer
 	if musicmgr:IsLayerEnabled() then
 		local level = Game():GetLevel()
 		local stage = level:GetStage()
