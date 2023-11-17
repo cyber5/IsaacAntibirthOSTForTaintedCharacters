@@ -78,18 +78,21 @@
 	<track name="Boss (alternate alternate, tainted)" path="Fights/Boss - Tandava [Loop].ogg" loop="true" />
 	<track name="Boss Death Alternate Alternate (jingle, tainted)" path="Fights/Boss - Tandava [Beaten].ogg" loop="false" />
 	<track name="Boss (Mother, tainted)" intro="Fights/Mother - Memento Mori [Intro].ogg" path="Fights/Mother - Memento Mori [Loop].ogg" loop="true" />
-	<!--<track name="Boss (Dogma, tainted)" /> -->
-	<!--<track name="Boss (Beast, tainted)" /> -->
+	<track name="Boss (Dogma, tainted)" intro="beforevol4/Dogma Tainted intro.ogg" path="beforevol4/Dogma Tainted loop.ogg" loop="true" mul="1.25" >
+		<layer path="beforevol4/Dogma Tainted layer.ogg" mul="1.2" />
+		<layer path="beforevol4/static.ogg" mul="1" />
+	</track>
+	<track name="Boss (Beast, tainted)" intro="beforevol4/The Beast Tainted intro.ogg" path="beforevol4/The Beast Tainted loop.ogg" loop="true" mul="1.25" />
 	<track name="Boss Mother Death (jingle, tainted)" path="Fights/Mother - Memento Mori [Outro].ogg" loop="false" />
 	<!--<track name="Boss Dogma Death (jingle, tainted)" /> -->
 	<!--<track name="Boss Beast Death (jingle, tainted)" /> -->
 	<track name="Planetarium (tainted)" intro="Game Over - Journey from a Jar to the Sky [Intro].ogg" path="Game Over - Journey from a Jar to the Sky [Loop].ogg" loop="true" />
-	<track name="Secret Room Alt Alt (tainted)" path="Forgotten Lullaby [crying].ogg" loop="true" />
+	<track name="Secret Room Alt Alt (tainted)" path="beforevol4/Ultra Secret Room Tainted.ogg" loop="true" />
 	<track name="Boss Room (empty, twisted, tainted)" intro="Spinning Intensifies [Intro].ogg" path="Spinning Intensifies [Loop].ogg" loop="true" />
 	<!--<track name="Mom's Shadow Intro (tainted)" /> -->
-	<!--<track name="Dogma Intro (tainted)" /> -->
+	<track name="Dogma Intro (tainted)" path="beforevol4/Dogma Intro Tainted.ogg" />
 	<track name="Strange Door (jingle, tainted)" path="Strange Door jingle.ogg" loop="false" />
-	<!--<track name="Echoes Reverse (tainted)" /> -->
+	<track name="Echoes Reverse (tainted)" path="beforevol4/Dark Closet Tainted.ogg" loop="true" />
 	<!--<track name="Boss (jingle, tainted)" /> -->
 	<track name="Boss Death (jingle, tainted)" path="Fights/Basic Boss - Invictus [Outro].ogg" loop="false" />
 	<!--<track name="Holy Room Find (jingle, tainted)" /> -->
@@ -130,18 +133,20 @@
 	<track name="Gehenna (tainted) nointro" path="bsides/Red Tide loop.ogg" loop="true" />
 	<track name="Gehenna (tainted) altloop" path="bsides/Red Tide altloop.ogg" loop="true" />
 	<!--<track name="not done (tainted)" intro="Scarred Womb - Drowning [Intro].ogg" path="Scarred Womb - Drowning [Loop].ogg" loop="true" />-->
-	<!--<track name="Home (tainted)" /> -->
+	<track name="Home (tainted)" intro="Intro (Cinematic) intro.ogg" path="Intro (Cinematic) loop.ogg" loop="true" />
+	<track name="Home (tainted) nointro" path="Intro (Cinematic) loop.ogg" loop="true" />
+	<track name="Home (tainted) altloop" path="Intro (Cinematic) altloop.ogg" loop="true" />
 	<track name="Downpour (reversed, tainted)" path="Downpour - Hallowed Ground [Loop - Reversed].ogg" loop="true" />
 	<track name="Dross (reversed, tainted)" path="bsides/Torrent reversed.ogg" loop="true" />
 	<track name="Abandoned Mineshaft (tainted)" path="bsides/Want for Naught.ogg" loop="true" />
-	<!--<track name="Mineshaft Escape (tainted)" /> -->
+	<track name="Mineshaft Escape (tainted)" path="beforevol4/The Turn altloop.ogg" loop="true" />
 	<track name="Genesis (reversed, tainted)" intro="Title  - Descent [Intro].ogg" path="Title  - Descent [Loop].ogg" loop="true" />
 	<track name="Genesis (reversed, tainted) nointro" path="Title  - Descent [Loop].ogg" loop="true" />
 	<track name="Genesis (reversed, tainted) altloop" path="Title  - Descent [Loop - Alt].ogg" loop="true" />
 	<track name="Angel Fight (tainted)" path="Room of Angel - The Thief [Intro - Alt].ogg" loop="true" />
 	<track name="Angel Fight (tainted) outro" path="You Died jingle.ogg" loop="false" />
-	<track name="Ultra Greedier (tainted)" path="Fights/Ultra Greedier - Memento Mori Metal [Loop - Alt].ogg" loop="true" mul="2.0" />
-	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="2.0" />
+	<track name="Ultra Greedier (tainted)" path="Fights/Ultra Greedier - Memento Mori Metal [Loop - Alt].ogg" loop="true" mul="1.5" />
+	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="1.5" />
 	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Black Market (tainted)" path="Black Market - Depression Shop Reversed [Loop].ogg" loop="true" />
 	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
