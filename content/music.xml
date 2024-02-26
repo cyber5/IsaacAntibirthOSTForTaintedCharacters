@@ -65,8 +65,8 @@
 	<track name="Boss (Blue Womb - Hush, tainted)" intro="Fights/Hush - Howl [Intro].ogg" path="Fights/Hush - Howl [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Boss (Ultra Greed, tainted)" intro="Fights/Ultra Greed - Non Funkible Token [Intro].ogg" path="Fights/Ultra Greed - Non Funkible Token [Loop].ogg" loop="true" />
 	<track name="Library Room (tainted)" path="Library - Lucidate [Loop].ogg" loop="true" />
-	<track name="Secret Room (tainted)" path="Secret Room - Forgotten Lullaby [Loop].ogg" loop="true" />
-	<track name="Secret Room Alt (tainted)" path="Forgotten Lullaby [crying].ogg" loop="true" />
+	<track name="Secret Room (tainted)" path="Forgotten Lullaby [crying].ogg" loop="true" />
+	<track name="Secret Room Alt (tainted)" path="Forgotten Lullaby [crying] altloop.ogg" loop="true" />
 	<track name="Devil Room (tainted)" intro="Devil Room - Blackpath [Intro].ogg" path="Devil Room - Blackpath [Loop].ogg" loop="true" />
 	<track name="Angel Room (tainted)" intro="Angel Room - Whitepath [Intro].ogg" path="Angel Room - Whitepath [Loop].ogg" loop="true" />
 	<track name="Shop Room (tainted)" path="Shop - Depression Shop [Loop].ogg" loop="true" />
@@ -78,7 +78,7 @@
 	<track name="Boss (alternate alternate, tainted)" path="Fights/Boss - Tandava [Loop].ogg" loop="true" />
 	<track name="Boss Death Alternate Alternate (jingle, tainted)" path="Fights/Boss - Tandava [Beaten].ogg" loop="false" />
 	<track name="Boss (Mother, tainted)" intro="Fights/Mother - Memento Mori [Intro].ogg" path="Fights/Mother - Memento Mori [Loop].ogg" loop="true" />
-	<track name="Boss (Dogma, tainted)" intro="beforevol4/Dogma Tainted intro.ogg" path="beforevol4/Dogma Tainted loop.ogg" loop="true" mul="1.25" >
+	<track name="Boss (Dogma, tainted)" path="beforevol4/Dogma Tainted loop.ogg" loop="true" mul="2" >
 		<layer path="beforevol4/Dogma Tainted layer.ogg" mul="1.2" />
 		<layer path="beforevol4/static.ogg" mul="1" />
 	</track>
@@ -89,8 +89,10 @@
 	<track name="Planetarium (tainted)" intro="Game Over - Journey from a Jar to the Sky [Intro].ogg" path="Game Over - Journey from a Jar to the Sky [Loop].ogg" loop="true" />
 	<track name="Secret Room Alt Alt (tainted)" path="beforevol4/Ultra Secret Room Tainted.ogg" loop="true" />
 	<track name="Boss Room (empty, twisted, tainted)" intro="Spinning Intensifies [Intro].ogg" path="Spinning Intensifies [Loop].ogg" loop="true" />
+	<track name="I Am Error" path="Dread reversed.ogg" loop="true" />
+	<track name="I Am Error (tainted)" path="Spinning Intensifies [Reversed].ogg" loop="true" />
 	<!--<track name="Mom's Shadow Intro (tainted)" /> -->
-	<track name="Dogma Intro (tainted)" path="beforevol4/Dogma Intro Tainted.ogg" />
+	<!--<track name="Dogma Intro (tainted)" path="beforevol4/Dogma Intro Tainted.ogg" /> -->
 	<track name="Strange Door (jingle, tainted)" path="Strange Door jingle.ogg" loop="false" />
 	<track name="Echoes Reverse (tainted)" path="beforevol4/Dark Closet Tainted.ogg" loop="true" />
 	<!--<track name="Boss (jingle, tainted)" /> -->
@@ -126,8 +128,7 @@
 	<track name="Dross (tainted)" intro="bsides/Torrent intro.ogg" path="bsides/Torrent loop.ogg" loop="true" />
 	<track name="Dross (tainted) nointro" path="bsides/Torrent loop.ogg" loop="true" />
 	<track name="Dross (tainted) altloop" path="bsides/Torrent altloop.ogg" loop="true" />
-	<track name="Ashpit (tainted)" intro="bsides/Chum intro.ogg" path="bsides/Chum loop.ogg" loop="true" />
-	<track name="Ashpit (tainted) nointro" path="bsides/Chum loop.ogg" loop="true" />
+	<track name="Ashpit (tainted)" path="bsides/Chum loop.ogg" loop="true" />
 	<track name="Ashpit (tainted) altloop" path="bsides/Chum altloop.ogg" loop="true" />
 	<track name="Gehenna (tainted)" intro="bsides/Red Tide intro.ogg" path="bsides/Red Tide loop.ogg" loop="true" />
 	<track name="Gehenna (tainted) nointro" path="bsides/Red Tide loop.ogg" loop="true" />
