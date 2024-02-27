@@ -8,6 +8,7 @@ local musicmgr = MMC.Manager()
 
 --TODO: make sure Black Markets in Mineshaft Escape continue playing Mineshaft Escape music
 --TODO: remove intro from Black Market non-tainted version?
+--TODO: play Challenge music if Greed spawns from Greed in a Shop? this might be hard to differentiate from Greed spawned from a button
 
 if not BossMusicForSacrificeRoomAngelsFlag then
 
@@ -29,6 +30,7 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 		end
 	end
 	
+	--TODO: in vanilla, does Angel fight music play during the ascent?
 	--TODO: test Angel statue fight in Red Rooms (in vanilla, the fight music starts, then boss over jingle, then The Calm, but upon reentry to Angel Room, Downpour/Dross reverse keeps playing)
 	--TODO: make sure that Game States are reset when doing Reruns (The Calm Twisted doesn't play if kill Mausoleum Heart, do sacrifice room in Corpse to teleport to Dark Room, kill the Lamb and Rerun, then return to Mausoleum II)
 	
@@ -131,7 +133,7 @@ Music.MUSIC_FLOOR_6_GREED = Isaac.GetMusicIdByName("Greed Floor 6")
 Music.MUSIC_BOSS_OVER_GREED = Isaac.GetMusicIdByName("Boss Room (empty, greed)")
 Music.MUSIC_ULTRAGREEDIER_BOSS = Isaac.GetMusicIdByName("Ultra Greedier")
 Music.MUSIC_ANGEL_BOSS = Isaac.GetMusicIdByName("Pool of Yule")
-Music.MUSIC_SATAN_BOSS_ALT = Isaac.GetMusicIdByName("Satan 666")
+Music.MUSIC_SATAN_BOSS_ALT = Isaac.GetMusicIdByName("Satan 666") --TODO: make this so that we only need to use MEGASATAN_BOSS, not SATAN_BOSS_ALT
 Music.MUSIC_MEGASATAN_BOSS = Music.MUSIC_SATAN_BOSS
 Music.MUSIC_JINGLE_DELIRIUM_OVER = Isaac.GetMusicIdByName("Satan 666 Outro")
 Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER = Isaac.GetMusicIdByName("Ultra Greedier outro")
@@ -140,6 +142,7 @@ Music.MUSIC_BLACKMARKET_ROOM = Isaac.GetMusicIdByName("Black Market")
 Music.MUSIC_DEVIL_ROOM_ALT = Isaac.GetMusicIdByName("Devil Room (late)")
 Music.MUSIC_SHOP_ROOM_ALT = Isaac.GetMusicIdByName("Shop Room (late)")
 Music.MUSIC_I_AM_ERROR = Isaac.GetMusicIdByName("I Am Error")
+Music.MUSIC_BLUE_WOMB_ALT = Isaac.GetMusicIdByName("Armarium")
 
 --[[Music.MUSIC_CAVES_GREED = Isaac.GetMusicIdByName("Caves (greed)")
 Music.MUSIC_FLOODED_CAVES_GREED = Isaac.GetMusicIdByName("Flooded Caves (greed)")
@@ -540,40 +543,41 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[35] = Music.MUSIC_CATACOMBS_GREED,
 	[36] = Music.MUSIC_SHEOL_GREED,
 	[37] = Music.MUSIC_UTERO_GREED,
+	[38] = Music.MUSIC_BLUE_WOMB_ALT,
 	--TAINTED START
-	[38] = Music.MUSIC_BASEMENT,
-	[39] = Music.MUSIC_CELLAR,
-	[40] = Music.MUSIC_BURNING_BASEMENT,
-	[41] = Music.MUSIC_DOWNPOUR,
-	[42] = Music.MUSIC_DROSS,
-	[43] = Music.MUSIC_CAVES,
-	[44] = Music.MUSIC_CATACOMBS,
-	[45] = Music.MUSIC_FLOODED_CAVES,
-	[46] = Music.MUSIC_MINES,
-	[47] = Music.MUSIC_ASHPIT,
-	[48] = Music.MUSIC_DEPTHS,
-	[49] = Music.MUSIC_NECROPOLIS,
-	[50] = Music.MUSIC_DANK_DEPTHS,
-	[51] = Music.MUSIC_MAUSOLEUM,
-	[52] = Music.MUSIC_GEHENNA,
-	[53] = Music.MUSIC_WOMB_UTERO,
-	[54] = Music.MUSIC_UTERO,
-	[55] = Music.MUSIC_SCARRED_WOMB,
-	[56] = Music.MUSIC_CORPSE,
-	[57] = Music.MUSIC_BLUE_WOMB,
-	[58] = Music.MUSIC_SHEOL,
-	[59] = Music.MUSIC_CATHEDRAL,
-	[60] = Music.MUSIC_DARK_ROOM,
-	[61] = Music.MUSIC_CHEST,
-	[62] = Music.MUSIC_VOID,
-	[63] = Music.MUSIC_ISAACS_HOUSE,
-	[64] = Music.MUSIC_DOWNPOUR_REVERSE,
-	[65] = Music.MUSIC_DROSS_REVERSE,
-	[66] = Music.MUSIC_REVERSE_GENESIS,
-	[67] = Music.MUSIC_FLOOR_6_GREED,
+	[39] = Music.MUSIC_BASEMENT,
+	[40] = Music.MUSIC_CELLAR,
+	[41] = Music.MUSIC_BURNING_BASEMENT,
+	[42] = Music.MUSIC_DOWNPOUR,
+	[43] = Music.MUSIC_DROSS,
+	[44] = Music.MUSIC_CAVES,
+	[45] = Music.MUSIC_CATACOMBS,
+	[46] = Music.MUSIC_FLOODED_CAVES,
+	[47] = Music.MUSIC_MINES,
+	[48] = Music.MUSIC_ASHPIT,
+	[49] = Music.MUSIC_DEPTHS,
+	[50] = Music.MUSIC_NECROPOLIS,
+	[51] = Music.MUSIC_DANK_DEPTHS,
+	[52] = Music.MUSIC_MAUSOLEUM,
+	[53] = Music.MUSIC_GEHENNA,
+	[54] = Music.MUSIC_WOMB_UTERO,
+	[55] = Music.MUSIC_UTERO,
+	[56] = Music.MUSIC_SCARRED_WOMB,
+	[57] = Music.MUSIC_CORPSE,
+	[58] = Music.MUSIC_BLUE_WOMB,
+	[59] = Music.MUSIC_SHEOL,
+	[60] = Music.MUSIC_CATHEDRAL,
+	[61] = Music.MUSIC_DARK_ROOM,
+	[62] = Music.MUSIC_CHEST,
+	[63] = Music.MUSIC_VOID,
+	[64] = Music.MUSIC_ISAACS_HOUSE,
+	[65] = Music.MUSIC_DOWNPOUR_REVERSE,
+	[66] = Music.MUSIC_DROSS_REVERSE,
+	[67] = Music.MUSIC_REVERSE_GENESIS,
+	[68] = Music.MUSIC_FLOOR_6_GREED,
 }
-local random_music_size = 68
-local random_music_tainted_threshold = 37
+local random_music_size = 69
+local random_music_tainted_threshold = 38
 
 local random_boss_music = {
 	[0] = Music.MUSIC_NULL,
@@ -1123,7 +1127,6 @@ function NormalOrTainted(trackId)
 	end
 end
 
---TODO: play Armarium in Blue Womb after encountering/killing Hush (GameStateFlag.STATE_BLUEWOMB_DONE)
 --TODO: created an alt2 version of An Armistice (Blue Womb Tainted) and make it alt1, moving the current alt1 to alt2
 
 function custommusiccollection:PlayEpicDogmaPortrait(entity)
@@ -1464,6 +1467,22 @@ MMC.AddMusicCallback(custommusiccollection, function()
 		end
 	end
 end, Music.MUSIC_CHALLENGE_FIGHT, Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	local playTaintedVersion = false
+	if coopMixedSoundtrack then
+		playTaintedVersion = SeededCoopTaintedMix(trackId)
+	else
+		local player = Isaac.GetPlayer()
+		playTaintedVersion = PlayerIsTainted(player)
+	end
+	
+	if not playTaintedVersion then
+		if Game():GetStateFlag(GameStateFlag.STATE_BLUEWOMB_DONE) then
+			return Music.MUSIC_BLUE_WOMB_ALT
+		end
+	end
+end, Music.MUSIC_BLUE_WOMB)
 
 --START CALLBACKS ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH
 MMC.AddMusicCallback(custommusiccollection, function()
