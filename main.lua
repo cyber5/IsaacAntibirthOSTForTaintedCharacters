@@ -7,6 +7,7 @@ end
 local musicmgr = MMC.Manager()
 
 --TODO: make sure Black Markets in Mineshaft Escape continue playing Mineshaft Escape music
+--TODO: remove intro from Black Market non-tainted version?
 
 if not BossMusicForSacrificeRoomAngelsFlag then
 
@@ -529,8 +530,8 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[25] = Music.MUSIC_ISAACS_HOUSE,
 	[26] = Music.MUSIC_DOWNPOUR_REVERSE,
 	[27] = Music.MUSIC_DROSS_REVERSE,
-	[28] = Music.MUSIC_MINESHAFT_ESCAPE,
-	[29] = Music.MUSIC_REVERSE_GENESIS,
+	[28] = Music.MUSIC_REVERSE_GENESIS,
+	[29] = Music.MUSIC_FLOOR_6_GREED,
 	[30] = Music.MUSIC_CREDITS,
 	[31] = Music.MUSIC_TITLE,
 	[32] = Music.MUSIC_TITLE_AFTERBIRTH,
@@ -539,41 +540,40 @@ local random_music = { --this is for the "DELETE THIS" challenge
 	[35] = Music.MUSIC_CATACOMBS_GREED,
 	[36] = Music.MUSIC_SHEOL_GREED,
 	[37] = Music.MUSIC_UTERO_GREED,
-	[38] = Music.MUSIC_FLOOR_6_GREED,
 	--TAINTED START
-	[39] = Music.MUSIC_BASEMENT,
-	[40] = Music.MUSIC_CELLAR,
-	[41] = Music.MUSIC_BURNING_BASEMENT,
-	[42] = Music.MUSIC_DOWNPOUR,
-	[43] = Music.MUSIC_DROSS,
-	[44] = Music.MUSIC_CAVES,
-	[45] = Music.MUSIC_CATACOMBS,
-	[46] = Music.MUSIC_FLOODED_CAVES,
-	[47] = Music.MUSIC_MINES,
-	[48] = Music.MUSIC_ASHPIT,
-	[49] = Music.MUSIC_DEPTHS,
-	[50] = Music.MUSIC_NECROPOLIS,
-	[51] = Music.MUSIC_DANK_DEPTHS,
-	[52] = Music.MUSIC_MAUSOLEUM,
-	[53] = Music.MUSIC_GEHENNA,
-	[54] = Music.MUSIC_WOMB_UTERO,
-	[55] = Music.MUSIC_UTERO,
-	[56] = Music.MUSIC_SCARRED_WOMB,
-	[57] = Music.MUSIC_CORPSE,
-	[58] = Music.MUSIC_BLUE_WOMB,
-	[59] = Music.MUSIC_SHEOL,
-	[60] = Music.MUSIC_CATHEDRAL,
-	[61] = Music.MUSIC_DARK_ROOM,
-	[62] = Music.MUSIC_CHEST,
-	[63] = Music.MUSIC_VOID,
-	[64] = Music.MUSIC_ISAACS_HOUSE,
-	[65] = Music.MUSIC_DOWNPOUR_REVERSE,
-	[66] = Music.MUSIC_DROSS_REVERSE,
-	[67] = Music.MUSIC_REVERSE_GENESIS,
-	[68] = Music.MUSIC_FLOOR_6_GREED,
+	[38] = Music.MUSIC_BASEMENT,
+	[39] = Music.MUSIC_CELLAR,
+	[40] = Music.MUSIC_BURNING_BASEMENT,
+	[41] = Music.MUSIC_DOWNPOUR,
+	[42] = Music.MUSIC_DROSS,
+	[43] = Music.MUSIC_CAVES,
+	[44] = Music.MUSIC_CATACOMBS,
+	[45] = Music.MUSIC_FLOODED_CAVES,
+	[46] = Music.MUSIC_MINES,
+	[47] = Music.MUSIC_ASHPIT,
+	[48] = Music.MUSIC_DEPTHS,
+	[49] = Music.MUSIC_NECROPOLIS,
+	[50] = Music.MUSIC_DANK_DEPTHS,
+	[51] = Music.MUSIC_MAUSOLEUM,
+	[52] = Music.MUSIC_GEHENNA,
+	[53] = Music.MUSIC_WOMB_UTERO,
+	[54] = Music.MUSIC_UTERO,
+	[55] = Music.MUSIC_SCARRED_WOMB,
+	[56] = Music.MUSIC_CORPSE,
+	[57] = Music.MUSIC_BLUE_WOMB,
+	[58] = Music.MUSIC_SHEOL,
+	[59] = Music.MUSIC_CATHEDRAL,
+	[60] = Music.MUSIC_DARK_ROOM,
+	[61] = Music.MUSIC_CHEST,
+	[62] = Music.MUSIC_VOID,
+	[63] = Music.MUSIC_ISAACS_HOUSE,
+	[64] = Music.MUSIC_DOWNPOUR_REVERSE,
+	[65] = Music.MUSIC_DROSS_REVERSE,
+	[66] = Music.MUSIC_REVERSE_GENESIS,
+	[67] = Music.MUSIC_FLOOR_6_GREED,
 }
-local random_music_size = 69
-local random_music_tainted_threshold = 38
+local random_music_size = 68
+local random_music_tainted_threshold = 37
 
 local random_boss_music = {
 	[0] = Music.MUSIC_NULL,
