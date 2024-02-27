@@ -4,6 +4,7 @@
 	<track name="Credits greed" path="Credits/Tears of A Child.ogg" loop="false" /> <!-- track 205 -->
 	<track name="Credits greedier" path="Credits/Dear Diary.ogg" loop="false" /> <!-- track 206 -->
 	<track name="Credits home" path="Credits/Take Me Back Home.ogg" loop="false" /> <!-- track 207 -->
+	<track name="Armarium" intro="afterbirth/armarium intro.ogg" path="afterbirth/armarium loop.ogg" loop="true" />
 	<track name="Basement (tainted)" intro="Basement - Innocence Glitched [Intro].ogg" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
 	<track name="Basement (tainted) nointro" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
 	<track name="Basement (tainted) altloop" path="Basement - Innocence Glitched [Loop - Alt].ogg" loop="true" />
