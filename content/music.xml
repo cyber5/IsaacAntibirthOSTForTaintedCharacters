@@ -78,7 +78,7 @@
 	<track name="Boss (alternate alternate, tainted)" path="Fights/Boss - Tandava [Loop].ogg" loop="true" />
 	<track name="Boss Death Alternate Alternate (jingle, tainted)" path="Fights/Boss - Tandava [Beaten].ogg" loop="false" />
 	<track name="Boss (Mother, tainted)" intro="Fights/Mother - Memento Mori [Intro].ogg" path="Fights/Mother - Memento Mori [Loop].ogg" loop="true" />
-	<track name="Boss (Dogma, tainted)" path="beforevol4/Dogma Tainted loop.ogg" loop="true" mul="2" >
+	<track name="Boss (Dogma, tainted)" path="beforevol4/Dogma Tainted loop.ogg" loop="true" mul="1.5" >
 		<layer path="beforevol4/Dogma Tainted layer.ogg" mul="1.2" />
 		<layer path="beforevol4/static.ogg" mul="1" />
 	</track>
