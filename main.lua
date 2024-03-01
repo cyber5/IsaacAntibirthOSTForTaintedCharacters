@@ -6,6 +6,7 @@ end
 
 local musicmgr = MMC.Manager()
 
+--TODO: remove intro from Gloria Filio (Mom's Heart Tainted)?
 --TODO: make sure Black Markets in Mineshaft Escape continue playing Mineshaft Escape music
 --TODO: remove intro from Black Market non-tainted version?
 --TODO: play Challenge music if Greed spawns from Greed in a Shop? this might be hard to differentiate from Greed spawned from a button
@@ -87,7 +88,7 @@ if not DontInterruptBlueWombFlag then
 		if level:GetStage() == LevelStage.STAGE4_3 then
 			local room = Game():GetRoom()
 			if not room:IsFirstVisit() then
-				musicmgr:Crossfade(Music.MUSIC_BLUE_WOMB)
+				musicmgr:Crossfade(Music.MUSIC_BLUE_WOMB) --TODO: if we die to Hush but have an extra life, then kill Hush, it doesn't play Hush Over Jingle or Boss Over, and the Blue Womb Alt callback doesn't work
 				return 0
 			end
 		end
@@ -1027,6 +1028,7 @@ function SeededCoopTaintedMix(trackId)
 		local runseed = seeds:GetStartSeed()
 		return modBitplaceLowerhalf(runseed, runSeedTrack[trackId])
 	elseif stageSeedTrack[trackId] and stageSeedTrack[trackId] > 0 then
+		--TODO: when using "reseed" to test STAGETYPE_REPENTANCE and STAGETYPE_REPENTANCE_B floors, it only ever picks one option... investigate
 		local seeds = Game():GetSeeds()
 		local stage = Game():GetLevel():GetStage()
 		local stageseed = seeds:GetStageSeed(stage)
@@ -1109,9 +1111,7 @@ custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
 	end
 end)
 
---TODO: write function PlayTaintedVersion and use where appropriate()
-
-function NormalOrTainted(trackId)
+function PlayTaintedVersion(trackId)
 	local playTaintedVersion = false
 	if coopMixedSoundtrack then
 		playTaintedVersion = SeededCoopTaintedMix(trackId)
@@ -1119,26 +1119,21 @@ function NormalOrTainted(trackId)
 		local player = Isaac.GetPlayer()
 		playTaintedVersion = PlayerIsTainted(player)
 	end
-	
-	if playTaintedVersion then
+	return playTaintedVersion
+end
+
+function NormalOrTainted(trackId)
+	if PlayTaintedVersion(trackId) then
 		return TaintedVersion(trackId)
 	else
 		return trackId
 	end
 end
 
---TODO: created an alt2 version of An Armistice (Blue Womb Tainted) and make it alt1, moving the current alt1 to alt2
+--TODO: created an alt2 version of An Armistice (Blue Womb Tainted)
 
 function custommusiccollection:PlayEpicDogmaPortrait(entity)
-	local playTaintedVersion = false
-	if coopMixedSoundtrack then
-		playTaintedVersion = SeededCoopTaintedMix(Music.MUSIC_DOGMA_BOSS)
-	else
-		local player = Isaac.GetPlayer()
-		playTaintedVersion = PlayerIsTainted(player)
-	end
-	
-	if playTaintedVersion then
+	if PlayTaintedVersion(Music.MUSIC_DOGMA_BOSS) then
 		local sprite = entity:GetSprite()
 		local anim = sprite:GetAnimation()
 		local frame = sprite:GetFrame()
@@ -1157,15 +1152,7 @@ MMC.AddMusicCallback(custommusiccollection, function()
 		if stage == LevelStage.STAGE8 then
 			local stage_type = level:GetStageType()
 			if stage_type == StageType.STAGETYPE_WOTL then
-				local playTaintedVersion = false
-				if coopMixedSoundtrack then
-					playTaintedVersion = SeededCoopTaintedMix(Music.MUSIC_ISAACS_HOUSE)
-				else
-					local player = Isaac.GetPlayer()
-					playTaintedVersion = PlayerIsTainted(player)
-				end
-				
-				if playTaintedVersion then
+				if PlayTaintedVersion(Music.MUSIC_ISAACS_HOUSE) then
 					return TaintedVersion(Music.MUSIC_DARK_CLOSET)
 				end
 			end
@@ -1193,17 +1180,10 @@ end)
 
 MMC.AddMusicCallback(custommusiccollection, function() --TODO: test Mirror World, Mineshaft escape, and Ascent (should keep playing those themes and not this one?)
 	local level = Game():GetLevel()
+	--local ascent = level:IsAscent()
 	
 	if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
-			local playTaintedVersion = false
-			if coopMixedSoundtrack then
-				playTaintedVersion = SeededCoopTaintedMix(Music.MUSIC_TITLE)
-			else
-				local player = Isaac.GetPlayer()
-				playTaintedVersion = PlayerIsTainted(player)
-			end
-			
-			if playTaintedVersion then
+			if PlayTaintedVersion(Music.MUSIC_TITLE) then
 				return Music.MUSIC_TITLE_AFTERBIRTH
 			else
 				return Music.MUSIC_TITLE
@@ -1259,16 +1239,9 @@ custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccoll
 
 MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
 	if InWombIIBossRoom() then
-		local playTaintedVersion = false
-		if coopMixedSoundtrack then
-			playTaintedVersion = SeededCoopTaintedMix(trackId)
-		else
-			local player = Isaac.GetPlayer()
-			playTaintedVersion = PlayerIsTainted(player)
-		end
-		
+	
 		local jinglelength = 0
-		if playTaintedVersion then
+		if PlayTaintedVersion(trackId) then
 			jinglelength = taintedjinglelength[trackId]
 		elseif trackId == Music.MUSIC_JINGLE_BOSS_OVER then
 			jinglelength = 370
@@ -1339,6 +1312,7 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_SATAN_BOSS)
 
+--TODO: repurpose this for Home music in Delete this challenge (only play Dark Home layer in rooms with bosses or large rooms, maybe)
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
 	--we have to disable the layer every frame
 	--the layer is enabled AFTER the MC_POST_NEW_ROOM callbacks are executed, and that's why MC_POST_NEW_ROOM doesn't work
@@ -1377,25 +1351,17 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	local stage = level:GetStage()
 	local stage_type = level:GetStageType()
 	local room = Game():GetRoom()
+	local curseoflabyrinth = (level:GetCurses() & LevelCurse.CURSE_OF_LABYRINTH) == LevelCurse.CURSE_OF_LABYRINTH
 	
 	--go straight into boss theme during VS portrait
-	if (stage == LevelStage.STAGE4_2 and stage_type >= StageType.STAGETYPE_REPENTANCE) --Mother
+	if ((stage == LevelStage.STAGE4_2 or (curseoflabyrinth and stage == LevelStage.STAGE4_1)) and stage_type >= StageType.STAGETYPE_REPENTANCE) --Mother
 	or (Isaac.GetChallenge() == Challenge.CHALLENGE_RED_REDEMPTION and stage == LevelStage.STAGE4_1) --Mother in Red Redemption challenge
 	or (stage == LevelStage.STAGE5 and stage_type == StageType.STAGETYPE_WOTL) --Isaac in Cathedral
 	or (stage == LevelStage.STAGE7 and (room:GetBossID() == 39 or room:GetBossID() == 70)) --Delirium and Isaac in Void
 	or (stage == LevelStage.STAGE7_GREED and Game():IsGreedMode()) --Ultra Greed
 	then
-		local skipBossJingle = false
 		local bosstrack = MMC.GetBossTrack()
-		
-		if coopMixedSoundtrack then
-			skipBossJingle = SeededCoopTaintedMix(bosstrack)
-		else
-			local player = Isaac.GetPlayer()
-			skipBossJingle = PlayerIsTainted(player)
-		end
-		
-		if skipBossJingle then
+		if PlayTaintedVersion(bosstrack) then
 			return normaltotainted[bosstrack]
 		end
 	end
@@ -1468,16 +1434,8 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_CHALLENGE_FIGHT, Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
 
-MMC.AddMusicCallback(custommusiccollection, function()
-	local playTaintedVersion = false
-	if coopMixedSoundtrack then
-		playTaintedVersion = SeededCoopTaintedMix(trackId)
-	else
-		local player = Isaac.GetPlayer()
-		playTaintedVersion = PlayerIsTainted(player)
-	end
-	
-	if not playTaintedVersion then
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not PlayTaintedVersion(trackId) then
 		if Game():GetStateFlag(GameStateFlag.STATE_BLUEWOMB_DONE) then
 			return Music.MUSIC_BLUE_WOMB_ALT
 		end
