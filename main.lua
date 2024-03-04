@@ -6,9 +6,7 @@ end
 
 local musicmgr = MMC.Manager()
 
---TODO: remove intro from Gloria Filio (Mom's Heart Tainted)?
 --TODO: make sure Black Markets in Mineshaft Escape continue playing Mineshaft Escape music
---TODO: remove intro from Black Market non-tainted version?
 --TODO: play Challenge music if Greed spawns from Greed in a Shop? this might be hard to differentiate from Greed spawned from a button
 
 if not BossMusicForSacrificeRoomAngelsFlag then
@@ -80,15 +78,30 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 	
 end
 
+local hushalivebossroom = false
 if not DontInterruptBlueWombFlag then
+	
+	function custommusiccollection:CheckHushAliveBossRoom()
+		hushalivebossroom = false
+		local level = Game():GetLevel()
+		if level:GetStage() == LevelStage.STAGE4_3 then
+			local room = Game():GetRoom()
+			local roomtype = room:GetType()
+			if roomtype == RoomType.ROOM_BOSS and room:GetBossID() == 63 then
+				if Isaac.CountBosses() > 0 then
+					hushalivebossroom = true
+				end
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.CheckHushAliveBossRoom)
 	
 	DontInterruptBlueWombFlag = true
 	MMC.AddMusicCallback(custommusiccollection, function()
 		local level = Game():GetLevel()
 		if level:GetStage() == LevelStage.STAGE4_3 then
-			local room = Game():GetRoom()
-			if not room:IsFirstVisit() then
-				musicmgr:Crossfade(Music.MUSIC_BLUE_WOMB) --TODO: if we die to Hush but have an extra life, then kill Hush, it doesn't play Hush Over Jingle or Boss Over, and the Blue Womb Alt callback doesn't work
+			if not hushalivebossroom then
+				musicmgr:Crossfade(Music.MUSIC_BLUE_WOMB)
 				return 0
 			end
 		end
@@ -1130,7 +1143,7 @@ function NormalOrTainted(trackId)
 	end
 end
 
---TODO: created an alt2 version of An Armistice (Blue Womb Tainted)
+--TODO: create an alt2 version of An Armistice (Blue Womb Tainted)
 
 function custommusiccollection:PlayEpicDogmaPortrait(entity)
 	if PlayTaintedVersion(Music.MUSIC_DOGMA_BOSS) then
@@ -1339,8 +1352,7 @@ custommusiccollection:AddCallback(ModCallbacks.MC_NPC_UPDATE, function(_, entity
     if entity.Variant == 1 then
 		local currentMusicID = musicmgr:GetCurrentMusicID()
 		if currentMusicID == Music.MUSIC_ULTRAGREED_BOSS or currentMusicID == TaintedVersion(Music.MUSIC_ULTRAGREED_BOSS) then
-			--TODO: we may not need to check for tainted here, because Crossfade will also have callbacks applied to it!
-			musicmgr:Crossfade(NormalOrTainted(Music.MUSIC_ULTRAGREEDIER_BOSS), 0.1) --TODO: does this fade rate argument do anything?
+			musicmgr:Crossfade(Music.MUSIC_ULTRAGREEDIER_BOSS)
 			musicmgr:UpdateVolume()
 		end
     end
@@ -1389,8 +1401,26 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_SATAN_BOSS)
 
-MMC.AddMusicCallback(custommusiccollection, function() --TODO: do not play upon continue game
+local ultragreedalivebossroom = false
+function custommusiccollection:CheckUltraGreedAliveBossRoom()
 	if Game():IsGreedMode() then
+		ultragreedalivebossroom = false
+		local level = Game():GetLevel()
+		if level:GetStage() == LevelStage.STAGE7_GREED then
+			local room = Game():GetRoom()
+			local roomtype = room:GetType()
+			if roomtype == RoomType.ROOM_BOSS and room:GetBossID() == 62 then
+				if Isaac.CountBosses() > 0 then
+					ultragreedalivebossroom = true
+				end
+			end
+		end
+	end
+end
+custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.CheckUltraGreedAliveBossRoom)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if Game():IsGreedMode() and ultragreedalivebossroom then
 		local room = Game():GetRoom()
 		if room:GetBossID() == 62 then
 			if Game().Difficulty == Difficulty.DIFFICULTY_GREEDIER then
