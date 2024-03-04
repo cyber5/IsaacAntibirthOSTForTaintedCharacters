@@ -803,9 +803,23 @@ Music.MUSIC_MOM_BOSS,
 Music.MUSIC_MOMS_HEART_BOSS, 
 Music.MUSIC_ISAAC_BOSS, 
 Music.MUSIC_BLUEBABY_BOSS, 
-Music.MUSIC_HUSH_BOSS,
 Music.MUSIC_CHALLENGE_FIGHT,
-Music.MUSIC_BOSS_RUSH)
+Music.MUSIC_BOSS_RUSH,
+Music.MUSIC_DARKROOM_BOSS,
+Music.MUSIC_VOID_BOSS,
+Music.MUSIC_MOTHER_BOSS,
+Music.MUSIC_DOGMA_BOSS,
+Music.MUSIC_BEAST_BOSS)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+		local seeds = Game():GetSeeds()
+		local runseed = seeds:GetStartSeed()
+		return getRandomBossMusic(runseed)
+	end
+end,
+Music.MUSIC_SATAN_BOSS,
+Music.MUSIC_HUSH_BOSS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
 	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
