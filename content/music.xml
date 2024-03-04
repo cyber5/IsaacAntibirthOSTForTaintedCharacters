@@ -175,7 +175,7 @@
 	<track name="Satan 666 Outro" path="Extra/satan 666 outro.ogg" loop="false" mul="1.25" />
 	<track name="Pool of Yule" path="Extra/pool of yule.ogg" loop="true" mul="1.25" />
 	<track name="Pool of Yule outro" path="JINGLE OGG/Ambush Jinle outro V3_04.ogg" loop="false" />
-	<track name="Black Market" intro="Extra/black market intro.ogg" path="Extra/black market loop.ogg" loop="true" mul="1.25" />
+	<track name="Black Market" path="Extra/black market loop.ogg" loop="true" mul="1.25" />
 	<track name="Depths (greed)" intro="Greed/the depths greed intro.ogg" path="Greed/the depths greed.ogg" loop="true" mul="1.25" />
 	<track name="Catacombs (greed)" path="Greed/catacombs greed.ogg" loop="true" mul="1.2" />
 	<track name="Sheol (greed)" intro="Greed/sheol greed intro.ogg" path="Greed/sheol greed.ogg" loop="true" mul="1.5" />
