@@ -5,6 +5,10 @@
 	<track name="Credits greedier" path="Credits/Dear Diary.ogg" loop="false" /> <!-- track 206 -->
 	<track name="Credits home" path="Credits/Take Me Back Home.ogg" loop="false" /> <!-- track 207 -->
 	<track name="Armarium" intro="afterbirth/armarium intro.ogg" path="afterbirth/armarium loop.ogg" loop="true" />
+	<track name="Cathedral Alt" intro="Cathedral Intro.ogg" path="Cathedral Chant.ogg" loop="true" >
+		<layer intro="Cathedral Layer Intro.ogg" path="Cathedral Layer.ogg" />
+		<layer intro="sacris intro.ogg" path="sacris.ogg" mul="0.5" />
+	</track>
 	<track name="Basement (tainted)" intro="Basement - Innocence Glitched [Intro].ogg" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
 	<track name="Basement (tainted) nointro" path="Basement - Innocence Glitched [Loop].ogg" loop="true" />
 	<track name="Basement (tainted) altloop" path="Basement - Innocence Glitched [Loop - Alt].ogg" loop="true" />
@@ -53,6 +57,7 @@
 	<track name="Scarred Womb (tainted) altloop" path="Scarred Womb - Lethe [Loop - Alt].ogg" loop="true" />
 	<track name="Blue Womb (tainted)" intro="Blue Womb - An Armistice [Intro].ogg" path="Blue Womb - An Armistice [Loop].ogg" loop="true" />
 	<track name="Blue Womb (tainted) altloop" path="Blue Womb - An Armistice [Loop - Alt].ogg" loop="true" />
+	<track name="Blue Womb (tainted) altloop 2" path="Blue Womb - An Armistice [Loop - Alt 2].ogg" loop="true" />
 	<track name="Utero (tainted)" intro="bsides/Tsunami intro.ogg" path="bsides/Tsunami loop.ogg" loop="true" />
 	<track name="Utero (tainted) nointro" path="bsides/Tsunami loop.ogg" loop="true" />
 	<track name="Utero (tainted) altloop" path="bsides/Tsunami altloop.ogg" loop="true" />
