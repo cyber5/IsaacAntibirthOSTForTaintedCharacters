@@ -1,10 +1,955 @@
 local custommusiccollection = RegisterMod("Custom Music Collection", 1)
 
+local json = require("json")
+local modSaveData = {}
+
 if MMC == nil then
 	return
 end
 
 local musicmgr = MMC.Manager()
+
+--Config settings
+function custommusiccollection:ResetSave()
+	modSaveData = {
+		ultragreediertheme = true,
+		darkroomdescensum = true,
+		bluewombdevoid = true,
+		wombnativitate = true,
+		uterogreedviscera = true,
+		cathedralsacris = true,
+		catacombsgreedregeneratione = true,
+		depthsgreeddepressoloco = true,
+		sheolgreedinfernum = true,
+		shopfloorgreedtheme = true,
+		postbossgreedspiritum = true,
+		satanfightsatan666 = true,
+		devilwavegreedambush = true,
+		angelfighttheme = true,
+		blackmarketroomtheme = true,
+		genesisroomtheme = true,
+		iamerrorroomtheme = true,
+		lateshoproomtheme = true,
+		latedevilroomtheme = true,
+		bossrushtaintedspeedup = true,
+		megasatantaintedspeedup = true,
+		uterotaintedtsunami = true,
+		drosstainted = 2,
+		ashpittainted = 2,
+		gehennatainted = 2,
+		ascenttainteddescent = true,
+		hometaintedintro = true,
+		darkhometaintednauseous = true,
+		deathcertificatedescenttwisted = true,
+		dogmafighttaintedmashup = true,
+		beastfighttaintedapocalypse = true,
+		mineshaftambienttaintednaught = true,
+		mineshaftescapetaintedturn = true,
+		blendedcoopsoundtrack = true,
+		deletethisenhancement = true
+		
+		--future potential requests:
+		--megasatantainted = 2, -- play Flagbearer during tainted Mega Satan
+		--devilwavegreedtainted = 2, --play The Turn during tainted devil wave
+		--boss2taintedflagbearer = true, --play Tandava for tainted alt boss
+		--gameovertaintedunderscore = true, --play tainted Planetarium theme for tainted game over
+	}
+end
+
+function custommusiccollection:FillInMissingSaveData()
+	if modSaveData["ultragreediertheme"] == nil then modSaveData["ultragreediertheme"] = true end
+	if modSaveData["darkroomdescensum"] == nil then modSaveData["darkroomdescensum"] = true end
+	if modSaveData["bluewombdevoid"] == nil then modSaveData["bluewombdevoid"] = true end
+	if modSaveData["wombnativitate"] == nil then modSaveData["wombnativitate"] = true end
+	if modSaveData["uterogreedviscera"] == nil then modSaveData["uterogreedviscera"] = true end
+	if modSaveData["cathedralsacris"] == nil then modSaveData["cathedralsacris"] = true end
+	if modSaveData["catacombsgreedregeneratione"] == nil then modSaveData["catacombsgreedregeneratione"] = true end
+	if modSaveData["depthsgreeddepressoloco"] == nil then modSaveData["depthsgreeddepressoloco"] = true end
+	if modSaveData["sheolgreedinfernum"] == nil then modSaveData["sheolgreedinfernum"] = true end
+	if modSaveData["shopfloorgreedtheme"] == nil then modSaveData["shopfloorgreedtheme"] = true end
+	if modSaveData["postbossgreedspiritum"] == nil then modSaveData["postbossgreedspiritum"] = true end
+	if modSaveData["satanfightsatan666"] == nil then modSaveData["satanfightsatan666"] = true end
+	if modSaveData["devilwavegreedambush"] == nil then modSaveData["devilwavegreedambush"] = true end
+	if modSaveData["angelfighttheme"] == nil then modSaveData["angelfighttheme"] = true end
+	if modSaveData["blackmarketroomtheme"] == nil then modSaveData["blackmarketroomtheme"] = true end
+	if modSaveData["genesisroomtheme"] == nil then modSaveData["genesisroomtheme"] = true end
+	if modSaveData["iamerrorroomtheme"] == nil then modSaveData["iamerrorroomtheme"] = true end
+	if modSaveData["lateshoproomtheme"] == nil then modSaveData["lateshoproomtheme"] = true end
+	if modSaveData["latedevilroomtheme"] == nil then modSaveData["latedevilroomtheme"] = true end
+	if modSaveData["bossrushtaintedspeedup"] == nil then modSaveData["bossrushtaintedspeedup"] = true end
+	if modSaveData["megasatantaintedspeedup"] == nil then modSaveData["megasatantaintedspeedup"] = true end
+	if modSaveData["uterotaintedtsunami"] == nil then modSaveData["uterotaintedtsunami"] = true end
+	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = 2 end
+	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = 2 end
+	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = 2 end
+	if modSaveData["ascenttainteddescent"] == nil then modSaveData["ascenttainteddescent"] = true end
+	if modSaveData["hometaintedintro"] == nil then modSaveData["hometaintedintro"] = true end
+	if modSaveData["darkhometaintednauseous"] == nil then modSaveData["darkhometaintednauseous"] = true end
+	if modSaveData["deathcertificatedescenttwisted"] == nil then modSaveData["deathcertificatedescenttwisted"] = true end
+	if modSaveData["dogmafighttaintedmashup"] == nil then modSaveData["dogmafighttaintedmashup"] = true end
+	if modSaveData["beastfighttaintedapocalypse"] == nil then modSaveData["beastfighttaintedapocalypse"] = true end
+	if modSaveData["mineshaftambienttaintednaught"] == nil then modSaveData["mineshaftambienttaintednaught"] = true end
+	if modSaveData["mineshaftescapetaintedturn"] == nil then modSaveData["mineshaftescapetaintedturn"] = true end
+	if modSaveData["blendedcoopsoundtrack"] == nil then modSaveData["blendedcoopsoundtrack"] = true end
+	if modSaveData["deletethisenhancement"] == nil then modSaveData["deletethisenhancement"] = true end
+end
+
+function custommusiccollection:SaveToFile()
+	custommusiccollection:SaveData(json.encode(modSaveData))
+end
+custommusiccollection:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, custommusiccollection.SaveToFile)
+
+function custommusiccollection:LoadFromFile()
+	local success = pcall(function()
+		if custommusiccollection:HasData() then
+			local dat = custommusiccollection:LoadData()
+			modSaveData = json.decode(dat)
+			custommusiccollection:FillInMissingSaveData()
+		else
+			custommusiccollection.ResetSave()
+		end
+	end)
+	if not success then
+		custommusiccollection.ResetSave()
+	end
+end
+custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, custommusiccollection.LoadFromFile)
+
+local SMCM = nil
+if ModConfigMenu then
+    SMCM = require("scripts.modconfig")
+end
+
+-- Mod Config Menu Code
+function custommusiccollection:SetUpMenu()
+	
+	custommusiccollection:LoadFromFile()
+	if ModConfigMenu then
+		local category = "Tainted Antibirth"
+		
+		SMCM.UpdateCategory(category, {
+            Info = "Customize the changes to the soundtrack made by the expanded version of Antibirth OST for Tainted Characters"
+        })
+		SMCM.AddText(category, "Dark Room Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["darkroomdescensum"]
+			end,
+			Display = function()
+				if modSaveData["darkroomdescensum"] then
+					return "Descensum"
+				else
+					return "Devoid"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["darkroomdescensum"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Dark Room music for non-Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Blue Womb Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["bluewombdevoid"]
+			end,
+			Display = function()
+				if modSaveData["bluewombdevoid"] then
+					return "Devoid"
+				else
+					return "Nativitate"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["bluewombdevoid"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Blue Womb music for non-Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Womb Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["wombnativitate"]
+			end,
+			Display = function()
+				if modSaveData["wombnativitate"] then
+					return "Nativitate"
+				else
+					return "Viscera"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["wombnativitate"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Womb music for non-Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Utero Theme (Greed)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["uterogreedviscera"]
+			end,
+			Display = function()
+				if modSaveData["uterogreedviscera"] then
+					return "Viscera"
+				else
+					return "Caesarian"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["uterogreedviscera"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Utero music for non-Tainted characters in Greed Mode."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Catacombs Theme (Greed)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["catacombsgreedregeneratione"]
+			end,
+			Display = function()
+				if modSaveData["catacombsgreedregeneratione"] then
+					return "Regeneratione"
+				else
+					return "Capiticus Calvaria"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["catacombsgreedregeneratione"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Catacombs music for non-Tainted characters in Greed Mode."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Depths Theme (Greed)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["depthsgreeddepressoloco"]
+			end,
+			Display = function()
+				if modSaveData["depthsgreeddepressoloco"] then
+					return "Depresso Loco"
+				else
+					return "Abyss"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["depthsgreeddepressoloco"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Depths music for non-Tainted characters in Greed Mode."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Sheol Theme (Greed)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["sheolgreedinfernum"]
+			end,
+			Display = function()
+				if modSaveData["sheolgreedinfernum"] then
+					return "Infernum"
+				else
+					return "Duress"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["sheolgreedinfernum"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Sheol music for non-Tainted characters in Greed Mode."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Post-Boss Theme (Greed)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["postbossgreedspiritum"]
+			end,
+			Display = function()
+				if modSaveData["postbossgreedspiritum"] then
+					return "Spiritum"
+				else
+					return "The Calm"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["postbossgreedspiritum"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the post-boss music for non-Tainted characters in Greed Mode."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Challenge Theme for Devil Wave")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["devilwavegreedambush"]
+			end,
+			Display = function()
+				if modSaveData["devilwavegreedambush"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["devilwavegreedambush"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Play the Challenge fight music for devil waves in Greed Mode."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Shop Floor (Greed) Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["shopfloorgreedtheme"]
+			end,
+			Display = function()
+				if modSaveData["shopfloorgreedtheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["shopfloorgreedtheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets whether the Shop floor in Greed Mode has its own unique stage music."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Utero Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["uterotaintedtsunami"]
+			end,
+			Display = function()
+				if modSaveData["uterotaintedtsunami"] then
+					return "Tsunami"
+				else
+					return "Dystension"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["uterotaintedtsunami"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Utero music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Dross Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.NUMBER,
+			Default = 2,
+			CurrentSetting = function()
+				return modSaveData["drosstainted"]
+			end,
+			Minimum = 0,
+			Maximum = 2,
+			Display = function()
+				if modSaveData["drosstainted"] == 2 then
+					return "Torrent"
+				elseif modSaveData["drosstainted"] == 1 then
+					return "Hallowed Ground"
+				else
+					return "Night Soil"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["drosstainted"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Dross music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Ashpit Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.NUMBER,
+			Default = 2,
+			CurrentSetting = function()
+				return modSaveData["ashpittainted"]
+			end,
+			Minimum = 0,
+			Maximum = 2,
+			Display = function()
+				if modSaveData["ashpittainted"] == 2 then
+					return "Chum"
+				elseif modSaveData["ashpittainted"] == 1 then
+					return "Fault Lines"
+				else
+					return "Absentia"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["ashpittainted"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Ashpit music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Gehenna Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.NUMBER,
+			Default = 2,
+			CurrentSetting = function()
+				return modSaveData["gehennatainted"]
+			end,
+			Minimum = 0,
+			Maximum = 2,
+			Display = function()
+				if modSaveData["gehennatainted"] == 2 then
+					return "Red Tide"
+				elseif modSaveData["gehennatainted"] == 1 then
+					return "Machine in the Walls"
+				else
+					return "Morning Star"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["gehennatainted"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Gehenna music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "The Ascent Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["ascenttainteddescent"]
+			end,
+			Display = function()
+				if modSaveData["ascenttainteddescent"] then
+					return "Descent"
+				else
+					return "Genesis Reversed"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["ascenttainteddescent"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Ascent music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Home Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["hometaintedintro"]
+			end,
+			Display = function()
+				if modSaveData["hometaintedintro"] then
+					return "Intro (Cinematic)"
+				else
+					return "Echoes of Mom"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["hometaintedintro"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Home music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Dark Home Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["darkhometaintednauseous"]
+			end,
+			Display = function()
+				if modSaveData["darkhometaintednauseous"] then
+					return "I'm Nauseous Too"
+				else
+					return "Echoes Twisted"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["darkhometaintednauseous"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Dark Home music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Death Certificate Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["deathcertificatedescenttwisted"]
+			end,
+			Display = function()
+				if modSaveData["deathcertificatedescenttwisted"] then
+					return "Descent Twisted"
+				else
+					return "Echoes Reverse"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["deathcertificatedescenttwisted"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Death Certificate music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Cathedral Heavy Layer")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["cathedralsacris"]
+			end,
+			Display = function()
+				if modSaveData["cathedralsacris"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["cathedralsacris"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"For non-Tainted characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Black Market Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["blackmarketroomtheme"]
+			end,
+			Display = function()
+				if modSaveData["blackmarketroomtheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["blackmarketroomtheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Play unique music in Black Market rooms."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Genesis Room Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["genesisroomtheme"]
+			end,
+			Display = function()
+				if modSaveData["genesisroomtheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["genesisroomtheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Play unique music in Genesis rooms."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "I AM ERROR Room Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["iamerrorroomtheme"]
+			end,
+			Display = function()
+				if modSaveData["iamerrorroomtheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["iamerrorroomtheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Play unique music in I AM ERROR rooms."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Late Shop Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["lateshoproomtheme"]
+			end,
+			Display = function()
+				if modSaveData["lateshoproomtheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["lateshoproomtheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"For non-Tainted characters, play the unused layer of Murmur of the Harvestman in Shops past Chapter 3."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Late Devil Room Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["latedevilroomtheme"]
+			end,
+			Display = function()
+				if modSaveData["latedevilroomtheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["latedevilroomtheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"For non-Tainted characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Mineshaft Ambient Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["mineshaftambienttaintednaught"]
+			end,
+			Display = function()
+				if modSaveData["mineshaftambienttaintednaught"] then
+					return "Want For Naught (Part 1)"
+				else
+					return "Vast Empty Chasm"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["mineshaftambienttaintednaught"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Mineshaft Ambient music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Mineshaft Escape Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["mineshaftescapetaintedturn"]
+			end,
+			Display = function()
+				if modSaveData["mineshaftescapetaintedturn"] then
+					return "The Turn"
+				else
+					return "Want For Naught (Part 2)"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["mineshaftescapetaintedturn"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Mineshaft Escape music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Satan Fight Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["satanfightsatan666"]
+			end,
+			Display = function()
+				if modSaveData["satanfightsatan666"] then
+					return "Satan 666"
+				else
+					return "Hericide"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["satanfightsatan666"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Satan fight music for non-Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Ultra Greedier Theme")
+		SMCM.AddSetting(category, { 
+            Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+            CurrentSetting = function()
+				return modSaveData["ultragreediertheme"]
+            end,
+            Display = function()
+				if modSaveData["ultragreediertheme"] then
+                    return "On"
+                else
+                    return "Off"
+                end
+            end,
+            OnChange = function(value)
+				modSaveData["ultragreediertheme"] = value
+                custommusiccollection:SaveToFile()
+            end,
+            Info = {
+                "Sets whether unique boss music will play during the Ultra Greedier battle."
+            }
+        })
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Angel Fight Theme")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["angelfighttheme"]
+			end,
+			Display = function()
+				if modSaveData["angelfighttheme"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["angelfighttheme"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets whether unique boss music will play during Angel battles."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Boss Rush Tainted Speedup")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["bossrushtaintedspeedup"]
+			end,
+			Display = function()
+				if modSaveData["bossrushtaintedspeedup"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["bossrushtaintedspeedup"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"For Tainted characters, play A Baleful Circus 10% faster during Boss Rush."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Mega Satan Tainted Speedup")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["megasatantaintedspeedup"]
+			end,
+			Display = function()
+				if modSaveData["megasatantaintedspeedup"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["megasatantaintedspeedup"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"For Tainted characters, play Spectrum of Sin 10% faster during the Mega Satan fight."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Dogma Fight Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["dogmafighttaintedmashup"]
+			end,
+			Display = function()
+				if modSaveData["dogmafighttaintedmashup"] then
+					return "Your Worst Nightmare"
+				else
+					return "Living In The Light"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["dogmafighttaintedmashup"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Dogma fight music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "The Beast Fight Theme (Tainted)")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["beastfighttaintedapocalypse"]
+			end,
+			Display = function()
+				if modSaveData["beastfighttaintedapocalypse"] then
+					return "My Innermost Apocalypse [Metal cover]"
+				else
+					return "Revelations 13-1"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["beastfighttaintedapocalypse"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Sets the Beast fight music for Tainted characters."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "Blended Co-op Soundtrack")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["blendedcoopsoundtrack"]
+			end,
+			Display = function()
+				if modSaveData["blendedcoopsoundtrack"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["blendedcoopsoundtrack"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"Blend the two soundtracks when at least one non-Tainted character and at least one Tainted character are present during co-op."
+			}
+		})
+		SMCM.AddSpace(category)
+		SMCM.AddText(category, "DELETE THIS Enhancement")
+		SMCM.AddSetting(category, {
+			Type = SMCM.OptionType.BOOLEAN,
+			Default = true,
+			CurrentSetting = function()
+				return modSaveData["deletethisenhancement"]
+			end,
+			Display = function()
+				if modSaveData["deletethisenhancement"] then
+					return "On"
+				else
+					return "Off"
+				end
+			end,
+			OnChange = function(value)
+				modSaveData["deletethisenhancement"] = value
+				custommusiccollection:SaveToFile()
+			end,
+			Info = {
+				"During the DELETE THIS challenge, use music from both soundtracks, and play random music for bosses, special rooms, and jingles."
+			}
+		})
+	end
+end
+
+custommusiccollection:SetUpMenu()
 
 if not BossMusicForSacrificeRoomAngelsFlag then
 
@@ -27,6 +972,8 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 	end
 	
 	--TODO: do not play Angel fight music during the ascent
+	--TODO: check The Emperor? card during Ascent
+	--TODO: play Mom Boss music in Boss Over Twisted (fix this after restoring the MMC to mimic vanilla)
 	
 	local function angelBossDeathJingle()
 		local game = Game()
@@ -131,6 +1078,7 @@ if not DarkRoomDevilDealSoundEffect then
 
 	function custommusiccollection:ReplaceChoirSound()
 		if darkroomstartroom then
+			-- TODO: does the SOUND_DEVILROOM_DEAL sound sometimes play when it shouldn't?
 			if sound:IsPlaying(SoundEffect.SOUND_CHOIR_UNLOCK) then
 				sound:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
 				sound:Play(SoundEffect.SOUND_DEVILROOM_DEAL,1,0,false,1)
@@ -150,7 +1098,7 @@ Music.MUSIC_BOSS_OVER_GREED = Isaac.GetMusicIdByName("Boss Room (empty, greed)")
 Music.MUSIC_ULTRAGREEDIER_BOSS = Isaac.GetMusicIdByName("Ultra Greedier")
 Music.MUSIC_ANGEL_BOSS = Isaac.GetMusicIdByName("Pool of Yule")
 Music.MUSIC_SATAN_BOSS_ALT = Isaac.GetMusicIdByName("Satan 666")
-Music.MUSIC_MEGASATAN_BOSS = Music.MUSIC_SATAN_BOSS
+Music.MUSIC_MEGASATAN_BOSS = Isaac.GetMusicIdByName("Mega Satan")
 Music.MUSIC_JINGLE_DELIRIUM_OVER = Isaac.GetMusicIdByName("Satan 666 Outro")
 Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER = Isaac.GetMusicIdByName("Ultra Greedier outro")
 Music.MUSIC_JINGLE_ANGEL_OVER = Isaac.GetMusicIdByName("Pool of Yule outro")
@@ -407,7 +1355,7 @@ local function normalAndTaintedPresent()
 	for i=0,7 do
 		local tempPlayer = Isaac.GetPlayer(i)
 		if tempPlayer and tempPlayer.Variant == 0 --0 is true player, 1 is co-op baby
-		and not (tempPlayer:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and not tempPlayer:GetSubPlayer()) then --check for "Soul of the Forgotten"
+		and not (tempPlayer:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and not tempPlayer:GetSubPlayer()) then --account for "Soul of the Forgotten"
 			if PlayerIsTainted(tempPlayer) then
 				taintedPresent = true
 			else
@@ -503,6 +1451,7 @@ local roomTypesWithMusic = {
 local roomTypesMaybeMusic = {
 	[RoomType.ROOM_SHOP] = true,
 	[RoomType.ROOM_BLACK_MARKET] = true,
+	[RoomType.ROOM_ERROR] = true,
 	[RoomType.ROOM_CHALLENGE] = true,
 	[RoomType.ROOM_BOSSRUSH] = true,
 }
@@ -612,7 +1561,7 @@ local random_boss_music = {
 	[6] = Music.MUSIC_MOM_BOSS,
 	[7] = Music.MUSIC_MOMS_HEART_BOSS,
 	[8] = Music.MUSIC_ISAAC_BOSS,
-	[9] = Music.MUSIC_SATAN_BOSS,
+	[9] = Music.MUSIC_SATAN_BOSS_ALT,
 	[10] = Music.MUSIC_DARKROOM_BOSS,
 	[11] = Music.MUSIC_BLUEBABY_BOSS,
 	[12] = Music.MUSIC_HUSH_BOSS,
@@ -624,7 +1573,7 @@ local random_boss_music = {
 	[18] = Music.MUSIC_BEAST_BOSS,
 	[19] = Music.MUSIC_ULTRAGREEDIER_BOSS,
 	[20] = Music.MUSIC_ANGEL_BOSS,
-	[21] = Music.MUSIC_SATAN_BOSS_ALT,
+	[21] = Music.MUSIC_MEGASATAN_BOSS,
 	--TAINTED START
 	[22] = Music.MUSIC_BOSS,
 	[23] = Music.MUSIC_BOSS2,
@@ -800,7 +1749,7 @@ local function getRandomSoundJingle(seed)
 end
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local room = Game():GetRoom()
 		local roomseed = room:GetDecorationSeed()
 		return getRandomBossMusic(roomseed)
@@ -821,7 +1770,7 @@ Music.MUSIC_DOGMA_BOSS,
 Music.MUSIC_BEAST_BOSS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local seeds = Game():GetSeeds()
 		local runseed = seeds:GetStartSeed()
 		return getRandomBossMusic(runseed)
@@ -831,7 +1780,7 @@ Music.MUSIC_SATAN_BOSS,
 Music.MUSIC_HUSH_BOSS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local room = Game():GetRoom()
 		local roomseed = room:GetDecorationSeed()
 		return getRandomSpecialMusic(roomseed)
@@ -851,7 +1800,7 @@ Music.MUSIC_PLANETARIUM,
 Music.MUSIC_DARK_CLOSET)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		return getRandomFightJingle()
 	end
 end,
@@ -863,7 +1812,7 @@ Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO,
 Music.MUSIC_JINGLE_GAME_OVER)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local randomSfx = getRandomSoundJingle()
 		
 		return 0, nil, randomSfx
@@ -878,7 +1827,7 @@ Music.MUSIC_JINGLE_DEVILROOM_FIND,
 Music.MUSIC_JINGLE_HOLYROOM_FIND)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local room = Game():GetRoom()
 		local roomseed = room:GetDecorationSeed()
 		local thisRoomBossMusic = getRandomBossMusic(roomseed)
@@ -893,15 +1842,15 @@ MMC.AddMusicCallback(custommusiccollection, function()
 end, Music.MUSIC_JINGLE_BOSS)
 
 MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS and trackId ~= Music.MUSIC_JINGLE_BOSS and trackId > 0 then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS and trackId ~= Music.MUSIC_JINGLE_BOSS and trackId > 0 then
 		
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		local level = Game():GetLevel()
 		
-		if roomtype == RoomType.ROOM_BLACK_MARKET or 
-		roomtype == RoomType.ROOM_ERROR or 
-		level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX or 
+		if (modSaveData["blackmarketroomtheme"] and roomtype == RoomType.ROOM_BLACK_MARKET) or 
+		(modSaveData["iamerrorroomtheme"] and roomtype == RoomType.ROOM_ERROR) or 
+		(modSaveData["genesisroomtheme"] and level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX) or 
 		level:GetCurrentRoomIndex() == GridRooms.ROOM_BLUE_WOOM_IDX then
 			local roomseed = room:GetDecorationSeed()
 			return getRandomSpecialMusic(roomseed)
@@ -1094,13 +2043,15 @@ local function CheckMaybeRoomConditions(roomtype)
 		elseif Game():IsGreedMode() and stage ~= LevelStage.STAGE6_GREED then
 			return true
 		end
-	elseif roomtype == RoomType.ROOM_BLACK_MARKET then
+	elseif roomtype == RoomType.ROOM_BLACK_MARKET and modSaveData["blackmarketroomtheme"] then
 		local level = Game():GetLevel()
 		local stage = level:GetStage()
 		
 		if Game():IsGreedMode() or stage ~= LevelStage.STAGE4_3 then
 			return true
 		end
+	elseif roomtype == RoomType.ROOM_ERROR and modSaveData["iamerrorroomtheme"] then
+		return true
 	elseif roomtype == RoomType.ROOM_BOSS then
 		local level = Game():GetLevel()
 		local stage = level:GetStage()
@@ -1115,7 +2066,7 @@ local function CheckMaybeRoomConditions(roomtype)
 end
 
 local function RoomIsDeleteThisNullSpecial()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local room = Game():GetRoom()
 		local roomseed = room:GetDecorationSeed()
 		local specialRandom = getRandomSpecialMusic(roomseed)
@@ -1160,7 +2111,7 @@ end)
 
 function PlayTaintedVersion(trackId)
 	local playTaintedVersion = false
-	if coopMixedSoundtrack then
+	if coopMixedSoundtrack and modSaveData["blendedcoopsoundtrack"] then
 		playTaintedVersion = SeededCoopTaintedMix(trackId)
 	else
 		local player = Isaac.GetPlayer()
@@ -1178,7 +2129,7 @@ function NormalOrTainted(trackId)
 end
 
 function custommusiccollection:PlayEpicDogmaPortrait(entity)
-	if PlayTaintedVersion(Music.MUSIC_DOGMA_BOSS) then
+	if modSaveData["dogmafighttaintedmashup"] and PlayTaintedVersion(Music.MUSIC_DOGMA_BOSS) then
 		local sprite = entity:GetSprite()
 		local anim = sprite:GetAnimation()
 		local frame = sprite:GetFrame()
@@ -1198,7 +2149,11 @@ MMC.AddMusicCallback(custommusiccollection, function()
 			local stage_type = level:GetStageType()
 			if stage_type == StageType.STAGETYPE_WOTL then
 				if PlayTaintedVersion(Music.MUSIC_ISAACS_HOUSE) then
-					return TaintedVersion(Music.MUSIC_DARK_CLOSET)
+					if modSaveData["darkhometaintednauseous"] then
+						return TaintedVersion(Music.MUSIC_DARK_CLOSET)
+					else
+						return Music.MUSIC_ISAACS_HOUSE
+					end
 				end
 			end
 		end
@@ -1206,67 +2161,70 @@ MMC.AddMusicCallback(custommusiccollection, function()
 end, Music.MUSIC_ISAACS_HOUSE)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	local room = Game():GetRoom()
-	local roomtype = room:GetType()
-	
-	--TODO: implement these; might have to check for existence of Mother's Shadow
-	--do NOT override Mirror World TODO (don't test, just code)
-	--DO override Mineshaft Ambient
-	--do NOT override Mineshaft Escape (6CYW-B2K1 this seed has a crawlspace in the mineshaft escape sequence) TODO
-	--do NOT override Boss Over Twisted TODO
-	--do NOT override Blue Womb
-	--do NOT override Ascent
-	
-	local level = Game():GetLevel()
-	local ascent = level:IsAscent()
-	--local mineshaftescape = 
-	local stage = level:GetStage()
-	
-	if not ascent and stage ~= LevelStage.STAGE4_3 then
-		if roomtype == RoomType.ROOM_BLACK_MARKET then
-			return NormalOrTainted(Music.MUSIC_BLACKMARKET_ROOM)
-		end
-	end
-end)
-
-MMC.AddMusicCallback(custommusiccollection, function()
-	
-	--DO override Mirror World
-	--DO override Mineshaft Ambient
-	--DO override Mineshaft Escape
-	--DO override Boss Over Twisted
-	--DO override Blue Womb
-	--do NOT override Ascent
-	
-	local room = Game():GetRoom()
-	local roomtype = room:GetType()
-	if roomtype == RoomType.ROOM_ERROR then
+	if modSaveData["blackmarketroomtheme"] then
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		
+		--TODO: implement these; might have to check for existence of Mother's Shadow
+		--do NOT override Mirror World TODO (don't test, just code)
+		--DO override Mineshaft Ambient
+		--do NOT override Mineshaft Escape (6CYW-B2K1 this seed has a crawlspace in the mineshaft escape sequence) TODO
+		--do NOT override Boss Over Twisted TODO
+		--do NOT override Blue Womb
+		--do NOT override Ascent
+		
 		local level = Game():GetLevel()
 		local ascent = level:IsAscent()
-		if not ascent then
-			return NormalOrTainted(Music.MUSIC_I_AM_ERROR)
+		--local mineshaftescape = 
+		local stage = level:GetStage()
+		
+		if not ascent and stage ~= LevelStage.STAGE4_3 then
+			if roomtype == RoomType.ROOM_BLACK_MARKET then
+				return NormalOrTainted(Music.MUSIC_BLACKMARKET_ROOM)
+			end
 		end
 	end
-	
 end)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	
-	--DO override Mirror World
-	--DO override Mineshaft Ambient
-	--DO override Mineshaft Escape
-	--DO override Boss Over Twisted
-	--DO override Blue Womb
-	--do NOT override Ascent
-	
-	local level = Game():GetLevel()
-	if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
-		local ascent = level:IsAscent()
-		if not ascent then
-			if PlayTaintedVersion(Music.MUSIC_TITLE) then
-				return Music.MUSIC_TITLE_AFTERBIRTH
-			else
-				return Music.MUSIC_TITLE
+	if modSaveData["iamerrorroomtheme"] then
+		--DO override Mirror World
+		--DO override Mineshaft Ambient
+		--DO override Mineshaft Escape
+		--DO override Boss Over Twisted
+		--DO override Blue Womb
+		--do NOT override Ascent
+		
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		if roomtype == RoomType.ROOM_ERROR then
+			local level = Game():GetLevel()
+			local ascent = level:IsAscent()
+			if not ascent then
+				return NormalOrTainted(Music.MUSIC_I_AM_ERROR)
+			end
+		end
+	end
+end)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if modSaveData["genesisroomtheme"] then
+		--DO override Mirror World
+		--DO override Mineshaft Ambient
+		--DO override Mineshaft Escape
+		--DO override Boss Over Twisted
+		--DO override Blue Womb
+		--do NOT override Ascent
+		
+		local level = Game():GetLevel()
+		if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
+			local ascent = level:IsAscent()
+			if not ascent then
+				if PlayTaintedVersion(Music.MUSIC_TITLE) then
+					return Music.MUSIC_TITLE_AFTERBIRTH
+				else
+					return Music.MUSIC_TITLE
+				end
 			end
 		end
 	end
@@ -1373,34 +2331,29 @@ MMC.AddMusicCallback(custommusiccollection, function()
 end, Music.MUSIC_JINGLE_BOSS_OVER, Music.MUSIC_JINGLE_BOSS_OVER2)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	local level = Game():GetLevel()
-	if level:GetStage() == LevelStage.STAGE4_2 and level:GetStageType() >= StageType.STAGETYPE_REPENTANCE then
-		local room = Game():GetRoom()
-		local roomtype = room:GetType()
-		if roomtype == RoomType.ROOM_BOSS then
-			return NormalOrTainted(Music.MUSIC_JINGLE_MOTHER_OVER)
-		end
-	end
-end, Music.MUSIC_JINGLE_BOSS_OVER3)
-
-MMC.AddMusicCallback(custommusiccollection, function()
 	if not Game():IsGreedMode() then
 		local level = Game():GetLevel()
 		local stage = level:GetStage()
 		if stage == LevelStage.STAGE6 then
-			return NormalOrTainted(Music.MUSIC_MEGASATAN_BOSS)
+			if PlayTaintedVersion(Music.MUSIC_MEGASATAN_BOSS) and not modSaveData["megasatantaintedspeedup"] then
+				return Isaac.GetMusicIdByName("Mega Satan (tainted, vanilla)")
+			else
+				return NormalOrTainted(Music.MUSIC_MEGASATAN_BOSS)
+			end
 		end
 	end
 end, Music.MUSIC_SATAN_BOSS)
 
 --enable Sacris Cathedral layer
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
-	local currentMusicID = musicmgr:GetCurrentMusicID()
-	if currentMusicID == Music.MUSIC_CATHEDRAL_ALT then
-		if not musicmgr:IsLayerEnabled(1) then
-			local room = Game():GetRoom()
-			if Isaac.CountBosses() > 0 and room:GetFrameCount() < 20 then
-				musicmgr:EnableLayer(1)
+	if modSaveData["cathedralsacris"] then
+		local currentMusicID = musicmgr:GetCurrentMusicID()
+		if currentMusicID == Music.MUSIC_CATHEDRAL_ALT then
+			if not musicmgr:IsLayerEnabled(1) then
+				local room = Game():GetRoom()
+				if Isaac.CountBosses() > 0 and room:GetFrameCount() < 20 then
+					musicmgr:EnableLayer(1)
+				end
 			end
 		end
 	end
@@ -1408,12 +2361,14 @@ end)
 
 --disable Sacris Cathedral layer
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
-	local currentMusicID = musicmgr:GetCurrentMusicID()
-	if currentMusicID == Music.MUSIC_CATHEDRAL_ALT then
-		if musicmgr:IsLayerEnabled(1) then
-			local room = Game():GetRoom()
-			if room:IsClear() then
-				musicmgr:DisableLayer(1)
+	if modSaveData["cathedralsacris"] then
+		local currentMusicID = musicmgr:GetCurrentMusicID()
+		if currentMusicID == Music.MUSIC_CATHEDRAL_ALT then
+			if musicmgr:IsLayerEnabled(1) then
+				local room = Game():GetRoom()
+				if room:IsClear() then
+					musicmgr:DisableLayer(1)
+				end
 			end
 		end
 	end
@@ -1421,7 +2376,7 @@ end)
 
 --in DELETE THIS, only play Dark Home layer in larger rooms
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
-	if Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
+	if modSaveData["deletethisenhancement"] and Isaac.GetChallenge() == Challenge.CHALLENGE_DELETE_THIS then
 		local room = Game():GetRoom()
 		if room:GetFrameCount() < 20 then
 		
@@ -1446,7 +2401,7 @@ end)
 --TODO: in DELETE THIS, play non-tainted Ascent layer music based on what floor we're on?
 
 custommusiccollection:AddCallback(ModCallbacks.MC_NPC_UPDATE, function(_, entity)
-    if entity.Variant == 1 then
+    if modSaveData["ultragreediertheme"] and entity.Variant == 1 then
 		local currentMusicID = musicmgr:GetCurrentMusicID()
 		if currentMusicID == Music.MUSIC_ULTRAGREED_BOSS or currentMusicID == TaintedVersion(Music.MUSIC_ULTRAGREED_BOSS) then
 			musicmgr:Crossfade(Music.MUSIC_ULTRAGREEDIER_BOSS)
@@ -1477,23 +2432,27 @@ MMC.AddMusicCallback(custommusiccollection, function()
 end, Music.MUSIC_JINGLE_BOSS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	local room = Game():GetRoom()
-	local roomtype = room:GetType()
-	if roomtype == RoomType.ROOM_ANGEL or roomtype == RoomType.ROOM_SACRIFICE or roomtype == RoomType.ROOM_SUPERSECRET then
-		return NormalOrTainted(Music.MUSIC_ANGEL_BOSS)
+	if modSaveData["angelfighttheme"] then
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		if roomtype == RoomType.ROOM_ANGEL or roomtype == RoomType.ROOM_SACRIFICE or roomtype == RoomType.ROOM_SUPERSECRET then
+			return NormalOrTainted(Music.MUSIC_ANGEL_BOSS)
+		end
 	end
 end, Music.MUSIC_BOSS, Music.MUSIC_BOSS2, Music.MUSIC_BOSS3)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	local room = Game():GetRoom()
-	local roomtype = room:GetType()
-	if roomtype == RoomType.ROOM_ANGEL or roomtype == RoomType.ROOM_SACRIFICE or roomtype == RoomType.ROOM_SUPERSECRET then
-		return NormalOrTainted(Music.MUSIC_JINGLE_ANGEL_OVER)
+	if modSaveData["angelfighttheme"] then
+		local room = Game():GetRoom()
+		local roomtype = room:GetType()
+		if roomtype == RoomType.ROOM_ANGEL or roomtype == RoomType.ROOM_SACRIFICE or roomtype == RoomType.ROOM_SUPERSECRET then
+			return NormalOrTainted(Music.MUSIC_JINGLE_ANGEL_OVER)
+		end
 	end
 end, Music.MUSIC_JINGLE_BOSS_OVER, Music.MUSIC_JINGLE_BOSS_OVER2, Music.MUSIC_JINGLE_BOSS_OVER3)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["devilwavegreedambush"] and Game():IsGreedMode() then
 		return NormalOrTainted(Music.MUSIC_CHALLENGE_FIGHT)
 	end
 end, Music.MUSIC_SATAN_BOSS)
@@ -1517,18 +2476,22 @@ end
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.CheckUltraGreedAliveBossRoom)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() and ultragreedalivebossroom then
+	if Game():IsGreedMode() and ultragreedalivebossroom and modSaveData["ultragreediertheme"] then
 		local room = Game():GetRoom()
 		if room:GetBossID() == 62 then
 			if Game().Difficulty == Difficulty.DIFFICULTY_GREEDIER then
-				return NormalOrTainted(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalOrTainted(Music.MUSIC_BOSS_OVER_GREED)
+				if modSaveData["postbossgreedspiritum"] then
+					return NormalOrTainted(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalOrTainted(Music.MUSIC_BOSS_OVER_GREED)
+				else
+					return NormalOrTainted(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalOrTainted(Music.MUSIC_BOSS_OVER)
+				end
 			end
 		end
 	end
 end, Music.MUSIC_BOSS_OVER)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["postbossgreedspiritum"] and Game():IsGreedMode() then
 		return NormalOrTainted(Music.MUSIC_BOSS_OVER_GREED)
 	end
 end, Music.MUSIC_BOSS_OVER)
@@ -1539,20 +2502,20 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	local stage = level:GetStage()
 	
 	if game:IsGreedMode() then
-		if stage == LevelStage.STAGE4_GREED or stage == LevelStage.STAGE5_GREED then
+		if modSaveData["lateshoproomtheme"] and stage == LevelStage.STAGE4_GREED or stage == LevelStage.STAGE5_GREED then
 			return NormalOrTainted(Music.MUSIC_SHOP_ROOM_ALT)
-		elseif stage == LevelStage.STAGE6_GREED then
+		elseif modSaveData["shopfloorgreedtheme"] and stage == LevelStage.STAGE6_GREED then
 			return NormalOrTainted(Music.MUSIC_FLOOR_6_GREED)
 		end
 	else
-		if stage > LevelStage.STAGE3_2 then
+		if modSaveData["lateshoproomtheme"] and stage > LevelStage.STAGE3_2 then
 			return NormalOrTainted(Music.MUSIC_SHOP_ROOM_ALT)
 		end
 	end
 end, Music.MUSIC_SHOP_ROOM)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["shopfloorgreedtheme"] and Game():IsGreedMode() then
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		if roomtype ~= RoomType.ROOM_DEVIL then
@@ -1562,7 +2525,7 @@ MMC.AddMusicCallback(custommusiccollection, function()
 end, Music.MUSIC_CHALLENGE_FIGHT, Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
 
 MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
-	if not PlayTaintedVersion(trackId) then
+	if modSaveData["bluewombdevoid"] and not PlayTaintedVersion(trackId) then
 		if Game():GetStateFlag(GameStateFlag.STATE_BLUEWOMB_DONE) then
 			return Music.MUSIC_BLUE_WOMB_ALT
 		end
@@ -1571,50 +2534,52 @@ end, Music.MUSIC_BLUE_WOMB)
 
 --START CALLBACKS ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["depthsgreeddepressoloco"] and Game():IsGreedMode() then
 		return NormalOrTainted(Music.MUSIC_DEPTHS_GREED)
 	end
 end, Music.MUSIC_DEPTHS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["catacombsgreedregeneratione"] and Game():IsGreedMode() then
 		return NormalOrTainted(Music.MUSIC_CATACOMBS_GREED)
 	end
 end, Music.MUSIC_CATACOMBS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["uterogreedviscera"] and Game():IsGreedMode() and not PlayTaintedVersion(Music.MUSIC_UTERO) then
 		return NormalOrTainted(Music.MUSIC_UTERO_GREED)
 	end
 end, Music.MUSIC_UTERO)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if Game():IsGreedMode() then
+	if modSaveData["sheolgreedinfernum"] and Game():IsGreedMode() then
 		return NormalOrTainted(Music.MUSIC_SHEOL_GREED)
 	end
 end, Music.MUSIC_SHEOL)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	local game = Game()
-	local level = game:GetLevel()
-	local stage = level:GetStage()
-	local room = game:GetRoom()
-	
-	if room:GetType() == RoomType.ROOM_DEVIL then
-		if game:IsGreedMode() then
-			if stage > LevelStage.STAGE4_GREED then
-				return NormalOrTainted(Music.MUSIC_DEVIL_ROOM_ALT)
-			end
-		else
-			if stage > LevelStage.STAGE4_2 then
-				return NormalOrTainted(Music.MUSIC_DEVIL_ROOM_ALT)
+	if modSaveData["latedevilroomtheme"] then
+		local game = Game()
+		local level = game:GetLevel()
+		local stage = level:GetStage()
+		local room = game:GetRoom()
+		
+		if room:GetType() == RoomType.ROOM_DEVIL then
+			if game:IsGreedMode() then
+				if stage > LevelStage.STAGE4_GREED then
+					return NormalOrTainted(Music.MUSIC_DEVIL_ROOM_ALT)
+				end
+			else
+				if stage > LevelStage.STAGE4_2 then
+					return NormalOrTainted(Music.MUSIC_DEVIL_ROOM_ALT)
+				end
 			end
 		end
 	end
 end, Music.MUSIC_DEVIL_ROOM)
 
 MMC.AddMusicCallback(custommusiccollection, function()
-	if not Game():IsGreedMode() then
+	if modSaveData["satanfightsatan666"] and not Game():IsGreedMode() then
 		local level = Game():GetLevel()
 		local stage = level:GetStage()
 		if stage == LevelStage.STAGE5 or stage == LevelStage.STAGE7 then
@@ -1628,6 +2593,127 @@ MMC.AddMusicCallback(custommusiccollection, function()
 		return Music.MUSIC_CATHEDRAL_ALT
 	end
 end, Music.MUSIC_CATHEDRAL)
+
+--play the original Dark Room music
+MMC.AddMusicCallback(custommusiccollection, function()
+	if not modSaveData["darkroomdescensum"] and not PlayTaintedVersion(Music.MUSIC_DARK_ROOM) then
+		return Music.MUSIC_BLUE_WOMB
+	end
+end, Music.MUSIC_DARK_ROOM)
+
+--play the original Blue Womb music
+MMC.AddMusicCallback(custommusiccollection, function()
+	if not modSaveData["bluewombdevoid"] and not PlayTaintedVersion(Music.MUSIC_BLUE_WOMB) then
+		return Music.MUSIC_WOMB_UTERO
+	end
+end, Music.MUSIC_BLUE_WOMB)
+
+--play the original Womb music
+MMC.AddMusicCallback(custommusiccollection, function()
+	if not modSaveData["wombnativitate"] and not PlayTaintedVersion(Music.MUSIC_WOMB_UTERO) then
+		return Music.MUSIC_UTERO_GREED
+	end
+end, Music.MUSIC_WOMB_UTERO)
+
+MMC.AddMusicCallback(custommusiccollection, function()
+	if not modSaveData["uterotaintedtsunami"] and PlayTaintedVersion(Music.MUSIC_UTERO) then
+		return TaintedVersion(Music.MUSIC_WOMB_UTERO)
+	end
+end, Music.MUSIC_UTERO)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if PlayTaintedVersion(trackId) then
+		if modSaveData["drosstainted"] == 1 then
+			return TaintedVersion(Music.MUSIC_DOWNPOUR)
+		elseif modSaveData["drosstainted"] == 0 then
+			return trackId
+		end
+	end
+end, Music.MUSIC_DROSS)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if PlayTaintedVersion(trackId) then
+		if modSaveData["drosstainted"] == 1 then
+			return TaintedVersion(Music.MUSIC_DOWNPOUR_REVERSE)
+		elseif modSaveData["drosstainted"] == 0 then
+			return trackId
+		end
+	end
+end, Music.MUSIC_DROSS_REVERSE)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if PlayTaintedVersion(trackId) then
+		if modSaveData["ashpittainted"] == 1 then
+			return TaintedVersion(Music.MUSIC_MINES)
+		elseif modSaveData["ashpittainted"] == 0 then
+			return trackId
+		end
+	end
+end, Music.MUSIC_ASHPIT)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if PlayTaintedVersion(trackId) then
+		if modSaveData["gehennatainted"] == 1 then
+			return TaintedVersion(Music.MUSIC_MAUSOLEUM)
+		elseif modSaveData["gehennatainted"] == 0 then
+			return trackId
+		end
+	end
+end, Music.MUSIC_GEHENNA)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not modSaveData["ascenttainteddescent"] and PlayTaintedVersion(trackId) then
+		return trackId
+	end
+end, Music.MUSIC_REVERSE_GENESIS)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not modSaveData["hometaintedintro"] and PlayTaintedVersion(trackId) then
+		return trackId
+	end
+end, Music.MUSIC_ISAACS_HOUSE)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if PlayTaintedVersion(trackId) then
+		if modSaveData["deathcertificatedescenttwisted"] then
+			return Isaac.GetMusicIdByName("Descent Twisted")
+		else
+			return Music.MUSIC_DARK_CLOSET
+		end
+	end
+end, Music.MUSIC_DARK_CLOSET)
+
+--play vanilla Baleful Circus
+MMC.AddMusicCallback(custommusiccollection, function()
+	if not modSaveData["bossrushtaintedspeedup"] and PlayTaintedVersion(Music.MUSIC_BOSS_RUSH) then
+		return Isaac.GetMusicIdByName("Boss Rush (tainted, vanilla)")
+	end
+end, Music.MUSIC_BOSS_RUSH)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not modSaveData["dogmafighttaintedmashup"] and PlayTaintedVersion(trackId) then
+		return trackId
+	end
+end, Music.MUSIC_DOGMA_BOSS)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not modSaveData["beastfighttaintedapocalypse"] and PlayTaintedVersion(trackId) then
+		return trackId
+	end
+end, Music.MUSIC_BEAST_BOSS)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not modSaveData["mineshaftambienttaintednaught"] and PlayTaintedVersion(trackId) then
+		return trackId
+	end
+end, Music.MUSIC_MINESHAFT_AMBIENT)
+
+MMC.AddMusicCallback(custommusiccollection, function(self, trackId)
+	if not modSaveData["mineshaftescapetaintedturn"] and PlayTaintedVersion(trackId) then
+		return trackId
+	end
+end, Music.MUSIC_MINESHAFT_ESCAPE)
+
 --END CALLBACKS ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH
 
 --[[MMC.AddMusicCallback(custommusiccollection, function()
