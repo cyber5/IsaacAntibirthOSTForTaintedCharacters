@@ -80,6 +80,7 @@
     <track name="Boss Room (empty, tainted)" intro="Fights/Boss Beaten - Spinning out of Orbit [Intro].ogg" path="Fights/Boss Beaten - Spinning out of Orbit [Loop].ogg" loop="true" />
 	<track name="Challenge Room (fight, tainted)" path="Fights/Challenge Fight - A Baleful Circus [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Boss Rush (tainted)" intro="Fights/Boss Rush - A Baleful Circus [Intro].ogg" path="Fights/Boss Rush - A Baleful Circus [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Boss Rush (tainted, vanilla)" intro="Fights/Challenge Fight - A Baleful Circus [Intro].ogg" path="Fights/Challenge Fight - A Baleful Circus [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Boss Rush Outro (jingle, tainted)" path="Fights/Boss Rush - A Baleful Circus [Outro].ogg" loop="false" mul="1.25" />
 	<track name="Boss (alternate alternate, tainted)" path="Fights/Boss - Tandava [Loop].ogg" loop="true" />
 	<track name="Boss Death Alternate Alternate (jingle, tainted)" path="Fights/Boss - Tandava [Beaten].ogg" loop="false" />
@@ -150,11 +151,13 @@
 	<track name="Genesis (reversed, tainted)" intro="Title  - Descent [Intro].ogg" path="Title  - Descent [Loop].ogg" loop="true" />
 	<track name="Genesis (reversed, tainted) nointro" path="Title  - Descent [Loop].ogg" loop="true" />
 	<track name="Genesis (reversed, tainted) altloop" path="Title  - Descent [Loop - Alt].ogg" loop="true" />
+	<track name="Descent Twisted" intro="beforevol4/Descent Twisted Intro.ogg" path="beforevol4/Descent Twisted Loop.ogg" loop="true" />
 	<track name="Angel Fight (tainted)" path="Room of Angel - The Thief [Intro - Alt].ogg" loop="true" />
 	<track name="Angel Fight (tainted) outro" path="You Died jingle.ogg" loop="false" />
 	<track name="Ultra Greedier (tainted)" path="Fights/Ultra Greedier - Memento Mori Metal [Loop - Alt].ogg" loop="true" mul="1.5" />
 	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="1.5" />
 	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Mega Satan (tainted, vanilla)" intro="Fights/Satan - Spectrum of Sin [Intro].ogg" path="Fights/Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Black Market (tainted)" path="Black Market - Depression Shop Reversed [Loop].ogg" loop="true" />
 	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
 	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="3" />
@@ -178,6 +181,7 @@
 	<!-- TRACKS BELOW ARE ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH -->
 	<track name="Satan 666" path="Extra/satan 666.ogg" loop="true" mul="1.25" />
 	<track name="Satan 666 Outro" path="Extra/satan 666 outro.ogg" loop="false" mul="1.25" />
+	<track name="Mega Satan" path="Fight Ogg/Satan Fight.ogg" loop="true" />
 	<track name="Pool of Yule" path="Extra/pool of yule.ogg" loop="true" mul="1.25" />
 	<track name="Pool of Yule outro" path="JINGLE OGG/Ambush Jinle outro V3_04.ogg" loop="false" />
 	<track name="Black Market" path="Extra/black market loop.ogg" loop="true" mul="1.25" />
