@@ -1,9 +1,10 @@
 <music root="music/">
-	<track name="Credits original" path="Credits/Credits Roll.ogg" loop="true" /> <!-- track 203 -->
-	<track name="Credits credits" path="Credits/He's the Number One.ogg" loop="false" /> <!-- track 204 -->
-	<track name="Credits greed" path="Credits/Tears of A Child.ogg" loop="false" /> <!-- track 205 -->
-	<track name="Credits greedier" path="Credits/Dear Diary.ogg" loop="false" /> <!-- track 206 -->
-	<track name="Credits home" path="Credits/Take Me Back Home.ogg" loop="false" /> <!-- track 207 -->
+	<track name="Credits original" path="Credits/Credits Roll.ogg" loop="true" /> <!-- track 203 with MMC -->
+	<track name="Credits credits" path="Credits/He's the Number One.ogg" loop="false" /> <!-- track 204 with MMC -->
+	<track name="Credits greed" path="Credits/Tears of A Child.ogg" loop="false" /> <!-- track 205 with MMC -->
+	<track name="Credits greedier" path="Credits/Dear Diary.ogg" loop="false" /> <!-- track 206 with MMC -->
+	<track name="Credits home" path="Credits/Take Me Back Home.ogg" loop="false" /> <!-- track 207 with MMC -->
+	<track name="Credits anniversary" path="Credits/Happy Anniversary.ogg" loop="false" /> <!-- track 208 with MMC -->
 	<track name="Armarium" intro="afterbirth/armarium intro.ogg" path="afterbirth/armarium loop.ogg" loop="true" />
 	<track name="Cathedral Alt" intro="Cathedral Intro.ogg" path="Cathedral Chant.ogg" loop="true" >
 		<layer intro="Cathedral Layer Intro.ogg" path="Cathedral Layer.ogg" />
@@ -85,8 +86,14 @@
 	<track name="Boss (alternate alternate, tainted)" path="Fights/Boss - Tandava [Loop].ogg" loop="true" />
 	<track name="Boss Death Alternate Alternate (jingle, tainted)" path="Fights/Boss - Tandava [Beaten].ogg" loop="false" />
 	<track name="Boss (Mother, tainted)" intro="Fights/Mother - Memento Mori [Intro].ogg" path="Fights/Mother - Memento Mori [Loop].ogg" loop="true" />
+	<track name="Credits original RGON" path="Credits/Credits Roll.ogg" loop="true" /> <!-- track 203 without MMC -->
+	<track name="Credits credits RGON" path="Credits/He's the Number One.ogg" loop="false" /> <!-- track 204 without MMC -->
+	<track name="Credits greed RGON" path="Credits/Tears of A Child.ogg" loop="false" /> <!-- track 205 without MMC -->
+	<track name="Credits greedier RGON" path="Credits/Dear Diary.ogg" loop="false" /> <!-- track 206 without MMC -->
+	<track name="Credits home RGON" path="Credits/Take Me Back Home.ogg" loop="false" /> <!-- track 207 without MMC -->
+	<track name="Credits anniversary RGON" path="Credits/Happy Anniversary.ogg" loop="false" /> <!-- track 208 without MMC -->
 	<track name="Boss (Dogma, tainted)" path="beforevol4/Dogma Tainted loop.ogg" loop="true" mul="1.5" >
-		<layer path="beforevol4/Dogma Tainted layer.ogg" mul="1.2" />
+		<layer path="beforevol4/Dogma Tainted layer.ogg" mul="0.8" />
 		<layer path="beforevol4/static.ogg" mul="1" />
 	</track>
 	<track name="Boss (Beast, tainted)" intro="beforevol4/The Beast Tainted intro.ogg" path="beforevol4/The Beast Tainted loop.ogg" loop="true" mul="1.25" />
@@ -108,8 +115,13 @@
 	<track name="Secret Room Find (jingle, tainted)" path="Secret room jingle.ogg" loop="false" />
 	<track name="Treasure Room Entry (jingle, tainted) 1" path="Item Room 1.ogg" loop="false" />
 	<track name="Treasure Room Entry (jingle, tainted) 2" path="Item Room 2.ogg" loop="false" />
-	<track name="Treasure Room Entry (jingle, tainted) 3" path="Item Room 5.ogg" loop="false" />
-	<track name="Treasure Room Entry (jingle, tainted) 4" path="Item Room 8.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 3" path="Item Room 3.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 4" path="Item Room 4.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 5" path="Item Room 5.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 6" path="Item Room 6.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 7" path="Item Room 7.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 8" path="Item Room 8.ogg" loop="false" />
+	<track name="Treasure Room Entry (jingle, tainted) 9" path="Item Room 9.ogg" loop="false" />
 	<!--<track name="Challenge Room Entry (jingle, tainted)" /> -->
 	<track name="Challenge Room Outro (jingle, tainted)" path="Fights/Challenge Fight - A Baleful Circus [Outro].ogg" loop="false" mul="1.25" />
 	<track name="Game Over (jingle, tainted)" path="You Died jingle short.ogg" loop="false" />
@@ -160,9 +172,12 @@
 	<track name="Mega Satan (tainted, vanilla)" intro="Fights/Satan - Spectrum of Sin [Intro].ogg" path="Fights/Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Black Market (tainted)" path="Black Market - Depression Shop Reversed [Loop].ogg" loop="true" />
 	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
-	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="3" />
-	<track name="Greed Floor 6 (tainted) nointro" path="Greed/Stars and spades loop.ogg" loop="true" mul="3" />
-	<track name="Greed Floor 6 (tainted) altloop" path="Greed/Stars and spades altloop.ogg" loop="true" mul="3" />
+	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="5" />
+	<track name="Greed Floor 6 (tainted) nointro" path="Greed/Stars and spades loop.ogg" loop="true" mul="5" />
+	<track name="Greed Floor 6 (tainted) altloop" path="Greed/Stars and spades altloop.ogg" loop="true" mul="5" />
+	<track name="Happy Anniversary" intro="Happy Anniversary [Intro].ogg" path="Happy Anniversary [Loop].ogg" loop="true" />
+	<track name="Happy Anniversary nointro" path="Happy Anniversary [Loop].ogg" loop="true" />
+	<track name="Happy Anniversary altloop" path="Happy Anniversary [Loop - Alt].ogg" loop="true" />
 	
 	<!-- B-Sides -->
 	<!-- <track name="Caves (greed)" intro="bsides/Chum intro.ogg" path="bsides/Chum loop.ogg" loop="true" />
