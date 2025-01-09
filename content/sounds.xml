@@ -1,13 +1,29 @@
 <sounds root="sfx/">
-	<sound name="Treasure Jingle (tainted)">
+	<sound name="Treasure Jingle (tainted) 1">
 		<sample weight="1" path="tainted_treasure_jingle_1.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 2">
 		<sample weight="1" path="tainted_treasure_jingle_2.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 3">
 		<sample weight="1" path="tainted_treasure_jingle_3.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 4">
 		<sample weight="1" path="tainted_treasure_jingle_4.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 5">
 		<sample weight="1" path="tainted_treasure_jingle_5.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 6">
 		<sample weight="1" path="tainted_treasure_jingle_6.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 7">
 		<sample weight="1" path="tainted_treasure_jingle_7.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 8">
 		<sample weight="1" path="tainted_treasure_jingle_8.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tainted) 9">
 		<sample weight="1" path="tainted_treasure_jingle_9.wav" />
 	</sound>
 	<sound name="Secret Room Jingle (tainted)">
@@ -15,5 +31,8 @@
 	</sound>
 	<sound name="Strange Door Jingle (tainted)">
 		<sample weight="1" path="tainted_strange_door_jingle.wav" />
+	</sound>
+	<sound name="Descent Twisted Jingle">
+		<sample weight="1" path="descent_twisted_jingle.wav" />
 	</sound>
 </sounds>
