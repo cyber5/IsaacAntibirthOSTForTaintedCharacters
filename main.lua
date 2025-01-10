@@ -4,16 +4,21 @@ local json = require("json")
 local modSaveData = {}
 
 --use one of Music Mod Callback or Repentogon, but not both
---TODO: I should probably write a console message here
+--TODO: make the error messages red
 if MMC == nil and REPENTOGON == nil then
+	Isaac.ConsoleOutput("Error: Antibirth OST for Tainted Characters (expanded version) requires either Music Mod Callback or Repentogon.\n")
 	return
 elseif REPENTOGON and MMC then --TODO: maybe lift this restriction after further testing
+	Isaac.ConsoleOutput("Error: Antibirth OST for Tainted Characters (expanded version) is not built to use both Music Mod Callback and Repentogon.\n")
 	return
 end
 
 local usingRGON = false
 if REPENTOGON and not MMC then
 	usingRGON = true
+	Isaac.ConsoleOutput("Antibirth OST for Tainted Characters (expanded version) loaded with Repentogon.\n")
+else
+	Isaac.ConsoleOutput("Antibirth OST for Tainted Characters (expanded version) loaded with Music Mod Callback.\n")
 end
 
 local musicmgr = nil
@@ -89,14 +94,10 @@ function custommusiccollection:ResetSave()
 		mineshaftambienttaintednaught = true,
 		mineshaftescapetaintedturn = true,
 		blendedcoopsoundtrack = true,
-		deletethisenhancement = true
+		deletethisenhancement = true,
 		
-		--savedcustomsettings = {}
-		--settingsmode = 2 --expanded
-		--TODO: have a setting, options expanded, simple, and custom
-		--when moving from custom to expanded or simple, all the custom options are stored in a subtable, and every other setting is set to the appropriate value
-		--when moving from expanded or simple to custom, all the custom options are loaded from the subtable and applied, and the subtable is emptied
-		--if any of the other settings are altered at all while in simple of expanded mode, it switches to custom, and the subtable is emptied
+		savedcustomsettings = {},
+		settingsmode = 1 --custom
 		
 		--future potential requests:
 		--megasatantainted = 2, -- play Flagbearer during tainted Mega Satan
@@ -142,8 +143,73 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["mineshaftescapetaintedturn"] == nil then modSaveData["mineshaftescapetaintedturn"] = true end
 	if modSaveData["blendedcoopsoundtrack"] == nil then modSaveData["blendedcoopsoundtrack"] = true end
 	if modSaveData["deletethisenhancement"] == nil then modSaveData["deletethisenhancement"] = true end
-	--if modSaveData["savedcustomsettings"] == nil then modSaveData["savedcustomsettings"] = {} end
-	--if modSaveData["settingsmode"] == nil then modSaveData["settingsmode"] = 1 end
+	
+	if modSaveData["savedcustomsettings"] == nil then modSaveData["savedcustomsettings"] = {} end
+	if modSaveData["settingsmode"] == nil then modSaveData["settingsmode"] = 1 end
+end
+
+function custommusiccollection:SaveCustomOptions()
+	for k, v in pairs(modSaveData) do
+		if k ~= "savedcustomsettings" and k ~= "settingsmode" then
+			modSaveData["savedcustomsettings"][k] = v
+		end
+	end
+end
+
+function custommusiccollection:LoadCustomOptions()
+	for k, v in pairs(modSaveData["savedcustomsettings"]) do
+		if k ~= "savedcustomsettings" and k ~= "settingsmode" then
+			modSaveData[k] = v
+		end
+	end
+	modSaveData["savedcustomsettings"] = {}
+end
+
+function custommusiccollection:SetOptionsToPreset(mode)
+	--Simple: mode = false
+	--Expanded: mode = true
+	modSaveData["ultragreediertheme"] = mode
+	modSaveData["darkroomdescensum"] = mode
+	modSaveData["bluewombdevoid"] = mode
+	modSaveData["wombnativitate"] = mode
+	modSaveData["uterogreedviscera"] = mode
+	modSaveData["cathedralsacris"] = mode
+	modSaveData["catacombsgreedregeneratione"] = mode
+	modSaveData["depthsgreeddepressoloco"] = mode
+	modSaveData["sheolgreedinfernum"] = mode
+	modSaveData["shopfloorgreedtheme"] = mode
+	modSaveData["postbossgreedspiritum"] = mode
+	modSaveData["satanfightsatan666"] = mode
+	modSaveData["devilwavegreedambush"] = mode
+	modSaveData["angelfighttheme"] = mode
+	modSaveData["blackmarketroomtheme"] = mode
+	modSaveData["genesisroomtheme"] = mode
+	modSaveData["iamerrorroomtheme"] = mode
+	modSaveData["lateshoproomtheme"] = mode
+	modSaveData["latedevilroomtheme"] = mode
+	modSaveData["bossrushtaintedspeedup"] = mode
+	modSaveData["megasatantaintedspeedup"] = mode
+	modSaveData["uterotaintedtsunami"] = mode
+	modSaveData["ascenttainteddescent"] = mode
+	modSaveData["hometaintedintro"] = mode
+	modSaveData["darkhometaintednauseous"] = mode
+	modSaveData["deathcertificatedescenttwisted"] = mode
+	modSaveData["dogmafighttaintedmashup"] = mode
+	modSaveData["beastfighttaintedapocalypse"] = mode
+	modSaveData["mineshaftambienttaintednaught"] = mode
+	modSaveData["mineshaftescapetaintedturn"] = mode
+	modSaveData["blendedcoopsoundtrack"] = mode
+	modSaveData["deletethisenhancement"] = mode
+	
+	if mode then
+		modSaveData["drosstainted"] = 2
+		modSaveData["ashpittainted"] = 2
+		modSaveData["gehennatainted"] = 2
+	else
+		modSaveData["drosstainted"] = 0
+		modSaveData["ashpittainted"] = 0
+		modSaveData["gehennatainted"] = 0
+	end
 end
 
 function custommusiccollection:SaveToFile()
@@ -179,829 +245,881 @@ function custommusiccollection:SetUpMenu()
 	if ModConfigMenu then
 		local category = "Tainted Antibirth"
 		
+		--refresh menu when mode is changed
+        local existingmenu = SMCM.GetCategoryIDByName(category)
+		if existingmenu ~= nil then
+           SMCM.MenuData[existingmenu].Subcategories[1].Options = {}
+        end
+		
 		SMCM.UpdateCategory(category, {
             Info = "Customize the changes to the soundtrack made by the expanded version of Antibirth OST for Tainted Characters"
         })
-		SMCM.AddText(category, "Dark Room Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["darkroomdescensum"]
-			end,
-			Display = function()
-				if modSaveData["darkroomdescensum"] then
-					return "Descensum"
-				else
-					return "Devoid"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["darkroomdescensum"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Dark Room music for non-Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Blue Womb Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["bluewombdevoid"]
-			end,
-			Display = function()
-				if modSaveData["bluewombdevoid"] then
-					return "Devoid"
-				else
-					return "Nativitate"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["bluewombdevoid"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Blue Womb music for non-Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Womb Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["wombnativitate"]
-			end,
-			Display = function()
-				if modSaveData["wombnativitate"] then
-					return "Nativitate"
-				else
-					return "Viscera"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["wombnativitate"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Womb music for non-Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Utero Theme (Greed)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["uterogreedviscera"]
-			end,
-			Display = function()
-				if modSaveData["uterogreedviscera"] then
-					return "Viscera"
-				else
-					return "Caesarian"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["uterogreedviscera"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Utero music for non-Tainted characters in Greed Mode."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Catacombs Theme (Greed)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["catacombsgreedregeneratione"]
-			end,
-			Display = function()
-				if modSaveData["catacombsgreedregeneratione"] then
-					return "Regeneratione"
-				else
-					return "Capiticus Calvaria"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["catacombsgreedregeneratione"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Catacombs music for non-Tainted characters in Greed Mode."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Depths Theme (Greed)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["depthsgreeddepressoloco"]
-			end,
-			Display = function()
-				if modSaveData["depthsgreeddepressoloco"] then
-					return "Depresso Loco"
-				else
-					return "Abyss"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["depthsgreeddepressoloco"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Depths music for non-Tainted characters in Greed Mode."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Sheol Theme (Greed)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["sheolgreedinfernum"]
-			end,
-			Display = function()
-				if modSaveData["sheolgreedinfernum"] then
-					return "Infernum"
-				else
-					return "Duress"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["sheolgreedinfernum"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Sheol music for non-Tainted characters in Greed Mode."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Post-Boss Theme (Greed)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["postbossgreedspiritum"]
-			end,
-			Display = function()
-				if modSaveData["postbossgreedspiritum"] then
-					return "Spiritum"
-				else
-					return "The Calm"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["postbossgreedspiritum"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the post-boss music for non-Tainted characters in Greed Mode."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Challenge Theme for Devil Wave")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["devilwavegreedambush"]
-			end,
-			Display = function()
-				if modSaveData["devilwavegreedambush"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["devilwavegreedambush"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Play the Challenge fight music for devil waves in Greed Mode."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Shop Floor (Greed) Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["shopfloorgreedtheme"]
-			end,
-			Display = function()
-				if modSaveData["shopfloorgreedtheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["shopfloorgreedtheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets whether the Shop floor in Greed Mode has its own unique stage music."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Utero Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["uterotaintedtsunami"]
-			end,
-			Display = function()
-				if modSaveData["uterotaintedtsunami"] then
-					return "Tsunami"
-				else
-					return "Dystension"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["uterotaintedtsunami"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Utero music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Dross Theme (Tainted)")
+		SMCM.AddText(category, "Soundtrack Mode")
 		SMCM.AddSetting(category, {
 			Type = SMCM.OptionType.NUMBER,
-			Default = 2,
+			Default = 1,
 			CurrentSetting = function()
-				return modSaveData["drosstainted"]
+				return modSaveData["settingsmode"]
 			end,
 			Minimum = 0,
 			Maximum = 2,
 			Display = function()
-				if modSaveData["drosstainted"] == 2 then
-					return "Torrent"
-				elseif modSaveData["drosstainted"] == 1 then
-					return "Hallowed Ground"
+				if modSaveData["settingsmode"] == 2 then
+					return "Expanded"
+				elseif modSaveData["settingsmode"] == 1 then
+					return "Custom"
 				else
-					return "Night Soil"
+					return "Simple"
 				end
 			end,
 			OnChange = function(value)
-				modSaveData["drosstainted"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Dross music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Ashpit Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.NUMBER,
-			Default = 2,
-			CurrentSetting = function()
-				return modSaveData["ashpittainted"]
-			end,
-			Minimum = 0,
-			Maximum = 2,
-			Display = function()
-				if modSaveData["ashpittainted"] == 2 then
-					return "Chum"
-				elseif modSaveData["ashpittainted"] == 1 then
-					return "Fault Lines"
+				local previousvalue = modSaveData["settingsmode"]
+				modSaveData["settingsmode"] = value
+				
+				if modSaveData["settingsmode"] == 2 then
+					if previousvalue == 1 then
+						custommusiccollection:SaveCustomOptions()
+					end
+					custommusiccollection:SetOptionsToPreset(true)
+				elseif modSaveData["settingsmode"] == 1 then
+					custommusiccollection:LoadCustomOptions()
 				else
-					return "Absentia"
+					if previousvalue == 1 then
+						custommusiccollection:SaveCustomOptions()
+					end
+					custommusiccollection:SetOptionsToPreset(false)
 				end
-			end,
-			OnChange = function(value)
-				modSaveData["ashpittainted"] = value
+				
 				custommusiccollection:SaveToFile()
+				custommusiccollection:SetUpMenu()
 			end,
 			Info = {
-				"Sets the Ashpit music for Tainted characters."
+				"Simple turns all toggleable changes off. Expanded turns all toggleable changes on. Select Custom to set each setting individually."
 			}
 		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Gehenna Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.NUMBER,
-			Default = 2,
-			CurrentSetting = function()
-				return modSaveData["gehennatainted"]
-			end,
-			Minimum = 0,
-			Maximum = 2,
-			Display = function()
-				if modSaveData["gehennatainted"] == 2 then
-					return "Red Tide"
-				elseif modSaveData["gehennatainted"] == 1 then
-					return "Machine in the Walls"
-				else
-					return "Morning Star"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["gehennatainted"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Gehenna music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "The Ascent Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["ascenttainteddescent"]
-			end,
-			Display = function()
-				if modSaveData["ascenttainteddescent"] then
-					return "Descent"
-				else
-					return "Genesis Reversed"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["ascenttainteddescent"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Ascent music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Home Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["hometaintedintro"]
-			end,
-			Display = function()
-				if modSaveData["hometaintedintro"] then
-					return "Intro (Cinematic)"
-				else
-					return "Echoes of Mom"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["hometaintedintro"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Home music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Dark Home Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["darkhometaintednauseous"]
-			end,
-			Display = function()
-				if modSaveData["darkhometaintednauseous"] then
-					return "I'm Nauseous Too"
-				else
-					return "Echoes Twisted"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["darkhometaintednauseous"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Dark Home music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Death Certificate Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["deathcertificatedescenttwisted"]
-			end,
-			Display = function()
-				if modSaveData["deathcertificatedescenttwisted"] then
-					return "Descent Twisted"
-				else
-					return "Echoes Reverse"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["deathcertificatedescenttwisted"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Death Certificate music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Cathedral Heavy Layer")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["cathedralsacris"]
-			end,
-			Display = function()
-				if modSaveData["cathedralsacris"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["cathedralsacris"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"For non-Tainted characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Black Market Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["blackmarketroomtheme"]
-			end,
-			Display = function()
-				if modSaveData["blackmarketroomtheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["blackmarketroomtheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Play unique music in Black Market rooms."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Genesis Room Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["genesisroomtheme"]
-			end,
-			Display = function()
-				if modSaveData["genesisroomtheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["genesisroomtheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Play unique music in Genesis rooms."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "I AM ERROR Room Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["iamerrorroomtheme"]
-			end,
-			Display = function()
-				if modSaveData["iamerrorroomtheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["iamerrorroomtheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Play unique music in I AM ERROR rooms."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Late Shop Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["lateshoproomtheme"]
-			end,
-			Display = function()
-				if modSaveData["lateshoproomtheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["lateshoproomtheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"For non-Tainted characters, play the unused layer of Murmur of the Harvestman in Shops past Chapter 3."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Late Devil Room Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["latedevilroomtheme"]
-			end,
-			Display = function()
-				if modSaveData["latedevilroomtheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["latedevilroomtheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"For non-Tainted characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Mineshaft Ambient Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["mineshaftambienttaintednaught"]
-			end,
-			Display = function()
-				if modSaveData["mineshaftambienttaintednaught"] then
-					return "Want For Naught (Part 1)"
-				else
-					return "Vast Empty Chasm"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["mineshaftambienttaintednaught"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Mineshaft Ambient music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Mineshaft Escape Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["mineshaftescapetaintedturn"]
-			end,
-			Display = function()
-				if modSaveData["mineshaftescapetaintedturn"] then
-					return "The Turn"
-				else
-					return "Want For Naught (Part 2)"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["mineshaftescapetaintedturn"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Mineshaft Escape music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Satan Fight Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["satanfightsatan666"]
-			end,
-			Display = function()
-				if modSaveData["satanfightsatan666"] then
-					return "Satan 666"
-				else
-					return "Hericide"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["satanfightsatan666"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Satan fight music for non-Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Ultra Greedier Theme")
-		SMCM.AddSetting(category, { 
-            Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-            CurrentSetting = function()
-				return modSaveData["ultragreediertheme"]
-            end,
-            Display = function()
-				if modSaveData["ultragreediertheme"] then
-                    return "On"
-                else
-                    return "Off"
-                end
-            end,
-            OnChange = function(value)
-				modSaveData["ultragreediertheme"] = value
-                custommusiccollection:SaveToFile()
-            end,
-            Info = {
-                "Sets whether unique boss music will play during the Ultra Greedier battle."
-            }
-        })
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Angel Fight Theme")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["angelfighttheme"]
-			end,
-			Display = function()
-				if modSaveData["angelfighttheme"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["angelfighttheme"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets whether unique boss music will play during Angel battles."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Boss Rush Tainted Speedup")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["bossrushtaintedspeedup"]
-			end,
-			Display = function()
-				if modSaveData["bossrushtaintedspeedup"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["bossrushtaintedspeedup"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"For Tainted characters, play A Baleful Circus 10% faster during Boss Rush."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Mega Satan Tainted Speedup")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["megasatantaintedspeedup"]
-			end,
-			Display = function()
-				if modSaveData["megasatantaintedspeedup"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["megasatantaintedspeedup"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"For Tainted characters, play Spectrum of Sin 10% faster during the Mega Satan fight."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Dogma Fight Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["dogmafighttaintedmashup"]
-			end,
-			Display = function()
-				if modSaveData["dogmafighttaintedmashup"] then
-					return "Your Worst Nightmare"
-				else
-					return "Living In The Light"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["dogmafighttaintedmashup"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Dogma fight music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "The Beast Fight Theme (Tainted)")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["beastfighttaintedapocalypse"]
-			end,
-			Display = function()
-				if modSaveData["beastfighttaintedapocalypse"] then
-					return "My Innermost Apocalypse [Metal cover]"
-				else
-					return "Revelations 13-1"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["beastfighttaintedapocalypse"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Sets the Beast fight music for Tainted characters."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "Blended Co-op Soundtrack")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["blendedcoopsoundtrack"]
-			end,
-			Display = function()
-				if modSaveData["blendedcoopsoundtrack"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["blendedcoopsoundtrack"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"Blend the two soundtracks when at least one non-Tainted character and at least one Tainted character are present during co-op."
-			}
-		})
-		SMCM.AddSpace(category)
-		SMCM.AddText(category, "DELETE THIS Enhancement")
-		SMCM.AddSetting(category, {
-			Type = SMCM.OptionType.BOOLEAN,
-			Default = true,
-			CurrentSetting = function()
-				return modSaveData["deletethisenhancement"]
-			end,
-			Display = function()
-				if modSaveData["deletethisenhancement"] then
-					return "On"
-				else
-					return "Off"
-				end
-			end,
-			OnChange = function(value)
-				modSaveData["deletethisenhancement"] = value
-				custommusiccollection:SaveToFile()
-			end,
-			Info = {
-				"During the DELETE THIS challenge, use music from both soundtracks, and play random music for bosses, special rooms, and jingles."
-			}
-		})
+		if modSaveData["settingsmode"] == 1 then
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Dark Room Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["darkroomdescensum"]
+				end,
+				Display = function()
+					if modSaveData["darkroomdescensum"] then
+						return "Descensum"
+					else
+						return "Devoid"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["darkroomdescensum"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Dark Room music for non-Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Blue Womb Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["bluewombdevoid"]
+				end,
+				Display = function()
+					if modSaveData["bluewombdevoid"] then
+						return "Devoid"
+					else
+						return "Nativitate"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["bluewombdevoid"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Blue Womb music for non-Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Womb Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["wombnativitate"]
+				end,
+				Display = function()
+					if modSaveData["wombnativitate"] then
+						return "Nativitate"
+					else
+						return "Viscera"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["wombnativitate"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Womb music for non-Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Utero Theme (Greed)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["uterogreedviscera"]
+				end,
+				Display = function()
+					if modSaveData["uterogreedviscera"] then
+						return "Viscera"
+					else
+						return "Caesarian"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["uterogreedviscera"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Utero music for non-Tainted characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Catacombs Theme (Greed)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["catacombsgreedregeneratione"]
+				end,
+				Display = function()
+					if modSaveData["catacombsgreedregeneratione"] then
+						return "Regeneratione"
+					else
+						return "Capiticus Calvaria"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["catacombsgreedregeneratione"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Catacombs music for non-Tainted characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Depths Theme (Greed)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["depthsgreeddepressoloco"]
+				end,
+				Display = function()
+					if modSaveData["depthsgreeddepressoloco"] then
+						return "Depresso Loco"
+					else
+						return "Abyss"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["depthsgreeddepressoloco"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Depths music for non-Tainted characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Sheol Theme (Greed)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["sheolgreedinfernum"]
+				end,
+				Display = function()
+					if modSaveData["sheolgreedinfernum"] then
+						return "Infernum"
+					else
+						return "Duress"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["sheolgreedinfernum"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Sheol music for non-Tainted characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Post-Boss Theme (Greed)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["postbossgreedspiritum"]
+				end,
+				Display = function()
+					if modSaveData["postbossgreedspiritum"] then
+						return "Spiritum"
+					else
+						return "The Calm"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["postbossgreedspiritum"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the post-boss music for non-Tainted characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Challenge Theme for Devil Wave")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["devilwavegreedambush"]
+				end,
+				Display = function()
+					if modSaveData["devilwavegreedambush"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["devilwavegreedambush"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Play the Challenge fight music for devil waves in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Shop Floor (Greed) Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["shopfloorgreedtheme"]
+				end,
+				Display = function()
+					if modSaveData["shopfloorgreedtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["shopfloorgreedtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether the Shop floor in Greed Mode has its own unique stage music."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Utero Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["uterotaintedtsunami"]
+				end,
+				Display = function()
+					if modSaveData["uterotaintedtsunami"] then
+						return "Tsunami"
+					else
+						return "Dystension"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["uterotaintedtsunami"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Utero music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Dross Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
+				CurrentSetting = function()
+					return modSaveData["drosstainted"]
+				end,
+				Minimum = 0,
+				Maximum = 2,
+				Display = function()
+					if modSaveData["drosstainted"] == 2 then
+						return "Torrent"
+					elseif modSaveData["drosstainted"] == 1 then
+						return "Hallowed Ground"
+					else
+						return "Night Soil"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["drosstainted"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Dross music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Ashpit Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
+				CurrentSetting = function()
+					return modSaveData["ashpittainted"]
+				end,
+				Minimum = 0,
+				Maximum = 2,
+				Display = function()
+					if modSaveData["ashpittainted"] == 2 then
+						return "Chum"
+					elseif modSaveData["ashpittainted"] == 1 then
+						return "Fault Lines"
+					else
+						return "Absentia"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["ashpittainted"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Ashpit music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Gehenna Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
+				CurrentSetting = function()
+					return modSaveData["gehennatainted"]
+				end,
+				Minimum = 0,
+				Maximum = 2,
+				Display = function()
+					if modSaveData["gehennatainted"] == 2 then
+						return "Red Tide"
+					elseif modSaveData["gehennatainted"] == 1 then
+						return "Machine in the Walls"
+					else
+						return "Morning Star"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["gehennatainted"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Gehenna music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "The Ascent Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["ascenttainteddescent"]
+				end,
+				Display = function()
+					if modSaveData["ascenttainteddescent"] then
+						return "Descent"
+					else
+						return "Genesis Reversed"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["ascenttainteddescent"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Ascent music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Home Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["hometaintedintro"]
+				end,
+				Display = function()
+					if modSaveData["hometaintedintro"] then
+						return "Intro (Cinematic)"
+					else
+						return "Echoes of Mom"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["hometaintedintro"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Home music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Dark Home Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["darkhometaintednauseous"]
+				end,
+				Display = function()
+					if modSaveData["darkhometaintednauseous"] then
+						return "I'm Nauseous Too"
+					else
+						return "Echoes Twisted"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["darkhometaintednauseous"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Dark Home music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Death Certificate Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["deathcertificatedescenttwisted"]
+				end,
+				Display = function()
+					if modSaveData["deathcertificatedescenttwisted"] then
+						return "Descent Twisted"
+					else
+						return "Echoes Reverse"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["deathcertificatedescenttwisted"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Death Certificate music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Cathedral Heavy Layer")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["cathedralsacris"]
+				end,
+				Display = function()
+					if modSaveData["cathedralsacris"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["cathedralsacris"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"For non-Tainted characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Black Market Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["blackmarketroomtheme"]
+				end,
+				Display = function()
+					if modSaveData["blackmarketroomtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["blackmarketroomtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Play unique music in Black Market rooms."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Genesis Room Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["genesisroomtheme"]
+				end,
+				Display = function()
+					if modSaveData["genesisroomtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["genesisroomtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Play unique music in Genesis rooms."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "I AM ERROR Room Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["iamerrorroomtheme"]
+				end,
+				Display = function()
+					if modSaveData["iamerrorroomtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["iamerrorroomtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Play unique music in I AM ERROR rooms."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Late Shop Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["lateshoproomtheme"]
+				end,
+				Display = function()
+					if modSaveData["lateshoproomtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["lateshoproomtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"For non-Tainted characters, play the unused layer of Murmur of the Harvestman in Shops past Chapter 3."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Late Devil Room Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["latedevilroomtheme"]
+				end,
+				Display = function()
+					if modSaveData["latedevilroomtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["latedevilroomtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"For non-Tainted characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Mineshaft Ambient Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["mineshaftambienttaintednaught"]
+				end,
+				Display = function()
+					if modSaveData["mineshaftambienttaintednaught"] then
+						return "Want For Naught (Part 1)"
+					else
+						return "Vast Empty Chasm"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["mineshaftambienttaintednaught"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Mineshaft Ambient music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Mineshaft Escape Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["mineshaftescapetaintedturn"]
+				end,
+				Display = function()
+					if modSaveData["mineshaftescapetaintedturn"] then
+						return "The Turn"
+					else
+						return "Want For Naught (Part 2)"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["mineshaftescapetaintedturn"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Mineshaft Escape music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Satan Fight Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["satanfightsatan666"]
+				end,
+				Display = function()
+					if modSaveData["satanfightsatan666"] then
+						return "Satan 666"
+					else
+						return "Hericide"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["satanfightsatan666"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Satan fight music for non-Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Ultra Greedier Theme")
+			SMCM.AddSetting(category, { 
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["ultragreediertheme"]
+				end,
+				Display = function()
+					if modSaveData["ultragreediertheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["ultragreediertheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether unique boss music will play during the Ultra Greedier battle."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Angel Fight Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["angelfighttheme"]
+				end,
+				Display = function()
+					if modSaveData["angelfighttheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["angelfighttheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether unique boss music will play during Angel battles."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Boss Rush Tainted Speedup")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["bossrushtaintedspeedup"]
+				end,
+				Display = function()
+					if modSaveData["bossrushtaintedspeedup"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["bossrushtaintedspeedup"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"For Tainted characters, play A Baleful Circus 10% faster during Boss Rush."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Mega Satan Tainted Speedup")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["megasatantaintedspeedup"]
+				end,
+				Display = function()
+					if modSaveData["megasatantaintedspeedup"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["megasatantaintedspeedup"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"For Tainted characters, play Spectrum of Sin 10% faster during the Mega Satan fight."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Dogma Fight Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["dogmafighttaintedmashup"]
+				end,
+				Display = function()
+					if modSaveData["dogmafighttaintedmashup"] then
+						return "Your Worst Nightmare"
+					else
+						return "Living In The Light"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["dogmafighttaintedmashup"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Dogma fight music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "The Beast Fight Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["beastfighttaintedapocalypse"]
+				end,
+				Display = function()
+					if modSaveData["beastfighttaintedapocalypse"] then
+						return "My Innermost Apocalypse [Metal cover]"
+					else
+						return "Revelations 13-1"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["beastfighttaintedapocalypse"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Beast fight music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Blended Co-op Soundtrack")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["blendedcoopsoundtrack"]
+				end,
+				Display = function()
+					if modSaveData["blendedcoopsoundtrack"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["blendedcoopsoundtrack"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Blend the two soundtracks when at least one non-Tainted character and at least one Tainted character are present during co-op."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "DELETE THIS Enhancement")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["deletethisenhancement"]
+				end,
+				Display = function()
+					if modSaveData["deletethisenhancement"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["deletethisenhancement"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"During the DELETE THIS challenge, use music from both soundtracks, and play random music for bosses, special rooms, and jingles."
+				}
+			})
+		end
 	end
 end
 
-custommusiccollection:SetUpMenu()
+custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, custommusiccollection.SetUpMenu)
 
 local function GetEffectiveLevelStage()
 	if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
