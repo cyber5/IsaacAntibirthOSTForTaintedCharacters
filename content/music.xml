@@ -210,4 +210,9 @@
 	<track name="Boss Room (empty, greed)" intro="Greed/the calm greed intro.ogg" path="Greed/the calm greed.ogg" loop="true" />
 	<track name="Ultra Greedier" path="Greed/locus fight altloop.ogg" loop="true" mul="1.25" />
 	<track name="Ultra Greedier outro" path="Greed/locus outro.ogg" loop="false" mul="1.25" />
+	
+	<!-- Custom Stages -->
+	<track name="Mortis (tainted)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" />
+	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" />
+	<track name="Mortis (tainted) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" />
 </music>
