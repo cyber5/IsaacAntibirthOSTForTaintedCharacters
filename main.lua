@@ -85,6 +85,7 @@ function custommusiccollection:ResetSave()
 		drosstainted = 2,
 		ashpittainted = 2,
 		gehennatainted = 2,
+		mortistainted = 2,
 		ascenttainteddescent = true,
 		hometaintedintro = true,
 		darkhometaintednauseous = true,
@@ -133,6 +134,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = 2 end
 	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = 2 end
 	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = 2 end
+	if modSaveData["mortistainted"] == nil then modSaveData["mortistainted"] = 2 end
 	if modSaveData["ascenttainteddescent"] == nil then modSaveData["ascenttainteddescent"] = true end
 	if modSaveData["hometaintedintro"] == nil then modSaveData["hometaintedintro"] = true end
 	if modSaveData["darkhometaintednauseous"] == nil then modSaveData["darkhometaintednauseous"] = true end
@@ -205,10 +207,12 @@ function custommusiccollection:SetOptionsToPreset(mode)
 		modSaveData["drosstainted"] = 2
 		modSaveData["ashpittainted"] = 2
 		modSaveData["gehennatainted"] = 2
+		modSaveData["mortistainted"] = 2
 	else
 		modSaveData["drosstainted"] = 0
 		modSaveData["ashpittainted"] = 0
 		modSaveData["gehennatainted"] = 0
+		modSaveData["mortistainted"] = 0
 	end
 end
 
@@ -231,7 +235,6 @@ function custommusiccollection:LoadFromFile()
 		custommusiccollection.ResetSave()
 	end
 end
-custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, custommusiccollection.LoadFromFile)
 
 local SMCM = nil
 if ModConfigMenu then
@@ -632,6 +635,35 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Gehenna music for Tainted characters."
 				}
 			})
+			if LastJudgement then
+				SMCM.AddSpace(category)
+				SMCM.AddText(category, "Mortis Theme (Tainted)")
+				SMCM.AddSetting(category, {
+					Type = SMCM.OptionType.NUMBER,
+					Default = 2,
+					CurrentSetting = function()
+						return modSaveData["mortistainted"]
+					end,
+					Minimum = 0,
+					Maximum = 2,
+					Display = function()
+						if modSaveData["mortistainted"] == 2 then
+							return "Malpractice"
+						elseif modSaveData["mortistainted"] == 1 then
+							return "Drowning"
+						else
+							return "Formaldehyde"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["mortistainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Mortis music for Tainted characters."
+					}
+				})
+			end
 			SMCM.AddSpace(category)
 			SMCM.AddText(category, "The Ascent Theme (Tainted)")
 			SMCM.AddSetting(category, {
@@ -1118,7 +1150,6 @@ function custommusiccollection:SetUpMenu()
 		end
 	end
 end
-
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, custommusiccollection.SetUpMenu)
 
 local function GetEffectiveLevelStage()
@@ -1212,9 +1243,9 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, custommusiccollection.EndAngelFight, EntityType.ENTITY_GABRIEL)
 	
 	if StageAPI and StageAPI.Loaded then
-		function custommusiccollection:PerformSacrificeRoomBossOverForStageAPI(currentstage, musicID, roomType, musicRNG)
+		function custommusiccollection:PerformSacrificeRoomBossOverForStageAPI(musicID, roomType, musicRNG)
 			local room = Game():GetRoom()
-			local roomtype = room:GetType()
+			local roomtype = room:GetType() --TODO: don't we already have the roomtype?
 			
 			if roomtype == RoomType.ROOM_SACRIFICE and angelfightsacrificeroom then
 				--NOTE: angel over jingle is set so that stage api can't override it
@@ -2251,7 +2282,6 @@ local stageSeedTrack = {
 	[Music.MUSIC_DROSS] = 1,
 	[Music.MUSIC_ASHPIT] = 1,
 	[Music.MUSIC_GEHENNA] = 1,
-	[Music.MUSIC_MORTIS] = 1,
 	[Music.MUSIC_ISAACS_HOUSE] = 1,
 	[Music.MUSIC_DOWNPOUR_REVERSE] = 1,
 	[Music.MUSIC_DROSS_REVERSE] = 1,
@@ -2586,7 +2616,7 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformGenesisRoomReplacement)
 
 if StageAPI and StageAPI.Loaded then
-	function custommusiccollection:PerformGenesisRoomReplacementForStageAPI(currentstage, musicID, roomType, musicRNG)
+	function custommusiccollection:PerformGenesisRoomReplacementForStageAPI(musicID, roomType, musicRNG)
 		return custommusiccollection:PerformGenesisRoomReplacement(musicID)
 	end
 	
@@ -3103,6 +3133,31 @@ function custommusiccollection:PerformGehennaReversion(trackId)
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformGehennaReversion, Music.MUSIC_GEHENNA)
 
+if usingRGON and StageAPI and StageAPI.Loaded then
+	function custommusiccollection:PerformMortisReversion(trackId)
+		if PlayTaintedVersion(trackId) then
+			if modSaveData["mortistainted"] == 1 then
+				return TaintedVersion(Music.MUSIC_CORPSE)
+			elseif modSaveData["mortistainted"] == 0 then
+				return trackId
+			end
+		end
+	end
+	--callback created post mods loading
+	
+	function custommusiccollection:PlayCorrectMortisStageMusicForStageAPI(musicID, roomType, musicRNG)
+		if musicID == Music.MUSIC_MORTIS and PlayTaintedVersion(musicID) then
+			if modSaveData["mortistainted"] == 2 then
+				return TaintedVersion(musicID)
+			else
+				return custommusiccollection:PerformMortisReversion(musicID)
+			end
+		end
+	end
+	local tpriority = 0
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectMortisStageMusicForStageAPI)
+end
+
 function custommusiccollection:PerformAscentReversion(trackId)
 	if not modSaveData["ascenttainteddescent"] and PlayTaintedVersion(trackId) then
 		return trackId
@@ -3222,6 +3277,23 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_DANK_DEPTHS)--]]
 
+if usingRGON then
+	--will be called post mods loaded
+	function custommusiccollection:CheckForCustomStageMusic()
+		if StageAPI and StageAPI.Loaded and LastJudgement then
+			Music.MUSIC_MORTIS = LastJudgement.Music.Mortis
+			
+			normaltotainted[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted)")
+			normaltotaintedalt1[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop")
+			normaltotaintedalt2[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop 2")
+			--random_music --TODO: add Mortis music to DELETE THIS? I'm not sure I will, not without mixing in the Mortis backdrops into DELETE THIS
+			stageSeedTrack[Music.MUSIC_MORTIS] = 1
+			
+			custommusiccollection:CreateCallback(custommusiccollection.PerformMortisReversion, Music.MUSIC_MORTIS)
+		end
+	end
+end
+
 function custommusiccollection:PerformMainTrackReplacement(trackId)
 	
 	--TODO: move this block to its own function
@@ -3232,10 +3304,6 @@ function custommusiccollection:PerformMainTrackReplacement(trackId)
 			if trackId == Music.MUSIC_JINGLE_BOSS_OVER or trackId == Music.MUSIC_JINGLE_BOSS_OVER2 then
 				return NormalOrTainted(Music.MUSIC_JINGLE_BOSS_OVER3)
 			end
-		end
-		
-		if not normaltotainted[trackId] then
-			return trackId
 		end
 	end
 	
@@ -3255,7 +3323,15 @@ function custommusiccollection:PerformMainTrackReplacement(trackId)
 		end
 	end
 end
-custommusiccollection:CreateCallback(custommusiccollection.PerformMainTrackReplacement)
+if usingRGON then
+	function custommusiccollection:PerformMainTrackReplacementPostLoad()
+		custommusiccollection:CheckForCustomStageMusic()
+		custommusiccollection:CreateCallback(custommusiccollection.PerformMainTrackReplacement)
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_MODS_LOADED, custommusiccollection.PerformMainTrackReplacementPostLoad)
+else
+	custommusiccollection:CreateCallback(custommusiccollection.PerformMainTrackReplacement)
+end
 
 if usingRGON then
 	function custommusiccollection:PerformMainJingleReplacement(trackId)
