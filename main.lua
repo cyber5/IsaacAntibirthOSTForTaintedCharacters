@@ -81,6 +81,8 @@ function custommusiccollection:ResetSave()
 		latedevilroomtheme = true,
 		bossrushtaintedspeedup = true,
 		megasatantaintedspeedup = true,
+		megasatantaintedflagbearer = 0, -- play Flagbearer during tainted Mega Satan
+		boss2taintedflagbearer = true, --play Tandava for tainted alt boss
 		uterotaintedtsunami = true,
 		drosstainted = 2,
 		ashpittainted = 2,
@@ -96,58 +98,83 @@ function custommusiccollection:ResetSave()
 		mineshaftescapetaintedturn = true,
 		blendedcoopsoundtrack = true,
 		deletethisenhancement = true,
+		tarnishedsoundtrack = 3,
 		
 		savedcustomsettings = {},
 		settingsmode = 1 --custom
 		
 		--future potential requests:
-		--megasatantainted = 2, -- play Flagbearer during tainted Mega Satan
 		--devilwavegreedtainted = 2, --play The Turn during tainted devil wave
-		--boss2taintedflagbearer = true, --play Tandava for tainted alt boss
 		--gameovertaintedunderscore = true, --play tainted Planetarium theme for tainted game over
+		--sacrificeroomangels = true,
+		--bluewombcontinue = true,
+		
+		--TODOO: add option for jingle style (RGON bugged default) and fix this issue (RGON only)
 	}
 end
 
+function custommusiccollection:missingFillInBool()
+	if modSaveData["settingsmode"] == 0 then
+		return false
+	else
+		return true
+	end
+end
+
+function custommusiccollection:missingFillInInt(imax)
+	if modSaveData["settingsmode"] == 0 then
+		return 0
+	else
+		return imax
+	end
+end
+
 function custommusiccollection:FillInMissingSaveData()
-	if modSaveData["ultragreediertheme"] == nil then modSaveData["ultragreediertheme"] = true end
-	if modSaveData["darkroomdescensum"] == nil then modSaveData["darkroomdescensum"] = true end
-	if modSaveData["bluewombdevoid"] == nil then modSaveData["bluewombdevoid"] = true end
-	if modSaveData["wombnativitate"] == nil then modSaveData["wombnativitate"] = true end
-	if modSaveData["uterogreedviscera"] == nil then modSaveData["uterogreedviscera"] = true end
-	if modSaveData["cathedralsacris"] == nil then modSaveData["cathedralsacris"] = true end
-	if modSaveData["catacombsgreedregeneratione"] == nil then modSaveData["catacombsgreedregeneratione"] = true end
-	if modSaveData["depthsgreeddepressoloco"] == nil then modSaveData["depthsgreeddepressoloco"] = true end
-	if modSaveData["sheolgreedinfernum"] == nil then modSaveData["sheolgreedinfernum"] = true end
-	if modSaveData["shopfloorgreedtheme"] == nil then modSaveData["shopfloorgreedtheme"] = true end
-	if modSaveData["postbossgreedspiritum"] == nil then modSaveData["postbossgreedspiritum"] = true end
-	if modSaveData["satanfightsatan666"] == nil then modSaveData["satanfightsatan666"] = true end
-	if modSaveData["devilwavegreedambush"] == nil then modSaveData["devilwavegreedambush"] = true end
-	if modSaveData["angelfighttheme"] == nil then modSaveData["angelfighttheme"] = true end
-	if modSaveData["blackmarketroomtheme"] == nil then modSaveData["blackmarketroomtheme"] = true end
-	if modSaveData["genesisroomtheme"] == nil then modSaveData["genesisroomtheme"] = true end
-	if modSaveData["iamerrorroomtheme"] == nil then modSaveData["iamerrorroomtheme"] = true end
-	if modSaveData["lateshoproomtheme"] == nil then modSaveData["lateshoproomtheme"] = true end
-	if modSaveData["latedevilroomtheme"] == nil then modSaveData["latedevilroomtheme"] = true end
-	if modSaveData["bossrushtaintedspeedup"] == nil then modSaveData["bossrushtaintedspeedup"] = true end
-	if modSaveData["megasatantaintedspeedup"] == nil then modSaveData["megasatantaintedspeedup"] = true end
-	if modSaveData["uterotaintedtsunami"] == nil then modSaveData["uterotaintedtsunami"] = true end
-	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = 2 end
-	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = 2 end
-	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = 2 end
-	if modSaveData["mortistainted"] == nil then modSaveData["mortistainted"] = 2 end
-	if modSaveData["ascenttainteddescent"] == nil then modSaveData["ascenttainteddescent"] = true end
-	if modSaveData["hometaintedintro"] == nil then modSaveData["hometaintedintro"] = true end
-	if modSaveData["darkhometaintednauseous"] == nil then modSaveData["darkhometaintednauseous"] = true end
-	if modSaveData["deathcertificatedescenttwisted"] == nil then modSaveData["deathcertificatedescenttwisted"] = true end
-	if modSaveData["dogmafighttaintedmashup"] == nil then modSaveData["dogmafighttaintedmashup"] = true end
-	if modSaveData["beastfighttaintedapocalypse"] == nil then modSaveData["beastfighttaintedapocalypse"] = true end
-	if modSaveData["mineshaftambienttaintednaught"] == nil then modSaveData["mineshaftambienttaintednaught"] = true end
-	if modSaveData["mineshaftescapetaintedturn"] == nil then modSaveData["mineshaftescapetaintedturn"] = true end
-	if modSaveData["blendedcoopsoundtrack"] == nil then modSaveData["blendedcoopsoundtrack"] = true end
-	if modSaveData["deletethisenhancement"] == nil then modSaveData["deletethisenhancement"] = true end
-	
 	if modSaveData["savedcustomsettings"] == nil then modSaveData["savedcustomsettings"] = {} end
 	if modSaveData["settingsmode"] == nil then modSaveData["settingsmode"] = 1 end
+	
+	--settings that are the same in Simple and Expanded and must be enabled in custom mode
+	if modSaveData["megasatantaintedflagbearer"] == nil then modSaveData["megasatantaintedflagbearer"] = 0 end
+	if modSaveData["boss2taintedflagbearer"] == nil then modSaveData["boss2taintedflagbearer"] = true end
+	
+	--fill in missing data based on the Soundtrack Mode (default to "on" if custom or expanded, default to "off" if simple)
+	if modSaveData["ultragreediertheme"] == nil then modSaveData["ultragreediertheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["darkroomdescensum"] == nil then modSaveData["darkroomdescensum"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["bluewombdevoid"] == nil then modSaveData["bluewombdevoid"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["wombnativitate"] == nil then modSaveData["wombnativitate"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["uterogreedviscera"] == nil then modSaveData["uterogreedviscera"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["cathedralsacris"] == nil then modSaveData["cathedralsacris"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["catacombsgreedregeneratione"] == nil then modSaveData["catacombsgreedregeneratione"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["depthsgreeddepressoloco"] == nil then modSaveData["depthsgreeddepressoloco"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["sheolgreedinfernum"] == nil then modSaveData["sheolgreedinfernum"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["shopfloorgreedtheme"] == nil then modSaveData["shopfloorgreedtheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["postbossgreedspiritum"] == nil then modSaveData["postbossgreedspiritum"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["satanfightsatan666"] == nil then modSaveData["satanfightsatan666"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["devilwavegreedambush"] == nil then modSaveData["devilwavegreedambush"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["angelfighttheme"] == nil then modSaveData["angelfighttheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["blackmarketroomtheme"] == nil then modSaveData["blackmarketroomtheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["genesisroomtheme"] == nil then modSaveData["genesisroomtheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["iamerrorroomtheme"] == nil then modSaveData["iamerrorroomtheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["lateshoproomtheme"] == nil then modSaveData["lateshoproomtheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["latedevilroomtheme"] == nil then modSaveData["latedevilroomtheme"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["bossrushtaintedspeedup"] == nil then modSaveData["bossrushtaintedspeedup"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["megasatantaintedspeedup"] == nil then modSaveData["megasatantaintedspeedup"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["uterotaintedtsunami"] == nil then modSaveData["uterotaintedtsunami"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["mortistainted"] == nil then modSaveData["mortistainted"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["ascenttainteddescent"] == nil then modSaveData["ascenttainteddescent"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["hometaintedintro"] == nil then modSaveData["hometaintedintro"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["darkhometaintednauseous"] == nil then modSaveData["darkhometaintednauseous"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["deathcertificatedescenttwisted"] == nil then modSaveData["deathcertificatedescenttwisted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["dogmafighttaintedmashup"] == nil then modSaveData["dogmafighttaintedmashup"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["beastfighttaintedapocalypse"] == nil then modSaveData["beastfighttaintedapocalypse"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["mineshaftambienttaintednaught"] == nil then modSaveData["mineshaftambienttaintednaught"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["mineshaftescapetaintedturn"] == nil then modSaveData["mineshaftescapetaintedturn"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["blendedcoopsoundtrack"] == nil then modSaveData["blendedcoopsoundtrack"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["deletethisenhancement"] == nil then modSaveData["deletethisenhancement"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tarnishedsoundtrack"] == nil then modSaveData["tarnishedsoundtrack"] = custommusiccollection:missingFillInInt(3) end
 end
 
 function custommusiccollection:SaveCustomOptions()
@@ -208,12 +235,18 @@ function custommusiccollection:SetOptionsToPreset(mode)
 		modSaveData["ashpittainted"] = 2
 		modSaveData["gehennatainted"] = 2
 		modSaveData["mortistainted"] = 2
+		modSaveData["tarnishedsoundtrack"] = 3
 	else
 		modSaveData["drosstainted"] = 0
 		modSaveData["ashpittainted"] = 0
 		modSaveData["gehennatainted"] = 0
 		modSaveData["mortistainted"] = 0
+		modSaveData["tarnishedsoundtrack"] = 0
 	end
+	
+	--settings that are the same in Simple and Expanded and must be enabled in custom mode
+	modSaveData["megasatantaintedflagbearer"] = 0
+	modSaveData["boss2taintedflagbearer"] = true
 end
 
 function custommusiccollection:SaveToFile()
@@ -1056,6 +1089,56 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Mega Satan Fight Theme (Tainted)")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
+				CurrentSetting = function()
+					return modSaveData["megasatantaintedflagbearer"]
+				end,
+				Minimum = 0,
+				Maximum = 2,
+				Display = function()
+					if modSaveData["megasatantaintedflagbearer"] == 2 then
+						return "Choose Randomly"
+					elseif modSaveData["megasatantaintedflagbearer"] == 1 then
+						return "The Flagbearer"
+					else
+						return "Spectrum of Sin"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["megasatantaintedflagbearer"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Mega Satan fight music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Boss Alt Theme for Tainted Characters")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["boss2taintedflagbearer"]
+				end,
+				Display = function()
+					if modSaveData["boss2taintedflagbearer"] then
+						return "The Flagbearer"
+					else
+						return "Tandava"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["boss2taintedflagbearer"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Tandava always plays in the alt path. Decide which track accompanies Invictus on the normal path."
+				}
+			})
+			SMCM.AddSpace(category)
 			SMCM.AddText(category, "Dogma Fight Theme (Tainted)")
 			SMCM.AddSetting(category, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -1147,6 +1230,37 @@ function custommusiccollection:SetUpMenu()
 					"During the DELETE THIS challenge, use music from both soundtracks, and play random music for bosses, special rooms, and jingles."
 				}
 			})
+			if Epiphany then
+				SMCM.AddSpace(category)
+				SMCM.AddText(category, "Tarnished Soundtrack")
+				SMCM.AddSetting(category, {
+					Type = SMCM.OptionType.NUMBER,
+					Default = 3,
+					CurrentSetting = function()
+						return modSaveData["tarnishedsoundtrack"]
+					end,
+					Minimum = 0,
+					Maximum = 3,
+					Display = function()
+						if modSaveData["tarnishedsoundtrack"] == 3 then
+							return "Excelsior"
+						elseif modSaveData["tarnishedsoundtrack"] == 2 then
+							return "Blended (Rebirth + Antibirth)"
+						elseif modSaveData["tarnishedsoundtrack"] == 1 then
+							return "Antibirth"
+						else
+							return "Rebirth"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tarnishedsoundtrack"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the soundtrack to use for Tarnished characters."
+					}
+				})
+			end
 		end
 	end
 end
@@ -1364,6 +1478,18 @@ Music.MUSIC_I_AM_ERROR = Isaac.GetMusicIdByName("I Am Error")
 Music.MUSIC_BLUE_WOMB_ALT = Isaac.GetMusicIdByName("Armarium")
 Music.MUSIC_CATHEDRAL_ALT = Isaac.GetMusicIdByName("Cathedral Alt")
 Music.MUSIC_HAPPY_ANNIVERSARY = Isaac.GetMusicIdByName("Happy Anniversary")
+Music.MUSIC_CREDITS1 = Isaac.GetMusicIdByName("Credits original")
+Music.MUSIC_CREDITS2 = Isaac.GetMusicIdByName("Credits credits")
+Music.MUSIC_CREDITS3 = Isaac.GetMusicIdByName("Credits greed")
+Music.MUSIC_CREDITS4 = Isaac.GetMusicIdByName("Credits greedier")
+Music.MUSIC_CREDITS5 = Isaac.GetMusicIdByName("Credits home")
+Music.MUSIC_CREDITS6 = Isaac.GetMusicIdByName("Credits anniversary")
+Music.MUSIC_CREDITS1_R = Isaac.GetMusicIdByName("Credits original RGON")
+Music.MUSIC_CREDITS2_R = Isaac.GetMusicIdByName("Credits credits RGON")
+Music.MUSIC_CREDITS3_R = Isaac.GetMusicIdByName("Credits greed RGON")
+Music.MUSIC_CREDITS4_R = Isaac.GetMusicIdByName("Credits greedier RGON")
+Music.MUSIC_CREDITS5_R = Isaac.GetMusicIdByName("Credits home RGON")
+Music.MUSIC_CREDITS6_R = Isaac.GetMusicIdByName("Credits anniversary RGON")
 
 --[[Music.MUSIC_CAVES_GREED = Isaac.GetMusicIdByName("Caves (greed)")
 Music.MUSIC_FLOODED_CAVES_GREED = Isaac.GetMusicIdByName("Flooded Caves (greed)")
@@ -1385,6 +1511,18 @@ skiptainted = {
 	[Music.MUSIC_INTRO_VOICEOVER] = true,
 	[Music.MUSIC_EPILOGUE_VOICEOVER] = true,
 	[Music.MUSIC_FINAL_VOICEOVER] = true,
+	[Music.MUSIC_CREDITS1] = true,
+	[Music.MUSIC_CREDITS2] = true,
+	[Music.MUSIC_CREDITS3] = true,
+	[Music.MUSIC_CREDITS4] = true,
+	[Music.MUSIC_CREDITS5] = true,
+	[Music.MUSIC_CREDITS6] = true,
+	[Music.MUSIC_CREDITS1_R] = true,
+	[Music.MUSIC_CREDITS2_R] = true,
+	[Music.MUSIC_CREDITS3_R] = true,
+	[Music.MUSIC_CREDITS4_R] = true,
+	[Music.MUSIC_CREDITS5_R] = true,
+	[Music.MUSIC_CREDITS6_R] = true,
 }
 
 treasurejingles = {
@@ -1605,11 +1743,120 @@ normaltotaintedalt2 = {
 	[Music.MUSIC_DANK_DEPTHS_GREED] = Isaac.GetMusicIdByName("Dank Depths (tainted) altloop"),--]]
 }
 
+normaltotarnished = {
+	[Music.MUSIC_BASEMENT] = Isaac.GetMusicIdByName("Excelsior Basement"),
+	[Music.MUSIC_CAVES] = Isaac.GetMusicIdByName("Excelsior Caves"),
+	[Music.MUSIC_DEPTHS] = Isaac.GetMusicIdByName("Excelsior Depths"),
+	[Music.MUSIC_CELLAR] = Isaac.GetMusicIdByName("Excelsior Cellar"),
+	[Music.MUSIC_CATACOMBS] = Isaac.GetMusicIdByName("Excelsior Catacombs"),
+	[Music.MUSIC_NECROPOLIS] = Isaac.GetMusicIdByName("Excelsior Necropolis"),
+	[Music.MUSIC_WOMB_UTERO] = Isaac.GetMusicIdByName("Excelsior Womb"),
+	[Music.MUSIC_GAME_OVER] = Isaac.GetMusicIdByName("Excelsior Game Over"),
+	[Music.MUSIC_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss"),
+	[Music.MUSIC_CATHEDRAL] = Isaac.GetMusicIdByName("Excelsior Cathedral"),
+	[Music.MUSIC_SHEOL] = Isaac.GetMusicIdByName("Excelsior Sheol"),
+	[Music.MUSIC_DARK_ROOM] = Isaac.GetMusicIdByName("Excelsior Dark Room"),
+	[Music.MUSIC_CHEST] = Isaac.GetMusicIdByName("Excelsior Chest"),
+	[Music.MUSIC_BURNING_BASEMENT] = Isaac.GetMusicIdByName("Excelsior Burning Basement"),
+	[Music.MUSIC_FLOODED_CAVES] = Isaac.GetMusicIdByName("Excelsior Flooded Caves"),
+	[Music.MUSIC_DANK_DEPTHS] = Isaac.GetMusicIdByName("Excelsior Dank Depths"),
+	[Music.MUSIC_SCARRED_WOMB] = Isaac.GetMusicIdByName("Excelsior Scarred Womb"),
+	[Music.MUSIC_BLUE_WOMB] = Isaac.GetMusicIdByName("Excelsior Blue Womb"),
+	[Music.MUSIC_UTERO] = Isaac.GetMusicIdByName("Excelsior Utero"),
+	[Music.MUSIC_MOM_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Depths - Mom)"),
+	[Music.MUSIC_MOMS_HEART_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Womb - Mom's Heart)"),
+	[Music.MUSIC_ISAAC_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Cathedral - Isaac)"),
+	[Music.MUSIC_SATAN_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Sheol - Satan)"),
+	[Music.MUSIC_DARKROOM_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Dark Room)"),
+	[Music.MUSIC_BLUEBABY_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Chest - ???)"),
+	[Music.MUSIC_BOSS2] = Isaac.GetMusicIdByName("Excelsior Boss (alternate)"),
+	[Music.MUSIC_HUSH_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Blue Womb - Hush)"),
+	[Music.MUSIC_ULTRAGREED_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Ultra Greed)"),
+	[Music.MUSIC_LIBRARY_ROOM] = Isaac.GetMusicIdByName("Excelsior Library Room"),
+	[Music.MUSIC_SECRET_ROOM] = Isaac.GetMusicIdByName("Excelsior Secret Room"),
+	[Music.MUSIC_SECRET_ROOM2] = Isaac.GetMusicIdByName("Excelsior Secret Room Alt"),
+	[Music.MUSIC_DEVIL_ROOM] = Isaac.GetMusicIdByName("Excelsior Devil Room"),
+	[Music.MUSIC_ANGEL_ROOM] = Isaac.GetMusicIdByName("Excelsior Angel Room"),
+	[Music.MUSIC_SHOP_ROOM] = Isaac.GetMusicIdByName("Excelsior Shop Room"),
+	[Music.MUSIC_ARCADE_ROOM] = Isaac.GetMusicIdByName("Excelsior Arcade Room"),
+	[Music.MUSIC_BOSS_OVER] = Isaac.GetMusicIdByName("Excelsior Boss Room (empty)"),
+	[Music.MUSIC_CHALLENGE_FIGHT] = Isaac.GetMusicIdByName("Excelsior Challenge Room (fight)"),
+	[Music.MUSIC_BOSS_RUSH] = Isaac.GetMusicIdByName("Excelsior Boss Rush"),
+	[Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO] = Isaac.GetMusicIdByName("Excelsior Boss Rush (jingle)"),
+	[Music.MUSIC_BOSS3] = Isaac.GetMusicIdByName("Excelsior Boss (alternate alternate)"),
+	[Music.MUSIC_JINGLE_BOSS_OVER3] = Isaac.GetMusicIdByName("Excelsior Boss Death Alternate Alternate (jingle)"),
+	[Music.MUSIC_MOTHER_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Mother)"),
+	[Music.MUSIC_DOGMA_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Dogma)"),
+	[Music.MUSIC_BEAST_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Beast)"),
+	[Music.MUSIC_JINGLE_MOTHER_OVER] = Isaac.GetMusicIdByName("Excelsior Boss Mother Death (jingle)"),
+	--[Music.MUSIC_JINGLE_DOGMA_OVER] = Isaac.GetMusicIdByName("Boss Dogma Death (jingle, tainted)"),
+	--[Music.MUSIC_JINGLE_BEAST_OVER] = Isaac.GetMusicIdByName("Boss Beast Death (jingle, tainted)"),
+	[Music.MUSIC_PLANETARIUM] = Isaac.GetMusicIdByName("Excelsior Planetarium"),
+	[Music.MUSIC_SECRET_ROOM_ALT_ALT] = Isaac.GetMusicIdByName("Excelsior Secret Room Alt Alt"),
+	[Music.MUSIC_BOSS_OVER_TWISTED] = Isaac.GetMusicIdByName("Excelsior Boss Room (empty, twisted)"),
+	--[Music.MUSIC_MOTHERS_SHADOW_INTRO] = Isaac.GetMusicIdByName("Mom's Shadow Intro (tainted)"),
+	--[Music.MUSIC_DOGMA_INTRO] = Isaac.GetMusicIdByName("Dogma Intro (tainted)"),
+	[Music.MUSIC_STRANGE_DOOR_JINGLE] = Isaac.GetMusicIdByName("Excelsior Strange Door (jingle)"),
+	[Music.MUSIC_DARK_CLOSET] = Isaac.GetMusicIdByName("Excelsior Echoes Reverse"),
+	[Music.MUSIC_JINGLE_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (jingle)"),
+	[Music.MUSIC_JINGLE_BOSS_OVER] = Isaac.GetMusicIdByName("Excelsior Boss Death (jingle)"),
+	--[Music.MUSIC_JINGLE_HOLYROOM_FIND] = Isaac.GetMusicIdByName("Holy Room Find (jingle, tainted)"),
+	[Music.MUSIC_JINGLE_SECRETROOM_FIND] = Isaac.GetMusicIdByName("Excelsior Secret Room Find (jingle)"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_0] = Isaac.GetMusicIdByName("Excelsior Treasure Room Entry (jingle) 1"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_1] = Isaac.GetMusicIdByName("Excelsior Treasure Room Entry (jingle) 2"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_2] = Isaac.GetMusicIdByName("Excelsior Treasure Room Entry (jingle) 3"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_3] = Isaac.GetMusicIdByName("Excelsior Treasure Room Entry (jingle) 4"),
+	--[Music.MUSIC_JINGLE_CHALLENGE_ENTRY] = Isaac.GetMusicIdByName("Challenge Room Entry (jingle, tainted)"),
+	[Music.MUSIC_JINGLE_CHALLENGE_OUTRO] = Isaac.GetMusicIdByName("Excelsior Challenge Room Outro (jingle)"),
+	[Music.MUSIC_JINGLE_GAME_OVER] = Isaac.GetMusicIdByName("Excelsior Game Over (jingle)"),
+	--[Music.MUSIC_JINGLE_DEVILROOM_FIND] = Isaac.GetMusicIdByName("Devil Room appear (jingle, tainted)"),
+	[Music.MUSIC_JINGLE_BOSS_OVER2] = Isaac.GetMusicIdByName("Excelsior Boss Death Alternate (jingle)"),
+	[Music.MUSIC_JINGLE_HUSH_OVER] = Isaac.GetMusicIdByName("Excelsior Hush Outro (jingle)"),
+	[Music.MUSIC_VOID] = Isaac.GetMusicIdByName("Excelsior Void"),
+	[Music.MUSIC_VOID_BOSS] = Isaac.GetMusicIdByName("Excelsior Boss (Void)"),
+	[Music.MUSIC_DOWNPOUR] = Isaac.GetMusicIdByName("Excelsior Downpour"),
+	[Music.MUSIC_MINES] = Isaac.GetMusicIdByName("Excelsior Mines"),
+	[Music.MUSIC_MAUSOLEUM] = Isaac.GetMusicIdByName("Excelsior Mausoleum"),
+	[Music.MUSIC_CORPSE] = Isaac.GetMusicIdByName("Excelsior Corpse"),
+	[Music.MUSIC_DROSS] = Isaac.GetMusicIdByName("Excelsior Dross"),
+	[Music.MUSIC_ASHPIT] = Isaac.GetMusicIdByName("Excelsior Ashpit"),
+	[Music.MUSIC_GEHENNA] = Isaac.GetMusicIdByName("Excelsior Gehenna"),
+	--[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("not done (tainted)"),
+	[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Excelsior Home"),
+	[Music.MUSIC_DOWNPOUR_REVERSE] = Isaac.GetMusicIdByName("Excelsior Downpour (reversed)"),
+	[Music.MUSIC_DROSS_REVERSE] = Isaac.GetMusicIdByName("Excelsior Dross (reversed)"),
+	[Music.MUSIC_MINESHAFT_AMBIENT] = Isaac.GetMusicIdByName("Excelsior Abandoned Mineshaft"),
+	[Music.MUSIC_MINESHAFT_ESCAPE] = Isaac.GetMusicIdByName("Excelsior Mineshaft Escape"),
+	[Music.MUSIC_REVERSE_GENESIS] = Isaac.GetMusicIdByName("Excelsior Genesis (reversed)"),
+	[Music.MUSIC_CATACOMBS_GREED] = Isaac.GetMusicIdByName("Excelsior Catacombs"),
+	[Music.MUSIC_DEPTHS_GREED] = Isaac.GetMusicIdByName("Excelsior Depths"),
+	[Music.MUSIC_UTERO_GREED] = Isaac.GetMusicIdByName("Excelsior Utero"),
+	[Music.MUSIC_SHEOL_GREED] = Isaac.GetMusicIdByName("Excelsior Sheol"),
+	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Excelsior Greed Floor 6"),
+	[Music.MUSIC_BOSS_OVER_GREED] = Isaac.GetMusicIdByName("Excelsior Boss Room (empty)"),
+	[Music.MUSIC_ULTRAGREEDIER_BOSS] = Isaac.GetMusicIdByName("Excelsior Ultra Greedier"),
+	[Music.MUSIC_ANGEL_BOSS] = Isaac.GetMusicIdByName("Excelsior Angel Fight"),
+	[Music.MUSIC_SATAN_BOSS_ALT] = Isaac.GetMusicIdByName("Excelsior Boss (Sheol - Satan)"),
+	[Music.MUSIC_MEGASATAN_BOSS] = Isaac.GetMusicIdByName("Excelsior Mega Satan"),
+	[Music.MUSIC_JINGLE_DELIRIUM_OVER] = Isaac.GetMusicIdByName("Excelsior Delirium outro"),
+	[Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER] = Isaac.GetMusicIdByName("Excelsior Ultra Greedier outro"),
+	[Music.MUSIC_JINGLE_ANGEL_OVER] = Isaac.GetMusicIdByName("Excelsior Angel Fight outro"),
+	[Music.MUSIC_BLACKMARKET_ROOM] = Isaac.GetMusicIdByName("Excelsior Black Market"),
+	[Music.MUSIC_DEVIL_ROOM_ALT] = Isaac.GetMusicIdByName("Excelsior Devil Room"),
+	[Music.MUSIC_SHOP_ROOM_ALT] = Isaac.GetMusicIdByName("Excelsior Shop Room"),
+	[Music.MUSIC_I_AM_ERROR] = Isaac.GetMusicIdByName("Excelsior I Am Error"),
+}
+
 taintedjinglelength = {
 	[Music.MUSIC_JINGLE_BOSS_OVER] = 250, --Invictus
-	[Music.MUSIC_JINGLE_BOSS_OVER2] = 250, --not satisfied with The Flagbearer outro (200), so using Invictus instead
-	--TODO: use the MOTHER_JINGLE_OVER for the Flagbearer outro?
+	[Music.MUSIC_JINGLE_BOSS_OVER2] = 200, --The Flagbearer
 	[Music.MUSIC_JINGLE_BOSS_OVER3] = 320, --Tandava
+}
+
+tarnishedjinglelength = {
+	[Music.MUSIC_JINGLE_BOSS_OVER] = 150, --Brass Knuckle
+	[Music.MUSIC_JINGLE_BOSS_OVER2] = 120, --Vomitorium
+	[Music.MUSIC_JINGLE_BOSS_OVER3] = 150, --The Nazarite
 }
 
 taintedsfxid = {
@@ -1628,45 +1875,72 @@ local playingMainTrack = true
 local coopMixedSoundtrack = false
 local newPlayerSpawned = false --used as a flag to call a function on post render
 
-local function PlayerIsTainted(player) --player is an EntityPlayer
+--0 = normal; 1 = tainted; = 2 = tarnished
+local function GetPlayerTType(player) --player is an EntityPlayer
 	local playerType = player:GetPlayerType()
 	if playerType < PlayerType.NUM_PLAYER_TYPES then
 		--base game characters
 		if playerType >= PlayerType.PLAYER_ISAAC_B then
-			return true
+			return 1
 		else
-			return false
+			return 0
 		end
+	elseif Epiphany and Epiphany.table_name[playerType] ~= nil then
+		return 2
 	else
 		--modded characters
 		local playerName = player:GetName()
 		local taintedPlayerType = Isaac.GetPlayerTypeByName(playerName,true)
 		if playerType == taintedPlayerType then
-			return true
+			return 1
 		else
 			--check for "Tainted" in the name (the Mei mod does this)
 			local posU = string.find(playerName,"Tainted")
 			local posL = string.find(playerName,"tainted")
 			if posU == nil and posL == nil then
-				return false
+				return 0
 			else
-				return true
+				return 1
 			end
 		end
 	end
-	return false --failsafe
+	return 0 --failsafe
+end
+
+local function PlayerIsTarnished(player)
+	return (GetPlayerTType(player) == 2)
+end
+
+local function PlayerIsTainted(player)
+	return (GetPlayerTType(player) == 1)
+end
+
+local function PlayerIsNormal(player)
+	return (GetPlayerTType(player) == 0)
 end
 
 local function normalAndTaintedPresent()
 	local normalPresent = false
 	local taintedPresent = false
+	local tarnishedPresent = false
 	for i=0,7 do
 		local tempPlayer = Isaac.GetPlayer(i)
 		if tempPlayer and tempPlayer.Variant == 0 --0 is true player, 1 is co-op baby
 		and not (tempPlayer:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and not tempPlayer:GetSubPlayer()) then --account for "Soul of the Forgotten"
-			if PlayerIsTainted(tempPlayer) then
+			if PlayerIsTarnished(tempPlayer) then
+				if modSaveData["tarnishedsoundtrack"] == 2 then
+					taintedPresent = true
+					normalPresent = true
+				elseif modSaveData["tarnishedsoundtrack"] == 1 then
+					taintedPresent = true
+				elseif modSaveData["tarnishedsoundtrack"] == 0 then
+					normalPresent = true
+				else
+					tarnishedPresent = true
+				end
+			elseif PlayerIsTainted(tempPlayer) then
 				taintedPresent = true
-			else
+			elseif PlayerIsNormal(tempPlayer) then
 				normalPresent = true
 			end
 		end
@@ -1706,6 +1980,14 @@ end
 custommusiccollection:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, resetLoopVersion)
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_END, resetLoopVersion)
 custommusiccollection:AddCallback(ModCallbacks.MC_USE_ITEM, resetLoopVersion, CollectibleType.COLLECTIBLE_FORGET_ME_NOW)
+
+function TarnishedVersion(trackId)
+	if normaltotarnished[trackId] then
+		return normaltotarnished[trackId]
+	else
+		return trackId
+	end
+end
 
 function TaintedVersion(trackId)
 	if normaltotainted[trackId] then
@@ -2342,6 +2624,7 @@ local roomSeedTrack = { --TODO: these can be adjusted now that MMC no longer use
 	--Genesis room
 	[Music.MUSIC_TITLE] = 1,
 	[Music.MUSIC_TITLE_AFTERBIRTH] = 1,
+	[Music.MUSIC_TITLE_REPENTANCE] = 1,
 	
 	[Music.MUSIC_BOSS_OVER] = 2,
 	[Music.MUSIC_BOSS_OVER_GREED] = 2,
@@ -2491,23 +2774,54 @@ custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, function()
 	end
 end)
 
+function PlayTarnishedVersion(trackId)
+	local playTarnishedVersion = false
+	local player = Isaac.GetPlayer()
+	if PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] == 3 then
+		playTarnishedVersion = true
+	end
+	return playTarnishedVersion
+end
+
 function PlayTaintedVersion(trackId)
 	local playTaintedVersion = false
-	if coopMixedSoundtrack and modSaveData["blendedcoopsoundtrack"] then
+	local player = Isaac.GetPlayer()
+	if (coopMixedSoundtrack and modSaveData["blendedcoopsoundtrack"] and not PlayerIsTarnished(player)) or (PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] == 2) then
 		playTaintedVersion = SeededCoopTaintedMix(trackId)
-	else
-		local player = Isaac.GetPlayer()
-		playTaintedVersion = PlayerIsTainted(player)
+	elseif PlayerIsTainted(player) or (PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] == 1) then
+		playTaintedVersion = true
 	end
 	return playTaintedVersion
 end
 
-function NormalOrTainted(trackId)
-	if PlayTaintedVersion(trackId) then
+function PlayNormalVersion(trackId)
+	return (not PlayTaintedVersion(trackId) and not PlayTarnishedVersion(trackId))
+end
+
+function NormalOrTainted(trackId) --TODOO: rename functions as reasonable
+	if PlayTarnishedVersion(trackId) then
+		return TarnishedVersion(trackId)
+	elseif PlayTaintedVersion(trackId) then
 		return TaintedVersion(trackId)
 	else
 		return trackId
 	end
+end
+
+tarnishednightmare = {
+	[Music.MUSIC_JINGLE_NIGHTMARE] = Isaac.GetMusicIdByName("Excelsior Nightmare"),
+	[Music.MUSIC_JINGLE_NIGHTMARE_ALT] = Isaac.GetMusicIdByName("Excelsior Nightmare (alt)"),
+}
+
+if usingRGON then
+	function custommusiccollection:PlayExcelsiorNightmare(trackId)
+		if PlayTarnishedVersion(trackId) and tarnishednightmare[trackId] then
+			return tarnishednightmare[trackId]
+		end
+	end
+	custommusiccollection:CreateCallback(custommusiccollection.PlayExcelsiorNightmare,
+	Music.MUSIC_JINGLE_NIGHTMARE,
+	Music.MUSIC_JINGLE_NIGHTMARE_ALT)
 end
 
 function custommusiccollection:PlayEpicDogmaPortrait(entity)
@@ -2541,6 +2855,8 @@ function custommusiccollection:PerformDarkHomeReplacement(trackId)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDarkHomeReplacement, Music.MUSIC_ISAACS_HOUSE)
+
+--TODOO: always enable layer when in Dark Home (RGON only)
 
 function custommusiccollection:PerformBlackMarketReplacement(trackId)
 	if modSaveData["blackmarketroomtheme"] and not skiptainted[trackId] then
@@ -2604,7 +2920,9 @@ function custommusiccollection:PerformGenesisRoomReplacement(trackId)
 		if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
 			local ascent = level:IsAscent()
 			if not ascent then
-				if PlayTaintedVersion(Music.MUSIC_TITLE) then
+				if PlayTarnishedVersion(Music.MUSIC_TITLE) then
+					return Music.MUSIC_TITLE_REPENTANCE
+				elseif PlayTaintedVersion(Music.MUSIC_TITLE) then
 					return Music.MUSIC_TITLE_AFTERBIRTH
 				else
 					return Music.MUSIC_TITLE
@@ -2673,7 +2991,9 @@ function custommusiccollection:PerformBlueWombJingleSet(trackId)
 	if InWombIIBossRoom() then
 	
 		local jinglelength = 0
-		if PlayTaintedVersion(trackId) then
+		if PlayTarnishedVersion(trackId) then
+			jinglelength = tarnishedjinglelength[trackId]
+		elseif PlayTaintedVersion(trackId) then
 			jinglelength = taintedjinglelength[trackId]
 		elseif trackId == Music.MUSIC_JINGLE_BOSS_OVER then
 			jinglelength = 370
@@ -2747,10 +3067,16 @@ if usingRGON then
 end
 
 function custommusiccollection:PerformMegaSatanReplacement(trackId)
-	if not Game():IsGreedMode() then
+	if Game():GetRoom():GetBossID() == 55 then
+		local isgreedmode = Game():IsGreedMode()
 		local stage = GetEffectiveLevelStage()
-		if stage == LevelStage.STAGE6 then
-			if PlayTaintedVersion(Music.MUSIC_MEGASATAN_BOSS) and not modSaveData["megasatantaintedspeedup"] then
+		if (stage == LevelStage.STAGE6 and not isgreedmode) or (stage == LevelStage.STAGE7_GREED and isgreedmode) then --account for the "Mega Satan in Greed Mode" mod
+			local rng = math.random(0,1)
+			if PlayTarnishedVersion(Music.MUSIC_MEGASATAN_BOSS) and not modSaveData["megasatantaintedspeedup"] then
+				return TarnishedVersion(Music.MUSIC_SATAN_BOSS)
+			elseif PlayTaintedVersion(Music.MUSIC_MEGASATAN_BOSS) and (modSaveData["megasatantaintedflagbearer"] == 1 or (modSaveData["megasatantaintedflagbearer"] == 2 and rng == 1)) then
+				return Isaac.GetMusicIdByName("Mega Satan (tainted, alt)")
+			elseif PlayTaintedVersion(Music.MUSIC_MEGASATAN_BOSS) and not modSaveData["megasatantaintedspeedup"] and (modSaveData["megasatantaintedflagbearer"] == 0 or (modSaveData["megasatantaintedflagbearer"] == 2 and rng == 0)) then
 				return Isaac.GetMusicIdByName("Mega Satan (tainted, vanilla)")
 			else
 				return NormalOrTainted(Music.MUSIC_MEGASATAN_BOSS)
@@ -2819,7 +3145,7 @@ end)
 custommusiccollection:AddCallback(ModCallbacks.MC_NPC_UPDATE, function(_, entity)
     if modSaveData["ultragreediertheme"] and entity.Variant == 1 then
 		local currentMusicID = musicmgr:GetCurrentMusicID()
-		if currentMusicID == Music.MUSIC_ULTRAGREED_BOSS or currentMusicID == TaintedVersion(Music.MUSIC_ULTRAGREED_BOSS) then
+		if currentMusicID == Music.MUSIC_ULTRAGREED_BOSS or currentMusicID == TaintedVersion(Music.MUSIC_ULTRAGREED_BOSS) or currentMusicID == TarnishedVersion(Music.MUSIC_ULTRAGREED_BOSS) then
 			musicmgr:Crossfade(Music.MUSIC_ULTRAGREEDIER_BOSS)
 			musicmgr:UpdateVolume()
 		end
@@ -2875,7 +3201,7 @@ function custommusiccollection:PerformBossPortraitBossMusic(trackId)
 	or (Isaac.GetChallenge() == Challenge.CHALLENGE_RED_REDEMPTION and stage == LevelStage.STAGE4_1) --Mother in Red Redemption challenge
 	or (stage == LevelStage.STAGE5 and stage_type == StageType.STAGETYPE_WOTL) --Isaac in Cathedral
 	or (stage == LevelStage.STAGE7 and (room:GetBossID() == 39 or room:GetBossID() == 70)) --Delirium and Isaac in Void
-	or (stage == LevelStage.STAGE7_GREED and Game():IsGreedMode()) --Ultra Greed
+	or (stage == LevelStage.STAGE7_GREED and Game():IsGreedMode() and room:GetBossID() == 62) --Ultra Greed
 	then
 		local bosstrack = GrabBossTrack()
 		if PlayTaintedVersion(bosstrack) then
@@ -2984,7 +3310,7 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformGreedShopChallengeCancel, Music.MUSIC_CHALLENGE_FIGHT, Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
 
 function custommusiccollection:PerformBlueWombAltReplacement(trackId)
-	if modSaveData["bluewombdevoid"] and not PlayTaintedVersion(trackId) then
+	if modSaveData["bluewombdevoid"] and PlayNormalVersion(trackId) then
 		if Game():GetStateFlag(GameStateFlag.STATE_BLUEWOMB_DONE) then
 			return Music.MUSIC_BLUE_WOMB_ALT
 		end
@@ -3007,7 +3333,7 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformCatacombsGreedReplacement, Music.MUSIC_CATACOMBS)
 
 function custommusiccollection:PerformUteroGreedReplacement(trackId)
-	if modSaveData["uterogreedviscera"] and Game():IsGreedMode() and not PlayTaintedVersion(Music.MUSIC_UTERO) then
+	if modSaveData["uterogreedviscera"] and Game():IsGreedMode() and PlayNormalVersion(Music.MUSIC_UTERO) then
 		return NormalOrTainted(Music.MUSIC_UTERO_GREED)
 	end
 end
@@ -3052,7 +3378,7 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformSatanBossReplacement, Music.MUSIC_SATAN_BOSS)
 
 function custommusiccollection:PerformCathedralReplacement(trackId)
-	if not PlayTaintedVersion(Music.MUSIC_CATHEDRAL) then
+	if PlayNormalVersion(Music.MUSIC_CATHEDRAL) then
 		return Music.MUSIC_CATHEDRAL_ALT
 	end
 end
@@ -3060,7 +3386,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformCathedralRepla
 
 --play the original Dark Room music
 function custommusiccollection:PerformDarkRoomReversion(trackId)
-	if not modSaveData["darkroomdescensum"] and not PlayTaintedVersion(Music.MUSIC_DARK_ROOM) then
+	if not modSaveData["darkroomdescensum"] and PlayNormalVersion(Music.MUSIC_DARK_ROOM) then
 		return Music.MUSIC_BLUE_WOMB
 	end
 end
@@ -3068,7 +3394,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformDarkRoomRevers
 
 --play the original Blue Womb music
 function custommusiccollection:PerformBlueWombReversion(trackId)
-	if not modSaveData["bluewombdevoid"] and not PlayTaintedVersion(Music.MUSIC_BLUE_WOMB) then
+	if not modSaveData["bluewombdevoid"] and PlayNormalVersion(Music.MUSIC_BLUE_WOMB) then
 		return Music.MUSIC_WOMB_UTERO
 	end
 end
@@ -3076,7 +3402,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformBlueWombRevers
 
 --play the original Womb music
 function custommusiccollection:PerformWombReversion(trackId)
-	if not modSaveData["wombnativitate"] and not PlayTaintedVersion(Music.MUSIC_WOMB_UTERO) then
+	if not modSaveData["wombnativitate"] and PlayNormalVersion(Music.MUSIC_WOMB_UTERO) then
 		return Music.MUSIC_UTERO_GREED
 	end
 end
@@ -3192,6 +3518,8 @@ function custommusiccollection:ShouldPlayTwistedJingle()
 	return false
 end
 
+--TODOO: play tarnished twisted jingle
+
 if usingRGON then
 	function custommusiccollection:PlayTaintedDeathCertificateJingleRGON(id, volume, frameDelay, loop, pitch, pan)
 		if custommusiccollection:ShouldPlayTwistedJingle() then
@@ -3253,6 +3581,20 @@ function custommusiccollection:PerformMineshaftEscapeReversion(trackId)
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformMineshaftEscapeReversion, Music.MUSIC_MINESHAFT_ESCAPE)
 
+function custommusiccollection:PerformTaintedBossAltReversion(trackId)
+	if PlayTaintedVersion(Music.MUSIC_BOSS2) and not modSaveData["boss2taintedflagbearer"] then
+		return TaintedVersion(Music.MUSIC_BOSS3)
+	end
+end
+custommusiccollection:CreateCallback(custommusiccollection.PerformTaintedBossAltReversion, Music.MUSIC_BOSS2)
+
+function custommusiccollection:PerformTaintedBossAltOverReversion(trackId)
+	if PlayTaintedVersion(Music.MUSIC_JINGLE_BOSS_OVER2) and not modSaveData["boss2taintedflagbearer"] then
+		return TaintedVersion(Music.MUSIC_JINGLE_BOSS_OVER3)
+	end
+end
+custommusiccollection:CreateCallback(custommusiccollection.PerformTaintedBossAltOverReversion, Music.MUSIC_JINGLE_BOSS_OVER2)
+
 --[[MMC.AddMusicCallback(custommusiccollection, function()
 	if Game():IsGreedMode() then
 		return NormalOrTainted(Music.MUSIC_CAVES_GREED)
@@ -3290,6 +3632,10 @@ if usingRGON then
 			stageSeedTrack[Music.MUSIC_MORTIS] = 1
 			
 			custommusiccollection:CreateCallback(custommusiccollection.PerformMortisReversion, Music.MUSIC_MORTIS)
+			
+			if Epiphany then
+				normaltotarnished[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Excelsior Mortis")
+			end
 		end
 	end
 end
@@ -3349,6 +3695,8 @@ end
 
 --TODO: test Custom Stage API when MMC is on
 
+
+--extra misc. code requires for things to work perfectly
 if usingRGON then
 	cdmLastMusicID = 0
 	
@@ -3389,7 +3737,9 @@ if usingRGON then
 			end
 		elseif level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
 			if modSaveData["genesisroomtheme"] then
-				if PlayTaintedVersion(Music.MUSIC_TITLE) then
+				if PlayTarnishedVersion(Music.MUSIC_TITLE) then
+					musicmgr:Crossfade(Music.MUSIC_TITLE_REPENTANCE)
+				elseif PlayTaintedVersion(Music.MUSIC_TITLE) then
 					musicmgr:Crossfade(Music.MUSIC_TITLE_AFTERBIRTH)
 				else
 					musicmgr:Crossfade(Music.MUSIC_TITLE)
@@ -3483,16 +3833,19 @@ if usingRGON then
 	--handle Greed Mode weirdness
 	local roomclearbefore = false
 	local previousgreedwave = 0
+	local previousbosscount = 0
 	
 	function custommusiccollection:SetRoomIsClear()
 		roomclearbefore = Game():GetRoom():IsClear()
 		previousgreedwave = 0
+		previousbosscount = 0
 	end
 	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.SetRoomIsClear)
 	
 	function custommusiccollection:SetValuesOnExit()
 		roomclearbefore = false
 		previousgreedwave = 0
+		previousbosscount = 0
 	end
 	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, custommusiccollection.SetValuesOnExit)
 	
@@ -3509,6 +3862,9 @@ if usingRGON then
 			if (roomdescflags & RoomDescriptor.FLAG_ALT_BOSS_MUSIC) == 0 then
 				bossMusic = Music.MUSIC_BOSS
 				bossOverJingle = Music.MUSIC_JINGLE_BOSS_OVER
+			elseif PlayTaintedVersion(Music.MUSIC_BOSS2) and not modSaveData["boss2taintedflagbearer"] then
+				bossMusic = Music.MUSIC_BOSS3
+				bossOverJingle = Music.MUSIC_JINGLE_BOSS_OVER3
 			else
 				bossMusic = Music.MUSIC_BOSS2
 				bossOverJingle = Music.MUSIC_JINGLE_BOSS_OVER2
@@ -3523,15 +3879,26 @@ if usingRGON then
 				totalWaves = 11
 			end
 			
+			local currentbosscount = Isaac.CountBosses()
+			
 			if room:GetType() == RoomType.ROOM_DEFAULT then
-				if GetEffectiveLevelStage() == LevelStage.STAGE6_GREED and not modSaveData["shopfloorgreedtheme"] then
+				if GetEffectiveLevelStage() == LevelStage.STAGE6_GREED then
 					if currentgreedwave < (totalWaves - 2) then
-						if roomclearnow and not roomclearbefore then
-							--do this for tainted Characters
-							--is the tainted challenge music the culprit, or the tainted shop music the culprit? Just do for both for now
-							if PlayTaintedVersion(Music.MUSIC_CHALLENGE_FIGHT) or PlayTaintedVersion(Music.MUSIC_SHOP_ROOM) then
-								musicmgr:Crossfade(Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
-								musicmgr:Queue(Music.MUSIC_SHOP_ROOM)
+						if modSaveData["shopfloorgreedtheme"] and PlayTarnishedVersion(Music.MUSIC_FLOOR_6_GREED) then
+							if roomclearbefore and not roomclearnow then
+								musicmgr:EnableLayer()
+							end
+							if roomclearnow and not roomclearbefore then
+								musicmgr:DisableLayer()
+							end
+						elseif not modSaveData["shopfloorgreedtheme"] then
+							if roomclearnow and not roomclearbefore then
+								--do this for tainted Characters
+								--is the tainted challenge music the culprit, or the tainted shop music the culprit? Just do for both for now
+								if not PlayNormalVersion(Music.MUSIC_CHALLENGE_FIGHT) or not PlayNormalVersion(Music.MUSIC_SHOP_ROOM) then
+									musicmgr:Crossfade(Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
+									musicmgr:Queue(Music.MUSIC_SHOP_ROOM)
+								end
 							end
 						end
 					end
@@ -3541,7 +3908,7 @@ if usingRGON then
 					if currentgreedwave == (totalWaves - 2) or currentgreedwave == (totalWaves - 1) then
 						--do this for tainted Characters
 						--is the tainted boss music the culprit, or the tainted boss over music the culprit? Just do for both for now
-						if PlayTaintedVersion(bossMusic) or PlayTaintedVersion(Music.MUSIC_BOSS_OVER) then
+						if not PlayNormalVersion(bossMusic) or not PlayNormalVersion(Music.MUSIC_BOSS_OVER) then
 							musicmgr:Crossfade(bossOverJingle)
 							musicmgr:Queue(Music.MUSIC_BOSS_OVER)
 						end
@@ -3549,14 +3916,20 @@ if usingRGON then
 						--do for tainted characters no matter what
 						--do for non-tainted characters only if greed mode devil wave challenge music is on
 						--Challenge fight and Satan fight have the same value for room seed track
-						if modSaveData["devilwavegreedambush"] or PlayTaintedVersion(Music.MUSIC_SATAN_BOSS) or PlayTaintedVersion(Music.MUSIC_BOSS_OVER) then
+						if modSaveData["devilwavegreedambush"] or not PlayNormalVersion(Music.MUSIC_SATAN_BOSS) or not PlayNormalVersion(Music.MUSIC_BOSS_OVER) then
 							musicmgr:Crossfade(Music.MUSIC_BOSS_OVER) --no boss over jingle after Devil Deal Wave
 						end
 					end
 				end
+			elseif room:GetType() == RoomType.ROOM_BOSS and room:GetBossID() == 55 then --for the "Mega Satan in Greed Mode" mode
+				if currentbosscount == 0 and previousbosscount > 0 then --this doesn't actually occur for the "Mega Satan in Greed Mode" mod without this mod's help
+					musicmgr:Crossfade(bossOverJingle)
+					musicmgr:Queue(Music.MUSIC_BOSS_OVER)
+				end
 			end
 			
 			previousgreedwave = currentgreedwave
+			previousbosscount = currentbosscount
 		end
 		roomclearbefore = roomclearnow
 	end
@@ -3576,6 +3949,18 @@ if usingRGON then
 			
 			StageAPI.StopOverridingMusic(Music.MUSIC_JINGLE_ANGEL_OVER)
 			StageAPI.StopOverridingMusic(normaltotainted[Music.MUSIC_JINGLE_ANGEL_OVER])
+			
+			if Epiphany then
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_GAME_OVER], false, true)
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_GAME_OVER])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_OVER])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_OVER2])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_OVER3])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_CHALLENGE_OUTRO])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_MOTHER_OVER])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_ANGEL_OVER])
+			end
 		end
 	end
 	custommusiccollection:AddCallback(ModCallbacks.MC_POST_MODS_LOADED, custommusiccollection.HandleStageAPI)
