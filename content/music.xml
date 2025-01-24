@@ -126,7 +126,7 @@
 	<track name="Challenge Room Outro (jingle, tainted)" path="Fights/Challenge Fight - A Baleful Circus [Outro].ogg" loop="false" mul="1.25" />
 	<track name="Game Over (jingle, tainted)" path="You Died jingle short.ogg" loop="false" />
 	<!--<track name="Devil Room appear (jingle, tainted)" /> -->
-	<track name="Boss Death Alternate (jingle, tainted)" path="Fights/Basic Boss - Invictus [Outro].ogg" loop="false" />
+	<track name="Boss Death Alternate (jingle, tainted)" path="Fights/Mother - Memento Mori [Outro].ogg" loop="false" />
 	<track name="Boss Hush Death (jingle, tainted)" path="Fights/Hush - Howl [Outro].ogg" loop="false" mul="1.25" />
 	<track name="Void (tainted)" intro="Void - Allnoise [Intro].ogg" path="Void - Allnoise [Loop].ogg" loop="true" />
 	<track name="Void (tainted) nointro" path="Void - Allnoise [Loop].ogg" loop="true" />
@@ -170,6 +170,7 @@
 	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="1.5" />
 	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
 	<track name="Mega Satan (tainted, vanilla)" intro="Fights/Satan - Spectrum of Sin [Intro].ogg" path="Fights/Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Mega Satan (tainted, alt)" intro="Fights/Mega Satan - Flagbearer [Intro].ogg" path="Fights/Mega Satan - Flagbearer [Loop].ogg" loop="true" />
 	<track name="Black Market (tainted)" path="Black Market - Depression Shop Reversed [Loop].ogg" loop="true" />
 	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
 	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="5" />
@@ -215,4 +216,116 @@
 	<track name="Mortis (tainted)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" />
 	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" />
 	<track name="Mortis (tainted) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" />
+	
+	<!-- Excelsior -->
+	<track name="Excelsior Basement" intro="Excelsior/Diptera Sonata Intro.ogg" path="Excelsior/Diptera Sonata(Basement).ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Cellar" intro="Excelsior/The Cellar Alt Intro.ogg" path="Excelsior/The Cellar Alt.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Burning Basement" intro="Excelsior/burning basement Intro.ogg" path="Excelsior/burning basement Loop.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Caves" intro="Excelsior/The Caves Intro.ogg" path="Excelsior/The Caves.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Catacombs" intro="Excelsior/Catacombs Intro.ogg" path="Excelsior/Catacombs.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Flooded Caves" intro="Excelsior/Kave Diluvii (Flooded Caves)Intro.ogg" path="Excelsior/Kave Diluvii (Flooded Caves) loop.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Depths" intro="Excelsior/The Depths Intro.ogg" path="Excelsior/The Depths.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Necropolis" intro="Excelsior/Necropolis Intro.ogg" path="Excelsior/Necropolis.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Dank Depths" intro="Excelsior/Pulso Profundum (dank Depths ) intro.ogg" path="Excelsior/Pulso Profundum (dank Depths ) Loop.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Womb" intro="Excelsior/The Womb Chapter Four Intro.ogg" path="Excelsior/The Womb Chapter Four.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Scarred Womb" intro="Excelsior/Cicatrix (Scarred Womb) Intro.ogg" path="Excelsior/Cicatrix (Scarred Womb) Loop.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Blue Womb" intro="Excelsior/Nativitate  (Dead Womb Floor) Intro.ogg" path="Excelsior/Nativitate (Dead Womb Floor) Loop.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Sheol" intro="Excelsior/Sheol Intro.ogg" path="Excelsior/Sheol.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Cathedral" intro="Excelsior/Cathedral Intro.ogg" path="Excelsior/Cathedral Chant.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Dark Room" intro="Excelsior/Dark Room Alt Chapter 6 intro.ogg" path="Excelsior/Dark Room Alt Chapter 6.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Chest" intro="Excelsior/Chest Room Intro.ogg" path="Excelsior/Chest Room Chapter 6.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Void" path="Excelsior/Void.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Boss" path="Excelsior/Basic Boss Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (Depths - Mom)" path="Excelsior/Mom Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (Womb - Mom's Heart)" path="Excelsior/Womb Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (Cathedral - Isaac)" path="Excelsior/Isaac Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (Sheol - Satan)" path="Excelsior/Satan Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (Dark Room)" path="Excelsior/Dark Room Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (Chest - ???)" path="Excelsior/Chest Fight.ogg" loop="true" />
+	<track name="Excelsior Boss (alternate)" intro="Excelsior/Cerebrum Dispersio (boss alt ) intro.ogg" path="Excelsior/Cerebrum Dispersio (boss alt) Loop.ogg" loop="true" />
+	<track name="Excelsior Boss (Blue Womb - Hush)" intro="Excelsior/Morituros (dead womb boss) intro.ogg" path="Excelsior/Morituros (dead womb boss) Loop.ogg" loop="true" />
+	<track name="Excelsior Boss (Ultra Greed)" intro="Excelsior/Chorus Mortis (Punk Credit) Intro.ogg" path="Excelsior/Chorus Mortis (Punk Credit) Loop.ogg" loop="true" />
+	<track name="Excelsior Boss (Void)" path="Excelsior/Delirium Fight.ogg" loop="true" />
+	<track name="Excelsior Boss Room (empty)" intro="Excelsior/The Calm intro.ogg" path="Excelsior/The Calm.ogg" loop="true" mul="2" />
+	<track name="Excelsior Challenge Room (fight)" path="Excelsior/Ambush.ogg" loop="true" />
+	<track name="Excelsior Library Room" intro="Excelsior/Library Intro.ogg" path="Excelsior/Library.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Secret Room" intro="Excelsior/Secret to Everyone Intro.ogg" path="Excelsior/Secret to Everyone.ogg" loop="true" />
+	<track name="Excelsior Devil Room" path="Excelsior/Deal With the Devil.ogg" loop="true" />
+	<track name="Excelsior Angel Room" intro="Excelsior/Angel Room intro.ogg" path="Excelsior/Angel Room.ogg" loop="true" />
+	<track name="Excelsior Shop Room" intro="Excelsior/Store Loop Intro.ogg" path="Excelsior/Store Loop.ogg" loop="true" />
+	<track name="Excelsior Arcade Room" intro="Excelsior/Retro Beats Intro 8-6-14.ogg" path="Excelsior/Retro Beats 8-6-14.ogg" loop="true" />
+	<track name="Excelsior Boss (jingle)" path="Excelsior/Boss Fight intro jingle V2.1.ogg" loop="false" />
+	<track name="Excelsior Boss Death (jingle)" path="Excelsior/Boss FIght jingle OUTRO v2_12.ogg" loop="false" />
+	<track name="Excelsior Secret Room Find (jingle)" path="Excelsior/secret room find v2_07.ogg" loop="false" />
+	<track name="Excelsior Treasure Room Entry (jingle) 1" path="Excelsior/treasure room discoverA.ogg" loop="false" />
+	<track name="Excelsior Treasure Room Entry (jingle) 2" path="Excelsior/treasure room discoverB.ogg" loop="false" />
+	<track name="Excelsior Treasure Room Entry (jingle) 3" path="Excelsior/treasure room discoverC.ogg" loop="false" />
+	<track name="Excelsior Treasure Room Entry (jingle) 4" path="Excelsior/treasure room discover_03.ogg" loop="false" />
+	<track name="Excelsior Challenge Room Entry (jingle)" path="Excelsior/Ambush jingle.V2_01.ogg" loop="false" />
+	<track name="Excelsior Challenge Room Outro (jingle)" path="Excelsior/Ambush Jinle outro V3_04.ogg" loop="false" />
+	<track name="Excelsior Boss Death Alternate (jingle)" path="Excelsior/Cerebrum Dispersio (boss alt) end.ogg" loop="false" />
+	
+	<track name="Excelsior Utero" path="Excelsior/Utero.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Downpour" path="Excelsior/Downpour.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Dross" path="Excelsior/Sewer.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Mines" path="Excelsior/Mines.ogg" loop="true" mul="1.6" />
+	<track name="Excelsior Ashpit" intro="Excelsior/Ash Pit Intro.ogg" path="Excelsior/Ash Pit.ogg" loop="true" mul="1.6" />
+	<track name="Excelsior Mausoleum" path="Excelsior/Mausoleum.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Gehenna" path="Excelsior/Gehenna.ogg" loop="true" mul="1.6" />
+	<track name="Excelsior Corpse" path="Excelsior/Corpse.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Home" path="Excelsior/Echoes Of Mom.ogg" layer="Excelsior/Echoes of Mom Twisted V2.ogg" loop="true" layerfadespeed="0.005" layermode="2" mul="1.5" />
+	<track name="Excelsior Abandoned Mineshaft" path="Excelsior/Vast Empty Chasm.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Mineshaft Escape" path="Excelsior/Chased By Death V3.ogg" loop="true" />
+	<track name="Excelsior Planetarium" path="Excelsior/Planetarium.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Secret Room Alt" path="Excelsior/Secret Room ALT.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Secret Room Alt Alt" intro="Excelsior/Super Secret Room Intro.ogg" path="Excelsior/Super Secret Room Loop.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Boss Rush" path="Excelsior/Boss Rush.ogg" loop="true" />
+	<track name="Excelsior Boss Rush (jingle)" path="Excelsior/Ambush Jinle outro V3_04.ogg" loop="false" />
+	<track name="Excelsior Boss Room (empty, twisted)" intro="Excelsior/The Calm Twisted V4 Intro.ogg" path="Excelsior/The Calm Twisted V4 Loop.ogg" loop="true" mul="1.7" />
+	<track name="Excelsior Mom's Shadow Intro" path="Excelsior/Moms_Shadow_Cut_Scene.ogg" loop="false" />
+	<track name="Excelsior Echoes Reverse" path="Excelsior/Echoes Reverse.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Boss (alternate alternate)" path="Excelsior/Boss ALT.ogg" loop="true" />
+	<track name="Excelsior Boss (Mother)" path="Excelsior/MOTHER_BOSS_V6.ogg" loop="true" mul="1.1" />
+	<track name="Excelsior Dogma Intro" path="Excelsior/Dogma_static_Cut_Scene_V5.ogg" loop="false" mul="1.25" />
+	<track name="Excelsior Boss (Dogma)" path="Excelsior/Static Boss Light V2.ogg" loop="true" layermode="2" layerfadespeed="0.008">
+		<layer path="Excelsior/Static Boss V2 with Preachers V3.ogg" mul="1.2" />
+		<layer path="Excelsior/Static.ogg" mul="1" />
+	</track>
+	<track name="Excelsior Boss (Beast)" path="Excelsior/The_End_FAMINE.ogg" loop="true" layermode="2" layerfadespeed="0.01" mul="1.1">
+		<layer path="Excelsior/The_End_PESTILENCE.ogg" mul="1.1" />
+		<layer path="Excelsior/The_End_WAR.ogg" mul="1.1" />
+		<layer path="Excelsior/The_End_DEATH.ogg" mul="1.1" />
+		<layer path="Excelsior/The_End_BEAST.ogg" mul="1.1" />
+	</track>
+	<track name="Excelsior Boss Death Alternate Alternate (jingle)" path="Excelsior/Alt Boss Track Jingle.ogg" loop="false" mul="1.25" />
+	<track name="Excelsior Boss Mother Death (jingle)" path="Excelsior/Alt Boss Track Jingle.ogg" loop="false" mul="1.25" />
+	<track name="Excelsior Boss Dogma Death (jingle)" path="Excelsior/Static Boss Light V2 Jingle.ogg" loop="false" mul="1.25" />
+	<track name="Excelsior Downpour (reversed)" path="Excelsior/Downpour Reverse.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Dross (reversed)" path="Excelsior/Dross Reverse.ogg" loop="true" mul="1.7" />
+	<track name="Excelsior Strange Door (jingle)" path="Excelsior/genesis_sfx_jingle.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Genesis (reversed)" path="Excelsior/Genesis ii Reverse Main Loop.ogg" loop="true" mul="1.7">
+		<layer path="Excelsior/Genesis ii Reverse Basement Layer (Drums).ogg" mul="1.2" />
+		<layer path="Excelsior/Genesis ii Reverse Caves Layer (Bass).ogg" mul="1.2" />
+		<layer path="Excelsior/Genesis ii Reverse Depths Layer (Guitar).ogg" mul="1.2" />
+		<layer path="Excelsior/Genesis ii Reverse Downpour Layer (Guitar).ogg" mul="1.2" />
+		<layer path="Excelsior/Genesis ii Reverse Mines Layer (Drumz).ogg" mul="1.2" />
+		<layer path="Excelsior/Genesis ii Reverse Mausoleum Layer (Bass).ogg" mul="1.2" />
+	</track>
+	<track name="Excelsior Game Over" path="Excelsior/You Died.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Game Over (jingle)" path="Excelsior/title screen jingle v1_01.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Nightmare" path="Excelsior/boss fight intro jingle_01.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Nightmare (alt)" path="Excelsior/Nightmare_V4.ogg" loop="false" mul="1.5" />
+	
+	<track name="Excelsior Greed Floor 6" path="Excelsior/Genesis Retake Light Loop.ogg" layer="Excelsior/Genesis Retake Twisted Loop.ogg" loop="true" layermode="2" layerfadespeed="0.01" mul="1.5" />
+	<track name="Excelsior Ultra Greedier" path="Excelsior/Excelsior ultra greedier.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Ultra Greedier outro" path="Excelsior/Excelsior ultra greedier outro.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Angel Fight" path="Excelsior/Excelsior angel fight.ogg" loop="true" />
+	<track name="Excelsior Angel Fight outro" path="Excelsior/Excelsior angel fight outro.ogg" loop="false" />
+	<track name="Excelsior Mega Satan" path="Excelsior/Excelsior mega satan.ogg" loop="true" />
+	<track name="Excelsior Delirium outro" path="Excelsior/jesus loves uke.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Black Market" path="Excelsior/Excelsior black market.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior I Am Error" path="Excelsior/Excelsior i am error.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Hush Outro (jingle)" path="Excelsior/Ambush Jinle outro V3_04.ogg" loop="false" />
+	
+	<track name="Excelsior Mortis" path="Excelsior/Excelsior mortis.ogg" loop="true" mul="1.5" />
 </music>
