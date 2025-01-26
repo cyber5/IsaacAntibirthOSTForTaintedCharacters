@@ -1608,7 +1608,7 @@ normaltotainted = {
 	[Music.MUSIC_SECRET_ROOM_ALT_ALT] = Isaac.GetMusicIdByName("Secret Room Alt Alt (tainted)"),
 	[Music.MUSIC_BOSS_OVER_TWISTED] = Isaac.GetMusicIdByName("Boss Room (empty, twisted, tainted)"),
 	--[Music.MUSIC_MOTHERS_SHADOW_INTRO] = Isaac.GetMusicIdByName("Mom's Shadow Intro (tainted)"),
-	--[Music.MUSIC_DOGMA_INTRO] = Isaac.GetMusicIdByName("Dogma Intro (tainted)"),
+	[Music.MUSIC_DOGMA_INTRO] = Isaac.GetMusicIdByName("Dogma Intro (tainted)"),
 	[Music.MUSIC_STRANGE_DOOR_JINGLE] = Isaac.GetMusicIdByName("Strange Door (jingle, tainted)"),
 	[Music.MUSIC_DARK_CLOSET] = Isaac.GetMusicIdByName("Echoes Reverse (tainted)"),
 	--[Music.MUSIC_JINGLE_BOSS] = Isaac.GetMusicIdByName("Boss (jingle, tainted)"),
@@ -1849,7 +1849,7 @@ normaltotarnished = {
 
 taintedjinglelength = {
 	[Music.MUSIC_JINGLE_BOSS_OVER] = 250, --Invictus
-	[Music.MUSIC_JINGLE_BOSS_OVER2] = 200, --The Flagbearer
+	[Music.MUSIC_JINGLE_BOSS_OVER2] = 225, --The Flagbearer
 	[Music.MUSIC_JINGLE_BOSS_OVER3] = 320, --Tandava
 }
 
@@ -3051,7 +3051,7 @@ if usingRGON then
 		local stage = GetEffectiveLevelStage()
 		local stage_type = GetEffectiveStageType()
 		
-		--TODO: the Mother over jingle is not working in Mortis... maybe it's related to the "hacky solution" in the PerformMainTrackReplacement function
+		--TODOO: the Mother over jingle is not working in Mortis... maybe it's related to the "hacky solution" in the PerformMainTrackReplacement function
 		
 		local curseoflabyrinth = (level:GetCurses() & LevelCurse.CURSE_OF_LABYRINTH) == LevelCurse.CURSE_OF_LABYRINTH
 		
