@@ -106,7 +106,7 @@
 	<track name="I Am Error" path="Dread reversed.ogg" loop="true" />
 	<track name="I Am Error (tainted)" path="Spinning Intensifies [Reversed].ogg" loop="true" />
 	<!--<track name="Mom's Shadow Intro (tainted)" /> -->
-	<!--<track name="Dogma Intro (tainted)" path="beforevol4/Dogma Intro Tainted.ogg" /> -->
+	<track name="Dogma Intro (tainted)" path="beforevol4/Dogma Tainted intro.ogg" />
 	<track name="Strange Door (jingle, tainted)" path="Strange Door jingle.ogg" loop="false" />
 	<track name="Echoes Reverse (tainted)" path="beforevol4/Dark Closet Tainted.ogg" loop="true" />
 	<!--<track name="Boss (jingle, tainted)" /> -->
