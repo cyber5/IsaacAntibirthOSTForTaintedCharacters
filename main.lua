@@ -13,6 +13,10 @@ elseif REPENTOGON and MMC then --TODO: maybe lift this restriction after further
 	return
 end
 
+--TODOO: compatibility with Fall From Grace (don't play treasure jingle in mirror treasure room)
+--TODOO: compatibility with Revelations
+--TODOO: compatibility with The Future
+
 local usingRGON = false
 if REPENTOGON and not MMC then
 	usingRGON = true
@@ -110,6 +114,7 @@ function custommusiccollection:ResetSave()
 		--bluewombcontinue = true,
 		
 		--TODOO: add option for jingle style (RGON bugged default) and fix this issue (RGON only)
+		--first, test whether PerformMainJingleReplacement is being called multiple times
 	}
 end
 
@@ -2856,7 +2861,23 @@ function custommusiccollection:PerformDarkHomeReplacement(trackId)
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDarkHomeReplacement, Music.MUSIC_ISAACS_HOUSE)
 
---TODOO: always enable layer when in Dark Home (RGON only)
+if usingRGON then
+	function custommusiccollection:EnableLayerInDarkHome()
+		if not musicmgr:IsLayerEnabled() and not Game():IsGreedMode() then
+			local stage = GetEffectiveLevelStage()
+			if stage == LevelStage.STAGE8 then
+				local stage_type = GetEffectiveStageType()
+				if stage_type == StageType.STAGETYPE_WOTL then
+					local curMusic = musicmgr:GetCurrentMusicID()
+					if not PlayTaintedVersion(Music.MUSIC_ISAACS_HOUSE) and (curMusic == Music.MUSIC_ISAACS_HOUSE or curMusic == TarnishedVersion(Music.MUSIC_ISAACS_HOUSE)) then
+						musicmgr:EnableLayer()
+					end
+				end
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, custommusiccollection.EnableLayerInDarkHome)
+end
 
 function custommusiccollection:PerformBlackMarketReplacement(trackId)
 	if modSaveData["blackmarketroomtheme"] and not skiptainted[trackId] then
@@ -3050,8 +3071,6 @@ if usingRGON then
 		local level = Game():GetLevel()
 		local stage = GetEffectiveLevelStage()
 		local stage_type = GetEffectiveStageType()
-		
-		--TODOO: the Mother over jingle is not working in Mortis... maybe it's related to the "hacky solution" in the PerformMainTrackReplacement function
 		
 		local curseoflabyrinth = (level:GetCurses() & LevelCurse.CURSE_OF_LABYRINTH) == LevelCurse.CURSE_OF_LABYRINTH
 		
@@ -3482,6 +3501,40 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	end
 	local tpriority = 0
 	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectMortisStageMusicForStageAPI)
+	
+	--handle boss over jingles in custom stages
+	function custommusiccollection:PerformMotherOverForStageAPI(musicID, isCleared, musicRNG)
+		if musicID == Music.MUSIC_JINGLE_BOSS_OVER3 then
+			return custommusiccollection:PerformMotherOver(musicID)
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_BOSS_MUSIC, tpriority, custommusiccollection.PerformMotherOverForStageAPI)
+	
+	function custommusiccollection:AssistStageAPIBossOverJingle(trackId)
+		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			customStageBossOutro = StageAPI.GetCurrentStage().BossMusic.Outro
+			
+			trackIdIsCustomOutro = false
+			
+			if type(customStageBossOutro) == "table" then
+				if StageAPI.IsIn(customStageBossOutro, trackId) then
+					trackIdIsCustomOutro = true
+				end
+			else
+				if trackId == customStageBossOutro then
+					trackIdIsCustomOutro = true
+				end
+			end
+			
+			if not trackIdIsCustomOutro then
+				return trackId
+			end
+		end
+	end
+	custommusiccollection:CreateCallback(custommusiccollection.AssistStageAPIBossOverJingle,
+	Music.MUSIC_JINGLE_BOSS_OVER,
+	Music.MUSIC_JINGLE_BOSS_OVER2,
+	Music.MUSIC_JINGLE_BOSS_OVER3)
 end
 
 function custommusiccollection:PerformAscentReversion(trackId)
@@ -3518,7 +3571,7 @@ function custommusiccollection:ShouldPlayTwistedJingle()
 	return false
 end
 
---TODOO: play tarnished twisted jingle
+--TODOO: play tarnished twisted jingle (maybe play it when dying to a major ending boss)
 
 if usingRGON then
 	function custommusiccollection:PlayTaintedDeathCertificateJingleRGON(id, volume, frameDelay, loop, pitch, pan)
@@ -3641,19 +3694,6 @@ if usingRGON then
 end
 
 function custommusiccollection:PerformMainTrackReplacement(trackId)
-	
-	--TODO: move this block to its own function
-	if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
-		--hacky solution: play boss over jingle 3 for Mortis
-		--TODO: figure out a better way to do this... maybe set boss music for custom stage api in HandleStageAPI() ?
-		if GetEffectiveStageType() >= StageType.STAGETYPE_REPENTANCE then
-			if trackId == Music.MUSIC_JINGLE_BOSS_OVER or trackId == Music.MUSIC_JINGLE_BOSS_OVER2 then
-				return NormalOrTainted(Music.MUSIC_JINGLE_BOSS_OVER3)
-			end
-		end
-	end
-	
-	
 	if trackId > 0 and not skiptainted[trackId] then
 		--NOTE: this mod will not allow other mods that are later in the load order to handle music callbacks
 		--if we want to change this, check for trackToReturn ~= trackId before returning trackToReturn
