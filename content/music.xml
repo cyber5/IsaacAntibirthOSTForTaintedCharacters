@@ -313,6 +313,7 @@
 	</track>
 	<track name="Excelsior Game Over" path="Excelsior/You Died.ogg" loop="true" mul="1.5" />
 	<track name="Excelsior Game Over (jingle)" path="Excelsior/title screen jingle v1_01.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Game Over Twisted (jingle)" path="Excelsior/title screen stinger mb.ogg" loop="false" mul="1.5" />
 	<track name="Excelsior Nightmare" path="Excelsior/boss fight intro jingle_01.ogg" loop="false" mul="1.5" />
 	<track name="Excelsior Nightmare (alt)" path="Excelsior/Nightmare_V4.ogg" loop="false" mul="1.5" />
 	
