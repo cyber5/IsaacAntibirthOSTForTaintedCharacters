@@ -13,7 +13,7 @@ elseif REPENTOGON and MMC then --TODO: maybe lift this restriction after further
 	return
 end
 
---TODOO: compatibility with Fall From Grace (don't play treasure jingle in mirror treasure room)
+--TODOO: compatibility with Fall From Grace (don't play treasure jingle in mirror treasure room; check if secret room jingle plays in vanilla mirror world and MMC mirror world?)
 --TODOO: compatibility with Revelations
 --TODOO: compatibility with The Future
 
@@ -114,7 +114,6 @@ function custommusiccollection:ResetSave()
 		--bluewombcontinue = true,
 		
 		--TODOO: add option for jingle style (RGON bugged default) and fix this issue (RGON only)
-		--first, test whether PerformMainJingleReplacement is being called multiple times
 	}
 end
 
@@ -1271,22 +1270,74 @@ function custommusiccollection:SetUpMenu()
 end
 custommusiccollection:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, custommusiccollection.SetUpMenu)
 
+local customstagelevelstages = {
+	["Mortis I"] = LevelStage.STAGE4_1,
+	["Mortis II"] = LevelStage.STAGE4_2,
+	["Mortis XL"] = LevelStage.STAGE4_1,
+	["Boiler I"] = LevelStage.STAGE1_1,
+	["Boiler II"] = LevelStage.STAGE1_2,
+	["Boiler XL"] = LevelStage.STAGE1_1,
+	["Grotto I"] = LevelStage.STAGE2_1,
+	["Grotto II"] = LevelStage.STAGE2_2,
+	["Grotto XL"] = LevelStage.STAGE2_1,
+	["Glacier I"] = LevelStage.STAGE1_1,
+	["Glacier II"] = LevelStage.STAGE1_2,
+	["Glacier XL"] = LevelStage.STAGE1_1,
+	["Tomb I"] = LevelStage.STAGE2_1,
+	["Tomb II"] = LevelStage.STAGE2_2,
+	["Tomb XL"] = LevelStage.STAGE2_1,
+	["The Future"] = LevelStage.STAGE3_1,
+}
+
+StageType.STAGETYPE_FFG = 6
+StageType.STAGETYPE_REVELATIONS = 7
+StageType.STAGETYPE_MISC = 8
+
+local customstagestagetypes = {
+	["Mortis I"] = StageType.STAGETYPE_REPENTANCE_B,
+	["Mortis II"] = StageType.STAGETYPE_REPENTANCE_B,
+	["Mortis XL"] = StageType.STAGETYPE_REPENTANCE_B,
+	["Boiler I"] = StageType.STAGETYPE_FFG,
+	["Boiler II"] = StageType.STAGETYPE_FFG,
+	["Boiler XL"] = StageType.STAGETYPE_FFG,
+	["Grotto I"] = StageType.STAGETYPE_FFG,
+	["Grotto II"] = StageType.STAGETYPE_FFG,
+	["Grotto XL"] = StageType.STAGETYPE_FFG,
+	["Glacier I"] = StageType.STAGETYPE_REVELATIONS,
+	["Glacier II"] = StageType.STAGETYPE_REVELATIONS,
+	["Glacier XL"] = StageType.STAGETYPE_REVELATIONS,
+	["Tomb I"] = StageType.STAGETYPE_REVELATIONS,
+	["Tomb II"] = StageType.STAGETYPE_REVELATIONS,
+	["Tomb XL"] = StageType.STAGETYPE_REVELATIONS,
+	["The Future"] = StageType.STAGETYPE_MISC,
+}
+
 local function GetEffectiveLevelStage()
+	local levelstage = Game():GetLevel():GetStage()
+	
 	if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
 		local currentstage = StageAPI.GetCurrentStage()
-		return currentstage.LevelgenStage.Stage
-	else
-		return Game():GetLevel():GetStage()
+		local customstagename = currentstage:GetDisplayName()
+		if customstagelevelstages[customstagename] then
+			levelstage = customstagelevelstages[customstagename]
+		end
 	end
+	
+	return levelstage
 end
 
 local function GetEffectiveStageType()
+	local stagetype = Game():GetLevel():GetStageType()
+	
 	if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
 		local currentstage = StageAPI.GetCurrentStage()
-		return currentstage.LevelgenStage.StageType
-	else
-		return Game():GetLevel():GetStageType()
+		local customstagename = currentstage:GetDisplayName()
+		if customstagestagetypes[customstagename] then
+			stagetype = customstagestagetypes[customstagename]
+		end
 	end
+	
+	return stagetype
 end
 
 if not BossMusicForSacrificeRoomAngelsFlag then
@@ -1311,6 +1362,14 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 	--TODO: do not play Angel fight music during the ascent
 	--TODO: check The Emperor? card during Ascent
 	--TODO: play Mom Boss music in Boss Over Twisted (fix this after restoring the MMC to mimic vanilla)
+	
+	--TODO: problems with Stage API:
+	--displays incorrect stage name on continue option on main menu
+	--ambush secret rooms don't work
+	--red key doesn't work
+	--layouts are empty when returning to game
+	--Emperor? card - selects wrong bosses
+	--Genesis beam of light - leads to wrong floor
 	
 	local function angelBossDeathJingle()
 		local game = Game()
@@ -3571,7 +3630,29 @@ function custommusiccollection:ShouldPlayTwistedJingle()
 	return false
 end
 
---TODOO: play tarnished twisted jingle (maybe play it when dying to a major ending boss)
+function custommusiccollection:PlayTwistedTarnishedDeathJingle(trackId)
+	if PlayTarnishedVersion(trackId) then
+		--play when dying to: Mega Satan, Hush Phase 2, Ultra Greed(ier), Delirium, Mother, Dogma, Ultra Harbingers, The Beast
+		--does NOT play when dying to: Boss Rush, Mom, Mom's Heart, It Lives, Satan, Isaac, The Lamb, ???, Hush Phase 1
+		local room = Game():GetRoom()
+		local boss_id = room:GetBossID()
+		
+		local currentMusicID = musicmgr:GetCurrentMusicID()
+		
+		if currentMusicID == TarnishedVersion(Music.MUSIC_MEGASATAN_BOSS)
+		or (currentMusicID == TarnishedVersion(Music.MUSIC_SATAN_BOSS) and boss_id == 55)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_ULTRAGREED_BOSS)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_ULTRAGREEDIER_BOSS)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_HUSH_BOSS)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_VOID_BOSS)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_MOTHER_BOSS)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_DOGMA_BOSS)
+		or currentMusicID == TarnishedVersion(Music.MUSIC_BEAST_BOSS) then
+			return Isaac.GetMusicIdByName("Excelsior Game Over Twisted (jingle)")
+		end
+	end
+end
+custommusiccollection:CreateCallback(custommusiccollection.PlayTwistedTarnishedDeathJingle, Music.MUSIC_JINGLE_GAME_OVER)
 
 if usingRGON then
 	function custommusiccollection:PlayTaintedDeathCertificateJingleRGON(id, volume, frameDelay, loop, pitch, pan)
@@ -3700,6 +3781,20 @@ function custommusiccollection:PerformMainTrackReplacement(trackId)
 		if usingRGON then
 			local returnTrack = NormalOrTainted(trackId)
 			if returnTrack == musicmgr:GetCurrentMusicID() then
+				
+				if StageAPI and StageAPI.Loaded then
+					--handle floor transition shenanigans (transitions.lua pauses the music)
+					local level = Game():GetLevel()
+					local room = Game():GetRoom()
+					local roomdesc = level:GetCurrentRoomDesc()
+					local roomdata = roomdesc.Data
+					
+					if room:IsFirstVisit() and (roomdata.Name == "Start Room" or roomdata.Name == "Starting Room" or roomdata.Name == "Isaac's Bedroom" or InChapter6StartRoom()) then
+						musicmgr:Resume()
+						musicmgr:UpdateVolume()
+					end
+				end
+				
 				return MusicCancelValue()
 			else
 				return returnTrack
@@ -3993,6 +4088,7 @@ if usingRGON then
 			if Epiphany then
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_GAME_OVER], false, true)
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_GAME_OVER])
+				StageAPI.StopOverridingMusic(Isaac.GetMusicIdByName("Excelsior Game Over Twisted (jingle)"))
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_OVER])
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_OVER2])
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_OVER3])
@@ -4000,6 +4096,7 @@ if usingRGON then
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO])
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_MOTHER_OVER])
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_ANGEL_OVER])
+				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_JINGLE_BOSS])
 			end
 		end
 	end
