@@ -1429,12 +1429,12 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 				--NOTE: angel over jingle is set so that stage api can't override it
 				if Isaac.CountBosses() > 0 then
 					if modSaveData["angelfighttheme"] then
-						return NormalOrTainted(Music.MUSIC_ANGEL_BOSS)
+						return NormalTaintedOrTarnished(Music.MUSIC_ANGEL_BOSS)
 					else
-						return NormalOrTainted(angelBossMusic())
+						return NormalTaintedOrTarnished(angelBossMusic())
 					end
 				else
-					return NormalOrTainted(Music.MUSIC_BOSS_OVER) --TODO: should probably change this to look at the custom stage's assigned boss over music
+					return NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER) --TODO: should probably change this to look at the custom stage's assigned boss over music
 				end
 			end
 		end
@@ -2862,7 +2862,7 @@ function PlayNormalVersion(trackId)
 	return (not PlayTaintedVersion(trackId) and not PlayTarnishedVersion(trackId))
 end
 
-function NormalOrTainted(trackId) --TODOO: rename functions as reasonable
+function NormalTaintedOrTarnished(trackId)
 	if PlayTarnishedVersion(trackId) then
 		return TarnishedVersion(trackId)
 	elseif PlayTaintedVersion(trackId) then
@@ -2958,7 +2958,7 @@ function custommusiccollection:PerformBlackMarketReplacement(trackId)
 		
 		if not ascent and stage ~= LevelStage.STAGE4_3 then
 			if roomtype == RoomType.ROOM_BLACK_MARKET then
-				return NormalOrTainted(Music.MUSIC_BLACKMARKET_ROOM)
+				return NormalTaintedOrTarnished(Music.MUSIC_BLACKMARKET_ROOM)
 			end
 		end
 	end
@@ -2980,7 +2980,7 @@ function custommusiccollection:PerformIAmErrorReplacement(trackId)
 			local level = Game():GetLevel()
 			local ascent = level:IsAscent()
 			if not ascent then
-				return NormalOrTainted(Music.MUSIC_I_AM_ERROR)
+				return NormalTaintedOrTarnished(Music.MUSIC_I_AM_ERROR)
 			end
 		end
 	end
@@ -3091,7 +3091,7 @@ function custommusiccollection:PerformBlueWombExitMusic(trackId)
 		if jingletimer > 0 then
 			return MusicCancelValue()
 		else
-			return NormalOrTainted(Music.MUSIC_BOSS_OVER)
+			return NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER)
 		end
 	elseif InWombIIBossRoom() then
 		if jingletimer > 0 then
@@ -3107,7 +3107,7 @@ function custommusiccollection:PerformDeliriumOver(trackId)
 		if stage == LevelStage.STAGE7 then
 			local room = Game():GetRoom()
 			if room:GetBossID() == 70 then
-				return NormalOrTainted(Music.MUSIC_JINGLE_DELIRIUM_OVER)
+				return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_DELIRIUM_OVER)
 			end
 		end
 	end
@@ -3119,7 +3119,7 @@ function custommusiccollection:PerformHushOver(trackId)
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		if roomtype == RoomType.ROOM_BOSS then
-			return NormalOrTainted(Music.MUSIC_JINGLE_HUSH_OVER)
+			return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_HUSH_OVER)
 		end
 	end
 end
@@ -3137,7 +3137,7 @@ if usingRGON then
 			local room = Game():GetRoom()
 			local roomtype = room:GetType()
 			if roomtype == RoomType.ROOM_BOSS then
-				return NormalOrTainted(Music.MUSIC_JINGLE_MOTHER_OVER)
+				return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_MOTHER_OVER)
 			end
 		end
 	end
@@ -3157,7 +3157,7 @@ function custommusiccollection:PerformMegaSatanReplacement(trackId)
 			elseif PlayTaintedVersion(Music.MUSIC_MEGASATAN_BOSS) and not modSaveData["megasatantaintedspeedup"] and (modSaveData["megasatantaintedflagbearer"] == 0 or (modSaveData["megasatantaintedflagbearer"] == 2 and rng == 0)) then
 				return Isaac.GetMusicIdByName("Mega Satan (tainted, vanilla)")
 			else
-				return NormalOrTainted(Music.MUSIC_MEGASATAN_BOSS)
+				return NormalTaintedOrTarnished(Music.MUSIC_MEGASATAN_BOSS)
 			end
 		end
 	end
@@ -3294,7 +3294,7 @@ function custommusiccollection:PerformAngelFightReplacement(trackId)
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		if roomtype == RoomType.ROOM_ANGEL or roomtype == RoomType.ROOM_SACRIFICE or roomtype == RoomType.ROOM_SUPERSECRET then
-			return NormalOrTainted(Music.MUSIC_ANGEL_BOSS)
+			return NormalTaintedOrTarnished(Music.MUSIC_ANGEL_BOSS)
 		end
 	end
 end
@@ -3305,7 +3305,7 @@ function custommusiccollection:PerformAngelOverReplacement(trackId)
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		if roomtype == RoomType.ROOM_ANGEL or roomtype == RoomType.ROOM_SACRIFICE or roomtype == RoomType.ROOM_SUPERSECRET then
-			return NormalOrTainted(Music.MUSIC_JINGLE_ANGEL_OVER)
+			return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ANGEL_OVER)
 		end
 	end
 end
@@ -3313,7 +3313,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformAngelOverRepla
 
 function custommusiccollection:PerformDevilWaveGreedReplacement(trackId)
 	if modSaveData["devilwavegreedambush"] and Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_CHALLENGE_FIGHT)
+		return NormalTaintedOrTarnished(Music.MUSIC_CHALLENGE_FIGHT)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDevilWaveGreedReplacement, Music.MUSIC_SATAN_BOSS)
@@ -3341,9 +3341,9 @@ function custommusiccollection:PerformUltraGreedierOver(trackId)
 		if room:GetBossID() == 62 then
 			if Game().Difficulty == Difficulty.DIFFICULTY_GREEDIER then
 				if modSaveData["postbossgreedspiritum"] then
-					return NormalOrTainted(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalOrTainted(Music.MUSIC_BOSS_OVER_GREED)
+					return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER_GREED)
 				else
-					return NormalOrTainted(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalOrTainted(Music.MUSIC_BOSS_OVER)
+					return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER)
 				end
 			end
 		end
@@ -3353,7 +3353,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformUltraGreedierO
 
 function custommusiccollection:PerformBossOverGreedReplacement(trackId)
 	if modSaveData["postbossgreedspiritum"] and Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_BOSS_OVER_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER_GREED)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformBossOverGreedReplacement, Music.MUSIC_BOSS_OVER)
@@ -3364,13 +3364,13 @@ function custommusiccollection:PerformShopRoomReplacement(trackId)
 	
 	if game:IsGreedMode() then
 		if modSaveData["lateshoproomtheme"] and (stage == LevelStage.STAGE4_GREED or stage == LevelStage.STAGE5_GREED) then
-			return NormalOrTainted(Music.MUSIC_SHOP_ROOM_ALT)
+			return NormalTaintedOrTarnished(Music.MUSIC_SHOP_ROOM_ALT)
 		elseif modSaveData["shopfloorgreedtheme"] and stage == LevelStage.STAGE6_GREED then
-			return NormalOrTainted(Music.MUSIC_FLOOR_6_GREED)
+			return NormalTaintedOrTarnished(Music.MUSIC_FLOOR_6_GREED)
 		end
 	else
 		if modSaveData["lateshoproomtheme"] and stage > LevelStage.STAGE3_2 then
-			return NormalOrTainted(Music.MUSIC_SHOP_ROOM_ALT)
+			return NormalTaintedOrTarnished(Music.MUSIC_SHOP_ROOM_ALT)
 		end
 	end
 end
@@ -3398,28 +3398,28 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformBlueWombAltRep
 
 function custommusiccollection:PerformDepthsGreedReplacement(trackId)
 	if modSaveData["depthsgreeddepressoloco"] and Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_DEPTHS_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_DEPTHS_GREED)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDepthsGreedReplacement, Music.MUSIC_DEPTHS)
 
 function custommusiccollection:PerformCatacombsGreedReplacement(trackId)
 	if modSaveData["catacombsgreedregeneratione"] and Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_CATACOMBS_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_CATACOMBS_GREED)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformCatacombsGreedReplacement, Music.MUSIC_CATACOMBS)
 
 function custommusiccollection:PerformUteroGreedReplacement(trackId)
 	if modSaveData["uterogreedviscera"] and Game():IsGreedMode() and PlayNormalVersion(Music.MUSIC_UTERO) then
-		return NormalOrTainted(Music.MUSIC_UTERO_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_UTERO_GREED)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformUteroGreedReplacement, Music.MUSIC_UTERO)
 
 function custommusiccollection:PerformSheolGreedReplacement(trackId)
 	if modSaveData["sheolgreedinfernum"] and Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_SHEOL_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_SHEOL_GREED)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformSheolGreedReplacement, Music.MUSIC_SHEOL)
@@ -3433,11 +3433,11 @@ function custommusiccollection:PerformDevilRoomReplacement(trackId)
 		if room:GetType() == RoomType.ROOM_DEVIL then
 			if game:IsGreedMode() then
 				if stage > LevelStage.STAGE4_GREED then
-					return NormalOrTainted(Music.MUSIC_DEVIL_ROOM_ALT)
+					return NormalTaintedOrTarnished(Music.MUSIC_DEVIL_ROOM_ALT)
 				end
 			else
 				if stage > LevelStage.STAGE4_2 then
-					return NormalOrTainted(Music.MUSIC_DEVIL_ROOM_ALT)
+					return NormalTaintedOrTarnished(Music.MUSIC_DEVIL_ROOM_ALT)
 				end
 			end
 		end
@@ -3449,7 +3449,7 @@ function custommusiccollection:PerformSatanBossReplacement(trackId)
 	if modSaveData["satanfightsatan666"] and not Game():IsGreedMode() then
 		local stage = GetEffectiveLevelStage()
 		if stage == LevelStage.STAGE5 or stage == LevelStage.STAGE7 then
-			return NormalOrTainted(Music.MUSIC_SATAN_BOSS_ALT)
+			return NormalTaintedOrTarnished(Music.MUSIC_SATAN_BOSS_ALT)
 		end
 	end
 end
@@ -3731,25 +3731,25 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformTaintedBossAlt
 
 --[[MMC.AddMusicCallback(custommusiccollection, function()
 	if Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_CAVES_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_CAVES_GREED)
 	end
 end, Music.MUSIC_CAVES)
 
 MMC.AddMusicCallback(custommusiccollection, function()
 	if Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_FLOODED_CAVES_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_FLOODED_CAVES_GREED)
 	end
 end, Music.MUSIC_FLOODED_CAVES)
 
 MMC.AddMusicCallback(custommusiccollection, function()
 	if Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_NECROPOLIS_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_NECROPOLIS_GREED)
 	end
 end, Music.MUSIC_NECROPOLIS)
 
 MMC.AddMusicCallback(custommusiccollection, function()
 	if Game():IsGreedMode() then
-		return NormalOrTainted(Music.MUSIC_DANK_DEPTHS_GREED)
+		return NormalTaintedOrTarnished(Music.MUSIC_DANK_DEPTHS_GREED)
 	end
 end, Music.MUSIC_DANK_DEPTHS)--]]
 
@@ -3779,7 +3779,7 @@ function custommusiccollection:PerformMainTrackReplacement(trackId)
 		--NOTE: this mod will not allow other mods that are later in the load order to handle music callbacks
 		--if we want to change this, check for trackToReturn ~= trackId before returning trackToReturn
 		if usingRGON then
-			local returnTrack = NormalOrTainted(trackId)
+			local returnTrack = NormalTaintedOrTarnished(trackId)
 			if returnTrack == musicmgr:GetCurrentMusicID() then
 				
 				if StageAPI and StageAPI.Loaded then
@@ -3800,7 +3800,7 @@ function custommusiccollection:PerformMainTrackReplacement(trackId)
 				return returnTrack
 			end
 		else
-			return NormalOrTainted(trackId)
+			return NormalTaintedOrTarnished(trackId)
 		end
 	end
 end
@@ -3817,7 +3817,7 @@ end
 if usingRGON then
 	function custommusiccollection:PerformMainJingleReplacement(trackId)
 		if trackId > 0 then
-			local returnTrack = NormalOrTainted(trackId)
+			local returnTrack = NormalTaintedOrTarnished(trackId)
 			return returnTrack
 		end
 	end
@@ -3864,11 +3864,11 @@ if usingRGON then
 			end
 		elseif roomtype == RoomType.ROOM_BLACK_MARKET and GetEffectiveLevelStage() ~= LevelStage.STAGE4_3 then
 			if modSaveData["blackmarketroomtheme"] then
-				musicmgr:Crossfade(NormalOrTainted(Music.MUSIC_BLACKMARKET_ROOM))
+				musicmgr:Crossfade(NormalTaintedOrTarnished(Music.MUSIC_BLACKMARKET_ROOM))
 			end
 		elseif roomtype == RoomType.ROOM_ERROR then
 			if modSaveData["iamerrorroomtheme"] then
-				musicmgr:Crossfade(NormalOrTainted(Music.MUSIC_I_AM_ERROR))
+				musicmgr:Crossfade(NormalTaintedOrTarnished(Music.MUSIC_I_AM_ERROR))
 			end
 		elseif level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
 			if modSaveData["genesisroomtheme"] then
@@ -4105,8 +4105,8 @@ if usingRGON then
 	function custommusiccollection:SetUpMusicForCustomStage()
 		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
 			local currentstage = StageAPI.GetCurrentStage()
-			currentstage:SetMusic(NormalOrTainted(Music.MUSIC_I_AM_ERROR), RoomType.ROOM_ERROR)
-			currentstage:SetMusic(NormalOrTainted(Music.MUSIC_BLACKMARKET_ROOM), RoomType.ROOM_BLACK_MARKET)
+			currentstage:SetMusic(NormalTaintedOrTarnished(Music.MUSIC_I_AM_ERROR), RoomType.ROOM_ERROR)
+			currentstage:SetMusic(NormalTaintedOrTarnished(Music.MUSIC_BLACKMARKET_ROOM), RoomType.ROOM_BLACK_MARKET)
 		end
 	end
 	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, custommusiccollection.SetUpMusicForCustomStage)
