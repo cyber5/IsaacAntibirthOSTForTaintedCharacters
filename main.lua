@@ -17,6 +17,10 @@ end
 --TODOO: compatibility with Revelations
 --TODOO: compatibility with The Future
 
+--TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
+--TODOO: add preachers to tarnished dogma fight?
+
+
 local usingRGON = false
 if REPENTOGON and not MMC then
 	usingRGON = true
@@ -100,6 +104,7 @@ function custommusiccollection:ResetSave()
 		beastfighttaintedapocalypse = true,
 		mineshaftambienttaintednaught = true,
 		mineshaftescapetaintedturn = true,
+		playsfxjinglereplacements = true, --can sunset this setting if the room transition jingle replacement issue caused by Repentogon is ever fixed
 		blendedcoopsoundtrack = true,
 		deletethisenhancement = true,
 		tarnishedsoundtrack = 3,
@@ -112,8 +117,6 @@ function custommusiccollection:ResetSave()
 		--gameovertaintedunderscore = true, --play tainted Planetarium theme for tainted game over
 		--sacrificeroomangels = true,
 		--bluewombcontinue = true,
-		
-		--TODOO: add option for jingle style (RGON bugged default) and fix this issue (RGON only)
 	}
 end
 
@@ -140,6 +143,7 @@ function custommusiccollection:FillInMissingSaveData()
 	--settings that are the same in Simple and Expanded and must be enabled in custom mode
 	if modSaveData["megasatantaintedflagbearer"] == nil then modSaveData["megasatantaintedflagbearer"] = 0 end
 	if modSaveData["boss2taintedflagbearer"] == nil then modSaveData["boss2taintedflagbearer"] = true end
+	if modSaveData["playsfxjinglereplacements"] == nil then modSaveData["playsfxjinglereplacements"] = true end
 	
 	--fill in missing data based on the Soundtrack Mode (default to "on" if custom or expanded, default to "off" if simple)
 	if modSaveData["ultragreediertheme"] == nil then modSaveData["ultragreediertheme"] = custommusiccollection:missingFillInBool() end
@@ -251,6 +255,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	--settings that are the same in Simple and Expanded and must be enabled in custom mode
 	modSaveData["megasatantaintedflagbearer"] = 0
 	modSaveData["boss2taintedflagbearer"] = true
+	modSaveData["playsfxjinglereplacements"] = true
 end
 
 function custommusiccollection:SaveToFile()
@@ -1188,6 +1193,32 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Beast fight music for Tainted characters."
 				}
 			})
+			--playsfxjinglereplacements
+			if usingRGON then
+				SMCM.AddSpace(category)
+				SMCM.AddText(category, "Legacy Jingle Replacement Method")
+				SMCM.AddSetting(category, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["playsfxjinglereplacements"]
+					end,
+					Display = function()
+						if modSaveData["playsfxjinglereplacements"] then
+							return "On"
+						else
+							return "Off"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["playsfxjinglereplacements"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Disabling this setting will set the mod to use Repentogon's jingle replacement callback, which causes a blip when changing rooms."
+					}
+				})
+			end
 			SMCM.AddSpace(category)
 			SMCM.AddText(category, "Blended Co-op Soundtrack")
 			SMCM.AddSetting(category, {
@@ -1287,6 +1318,7 @@ local customstagelevelstages = {
 	["Tomb II"] = LevelStage.STAGE2_2,
 	["Tomb XL"] = LevelStage.STAGE2_1,
 	["The Future"] = LevelStage.STAGE3_1,
+	["Eden"] = LevelStage.STAGE5,
 }
 
 StageType.STAGETYPE_FFG = 6
@@ -1310,6 +1342,7 @@ local customstagestagetypes = {
 	["Tomb II"] = StageType.STAGETYPE_REVELATIONS,
 	["Tomb XL"] = StageType.STAGETYPE_REVELATIONS,
 	["The Future"] = StageType.STAGETYPE_MISC,
+	["Eden"] = StageType.STAGETYPE_MISC,
 }
 
 local function GetEffectiveLevelStage()
@@ -1932,6 +1965,15 @@ taintedsfxid = {
 	[Music.MUSIC_STRANGE_DOOR_JINGLE] = Isaac.GetSoundIdByName("Strange Door Jingle (tainted)"),
 }
 
+tarnishedsfxid = {
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_0] = Isaac.GetSoundIdByName("Treasure Jingle (tarnished) 1"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_1] = Isaac.GetSoundIdByName("Treasure Jingle (tarnished) 2"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_2] = Isaac.GetSoundIdByName("Treasure Jingle (tarnished) 3"),
+	[Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_3] = Isaac.GetSoundIdByName("Treasure Jingle (tarnished) 4"),
+	[Music.MUSIC_JINGLE_SECRETROOM_FIND] = Isaac.GetSoundIdByName("Secret Room Jingle (tarnished)"),
+	[Music.MUSIC_STRANGE_DOOR_JINGLE] = Isaac.GetSoundIdByName("Strange Door Jingle (tarnished)"),
+}
+
 local loopversion = 0
 local currentstage = 0
 local currentstagetype = 0
@@ -2047,7 +2089,11 @@ custommusiccollection:AddCallback(ModCallbacks.MC_USE_ITEM, resetLoopVersion, Co
 
 function TarnishedVersion(trackId)
 	if normaltotarnished[trackId] then
-		return normaltotarnished[trackId]
+		if usingRGON and modSaveData["playsfxjinglereplacements"] and tarnishedsfxid[trackId] then
+			return tarnishedsfxid[trackId]
+		else
+			return normaltotarnished[trackId]
+		end
 	else
 		return trackId
 	end
@@ -2073,14 +2119,20 @@ function TaintedVersion(trackId)
 		
 		if not usingRGON and taintedjinglelength[trackId] then
 			return normaltotainted[trackId], nil, taintedjinglelength[trackId]
-		elseif not usingRGON and taintedsfxid[trackId] then
+		elseif (modSaveData["playsfxjinglereplacements"] or not usingRGON) and taintedsfxid[trackId] then
+			local tempTsfx
 			if treasurejingles[trackId] then
 				local rng = math.random(0,8)
-				return 0, nil, taintedtreasurejinglesfx[rng]
+				tempTsfx = taintedtreasurejinglesfx[rng]
 			else
-				return 0, nil, taintedsfxid[trackId]
+				tempTsfx = taintedsfxid[trackId]
 			end
-		elseif usingRGON and treasurejingles[trackId] then
+			if usingRGON then
+				return tempTsfx
+			else
+				return 0, nil, tempTsfx
+			end
+		elseif usingRGON and not modSaveData["playsfxjinglereplacements"] and treasurejingles[trackId] then
 			local rng = math.random(0,8)
 			return taintedtreasurejingles[rng]
 		elseif loopversion == 2 and normaltotaintedalt2[trackId] then
@@ -2737,6 +2789,7 @@ local function modBitplaceLowerhalf(seed, bitplace)
 	end
 end
 
+--TODO: can this function play all 13 treasure jingles for blended soundtrack? Can it play either Secret jingle? Can it play either Strange jingle?
 function SeededCoopTaintedMix(trackId)
 	if runSeedTrack[trackId] and runSeedTrack[trackId] > 0 then
 		local seeds = Game():GetSeeds()
@@ -3814,14 +3867,45 @@ else
 	custommusiccollection:CreateCallback(custommusiccollection.PerformMainTrackReplacement)
 end
 
+local soundJingleTimer
+local soundJingleVolume = false
+
 if usingRGON then
 	function custommusiccollection:PerformMainJingleReplacement(trackId)
 		if trackId > 0 then
 			local returnTrack = NormalTaintedOrTarnished(trackId)
-			return returnTrack
+			if modSaveData["playsfxjinglereplacements"] and not PlayNormalVersion(trackId) then
+				SFXManager():Play(returnTrack,1,0,false,1)
+				if PlayTarnishedVersion(trackId) then
+					soundJingleTimer = 100 --roughly 2 seconds
+				else
+					soundJingleTimer = 145 --roughly 3 seconds
+				end
+				soundJingleVolume = false
+				return MusicCancelValue()
+			else
+				return returnTrack
+			end
 		end
 	end
 	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.PerformMainJingleReplacement)
+	
+	function custommusiccollection:HandleSoundJingleTimer()
+		if modSaveData["playsfxjinglereplacements"] and soundJingleTimer then
+			if soundJingleTimer > 0 then
+				if not soundJingleVolume then
+					musicmgr:VolumeSlide(0.1, 0.05)
+					soundJingleVolume = true
+				end
+				soundJingleTimer = soundJingleTimer - 1
+			else
+				soundJingleTimer = nil
+				soundJingleVolume = false
+				musicmgr:VolumeSlide(1, 0.05)
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_RENDER, custommusiccollection.HandleSoundJingleTimer)
 end
 
 --TODO: treasure room jingle room transition volume issue
@@ -3981,6 +4065,8 @@ if usingRGON then
 		roomclearbefore = false
 		previousgreedwave = 0
 		previousbosscount = 0
+		soundJingleTimer = nil
+		soundJingleVolume = false
 	end
 	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, custommusiccollection.SetValuesOnExit)
 	
