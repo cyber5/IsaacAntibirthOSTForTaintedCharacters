@@ -35,4 +35,23 @@
 	<sound name="Descent Twisted Jingle">
 		<sample weight="1" path="descent_twisted_jingle.wav" />
 	</sound>
+	
+	<sound name="Treasure Jingle (tarnished) 1">
+		<sample weight="1" path="tarnished_treasure_jingle_1.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tarnished) 2">
+		<sample weight="1" path="tarnished_treasure_jingle_2.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tarnished) 3">
+		<sample weight="1" path="tarnished_treasure_jingle_3.wav" />
+	</sound>
+	<sound name="Treasure Jingle (tarnished) 4">
+		<sample weight="1" path="tarnished_treasure_jingle_4.wav" />
+	</sound>
+	<sound name="Secret Room Jingle (tarnished)">
+		<sample weight="1" path="tarnished_secret_room_jingle.wav" />
+	</sound>
+	<sound name="Strange Door Jingle (tarnished)">
+		<sample weight="1" path="tarnished_strange_door_jingle.wav" />
+	</sound>
 </sounds>
