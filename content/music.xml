@@ -166,6 +166,7 @@
 	<track name="Descent Twisted" intro="beforevol4/Descent Twisted Intro.ogg" path="beforevol4/Descent Twisted Loop.ogg" loop="true" />
 	<track name="Angel Fight (tainted)" path="Room of Angel - The Thief [Intro - Alt].ogg" loop="true" />
 	<track name="Angel Fight (tainted) outro" path="You Died jingle.ogg" loop="false" />
+	<track name="Devil Wave Fight (tainted)" path="Fights/Devil Wave Fight - King of Diamonds [Loop].ogg" loop="true" />
 	<track name="Ultra Greedier (tainted)" path="Fights/Ultra Greedier - Memento Mori Metal [Loop - Alt].ogg" loop="true" mul="1.5" />
 	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="1.5" />
 	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
@@ -209,6 +210,7 @@
 	<track name="Devil Room (late)" path="Extra/devil room layer.ogg" loop="true" mul="1.5" />
 	<track name="Shop Room (late)" path="Extra/shop layer.ogg" loop="true" mul="1.2" />
 	<track name="Boss Room (empty, greed)" intro="Greed/the calm greed intro.ogg" path="Greed/the calm greed.ogg" loop="true" />
+	<track name="Devil Wave Fight" path="Greed/devil wave fight.ogg" loop="true" />
 	<track name="Ultra Greedier" path="Greed/locus fight altloop.ogg" loop="true" mul="1.25" />
 	<track name="Ultra Greedier outro" path="Greed/locus outro.ogg" loop="false" mul="1.25" />
 	
@@ -320,6 +322,7 @@
 	<track name="Excelsior Greed Floor 6" path="Excelsior/Genesis Retake Light Loop.ogg" layer="Excelsior/Genesis Retake Twisted Loop.ogg" loop="true" layermode="2" layerfadespeed="0.01" mul="1.5" />
 	<track name="Excelsior Ultra Greedier" path="Excelsior/Excelsior ultra greedier.ogg" loop="true" mul="1.5" />
 	<track name="Excelsior Ultra Greedier outro" path="Excelsior/Excelsior ultra greedier outro.ogg" loop="false" mul="1.5" />
+	<track name="Excelsior Devil Wave Fight" path="Excelsior/Excelsior devil wave fight.ogg" loop="true" />
 	<track name="Excelsior Angel Fight" path="Excelsior/Excelsior angel fight.ogg" loop="true" />
 	<track name="Excelsior Angel Fight outro" path="Excelsior/Excelsior angel fight outro.ogg" loop="false" />
 	<track name="Excelsior Mega Satan" path="Excelsior/Excelsior mega satan.ogg" loop="true" />
