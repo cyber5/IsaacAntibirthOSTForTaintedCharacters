@@ -3641,6 +3641,23 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	local tpriority = 0
 	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectMortisStageMusicForStageAPI)
 	
+	--stage api messes up some normal stages' music; let's fix that
+	function custommusiccollection:PlayCorrectNormalStageMusicForStageAPI(musicID, roomType, musicRNG)
+		if musicID == Music.MUSIC_CATACOMBS or musicID == Music.MUSIC_NECROPOLIS or musicID == Music.MUSIC_UTERO then
+			local returnTrack
+			if musicID == Music.MUSIC_CATACOMBS then
+				returnTrack = custommusiccollection:PerformCatacombsGreedReplacement()
+			elseif musicID == Music.MUSIC_UTERO then
+				returnTrack = custommusiccollection:PerformUteroGreedReplacement()
+			end
+			if returnTrack == nil then
+				returnTrack = NormalTaintedOrTarnished(musicID)
+			end
+			return returnTrack
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectNormalStageMusicForStageAPI)
+	
 	--handle boss over jingles in custom stages
 	function custommusiccollection:PerformMotherOverForStageAPI(musicID, isCleared, musicRNG)
 		if musicID == Music.MUSIC_JINGLE_BOSS_OVER3 then
