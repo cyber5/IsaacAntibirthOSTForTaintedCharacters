@@ -210,7 +210,7 @@
 	<track name="Devil Room (late)" path="Extra/devil room layer.ogg" loop="true" mul="1.5" />
 	<track name="Shop Room (late)" path="Extra/shop layer.ogg" loop="true" mul="1.2" />
 	<track name="Boss Room (empty, greed)" intro="Greed/the calm greed intro.ogg" path="Greed/the calm greed.ogg" loop="true" />
-	<track name="Devil Wave Fight" path="Greed/devil wave fight.ogg" loop="true" />
+	<track name="Devil Wave Fight" path="Greed/devil wave fight.ogg" loop="true" mul="1.25" />
 	<track name="Ultra Greedier" path="Greed/locus fight altloop.ogg" loop="true" mul="1.25" />
 	<track name="Ultra Greedier outro" path="Greed/locus outro.ogg" loop="false" mul="1.25" />
 	
