@@ -13,7 +13,7 @@ elseif REPENTOGON and MMC then --TODO: maybe lift this restriction after further
 	return
 end
 
---TODOO: compatibility with Fall From Grace (don't play treasure jingle in mirror treasure room; check if secret room jingle plays in vanilla mirror world and MMC mirror world?)
+--TODOO: compatibility with Fall From Grace
 --TODOO: compatibility with Revelations
 --TODOO: compatibility with The Future
 
@@ -80,7 +80,7 @@ function custommusiccollection:ResetSave()
 		shopfloorgreedtheme = true,
 		postbossgreedspiritum = true,
 		satanfightsatan666 = true,
-		devilwavegreedambush = true,
+		devilwavegreedtheme = 2,
 		angelfighttheme = true,
 		blackmarketroomtheme = true,
 		genesisroomtheme = true,
@@ -145,6 +145,18 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["boss2taintedflagbearer"] == nil then modSaveData["boss2taintedflagbearer"] = true end
 	if modSaveData["playsfxjinglereplacements"] == nil then modSaveData["playsfxjinglereplacements"] = true end
 	
+	--translate obsolete settings to current settings
+	if modSaveData["devilwavegreedambush"] ~= nil then
+		if modSaveData["devilwavegreedtheme"] == nil then
+			if modSaveData["devilwavegreedambush"] then
+				modSaveData["devilwavegreedtheme"] = 2
+			else
+				modSaveData["devilwavegreedtheme"] = 0
+			end
+		end
+		modSaveData["devilwavegreedambush"] = nil
+	end
+	
 	--fill in missing data based on the Soundtrack Mode (default to "on" if custom or expanded, default to "off" if simple)
 	if modSaveData["ultragreediertheme"] == nil then modSaveData["ultragreediertheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["darkroomdescensum"] == nil then modSaveData["darkroomdescensum"] = custommusiccollection:missingFillInBool() end
@@ -158,7 +170,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["shopfloorgreedtheme"] == nil then modSaveData["shopfloorgreedtheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["postbossgreedspiritum"] == nil then modSaveData["postbossgreedspiritum"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["satanfightsatan666"] == nil then modSaveData["satanfightsatan666"] = custommusiccollection:missingFillInBool() end
-	if modSaveData["devilwavegreedambush"] == nil then modSaveData["devilwavegreedambush"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["devilwavegreedtheme"] == nil then modSaveData["devilwavegreedtheme"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["angelfighttheme"] == nil then modSaveData["angelfighttheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["blackmarketroomtheme"] == nil then modSaveData["blackmarketroomtheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["genesisroomtheme"] == nil then modSaveData["genesisroomtheme"] = custommusiccollection:missingFillInBool() end
@@ -217,7 +229,6 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["shopfloorgreedtheme"] = mode
 	modSaveData["postbossgreedspiritum"] = mode
 	modSaveData["satanfightsatan666"] = mode
-	modSaveData["devilwavegreedambush"] = mode
 	modSaveData["angelfighttheme"] = mode
 	modSaveData["blackmarketroomtheme"] = mode
 	modSaveData["genesisroomtheme"] = mode
@@ -239,12 +250,14 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["deletethisenhancement"] = mode
 	
 	if mode then
+		modSaveData["devilwavegreedtheme"] = 2
 		modSaveData["drosstainted"] = 2
 		modSaveData["ashpittainted"] = 2
 		modSaveData["gehennatainted"] = 2
 		modSaveData["mortistainted"] = 2
 		modSaveData["tarnishedsoundtrack"] = 3
 	else
+		modSaveData["devilwavegreedtheme"] = 0
 		modSaveData["drosstainted"] = 0
 		modSaveData["ashpittainted"] = 0
 		modSaveData["gehennatainted"] = 0
@@ -525,29 +538,6 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"Sets the post-boss music for non-Tainted characters in Greed Mode."
-				}
-			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Challenge Theme for Devil Wave")
-			SMCM.AddSetting(category, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["devilwavegreedambush"]
-				end,
-				Display = function()
-					if modSaveData["devilwavegreedambush"] then
-						return "On"
-					else
-						return "Off"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["devilwavegreedambush"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Play the Challenge fight music for devil waves in Greed Mode."
 				}
 			})
 			SMCM.AddSpace(category)
@@ -1052,6 +1042,33 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category)
+			SMCM.AddText(category, "Greed Mode Devil Wave Theme")
+			SMCM.AddSetting(category, {
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
+				CurrentSetting = function()
+					return modSaveData["devilwavegreedtheme"]
+				end,
+				Minimum = 0,
+				Maximum = 2,
+				Display = function()
+					if modSaveData["devilwavegreedtheme"] == 2 then
+						return "Special Theme"
+					elseif modSaveData["devilwavegreedtheme"] == 1 then
+						return "Challenge Fight Theme"
+					else
+						return "Satan Fight Theme"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["devilwavegreedtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the fight music for devil waves during Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category)
 			SMCM.AddText(category, "Boss Rush Tainted Speedup")
 			SMCM.AddSetting(category, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -1543,7 +1560,7 @@ if not DarkRoomDevilDealSoundEffect then
 	else
 		function custommusiccollection:ReplaceChoirSound()
 			if darkroomstartroom then
-				-- TODO: does the SOUND_DEVILROOM_DEAL sound sometimes play when it shouldn't?
+				-- TODO: the SOUND_DEVILROOM_DEAL sound sometimes play when it shouldn't... why? Idea: only do this after 10 frames of the room?
 				if sound:IsPlaying(SoundEffect.SOUND_CHOIR_UNLOCK) then
 					sound:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
 					sound:Play(SoundEffect.SOUND_DEVILROOM_DEAL,1,0,false,1)
@@ -1562,6 +1579,7 @@ Music.MUSIC_SHEOL_GREED = Isaac.GetMusicIdByName("Sheol (greed)")
 Music.MUSIC_FLOOR_6_GREED = Isaac.GetMusicIdByName("Greed Floor 6")
 Music.MUSIC_BOSS_OVER_GREED = Isaac.GetMusicIdByName("Boss Room (empty, greed)")
 Music.MUSIC_ULTRAGREEDIER_BOSS = Isaac.GetMusicIdByName("Ultra Greedier")
+Music.MUSIC_DEVIL_WAVE_FIGHT = Isaac.GetMusicIdByName("Devil Wave Fight")
 Music.MUSIC_ANGEL_BOSS = Isaac.GetMusicIdByName("Pool of Yule")
 Music.MUSIC_SATAN_BOSS_ALT = Isaac.GetMusicIdByName("Satan 666")
 Music.MUSIC_MEGASATAN_BOSS = Isaac.GetMusicIdByName("Mega Satan")
@@ -1745,6 +1763,7 @@ normaltotainted = {
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted)"),
 	[Music.MUSIC_BOSS_OVER_GREED] = Isaac.GetMusicIdByName("Boss Room (empty, tainted)"),
 	[Music.MUSIC_ULTRAGREEDIER_BOSS] = Isaac.GetMusicIdByName("Ultra Greedier (tainted)"),
+	[Music.MUSIC_DEVIL_WAVE_FIGHT] = Isaac.GetMusicIdByName("Devil Wave Fight (tainted)"),
 	[Music.MUSIC_ANGEL_BOSS] = Isaac.GetMusicIdByName("Angel Fight (tainted)"),
 	[Music.MUSIC_SATAN_BOSS_ALT] = Isaac.GetMusicIdByName("Boss (Sheol - Satan, tainted)"),
 	[Music.MUSIC_MEGASATAN_BOSS] = Isaac.GetMusicIdByName("Mega Satan (tainted)"),
@@ -1932,6 +1951,7 @@ normaltotarnished = {
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Excelsior Greed Floor 6"),
 	[Music.MUSIC_BOSS_OVER_GREED] = Isaac.GetMusicIdByName("Excelsior Boss Room (empty)"),
 	[Music.MUSIC_ULTRAGREEDIER_BOSS] = Isaac.GetMusicIdByName("Excelsior Ultra Greedier"),
+	[Music.MUSIC_DEVIL_WAVE_FIGHT] = Isaac.GetMusicIdByName("Excelsior Devil Wave Fight"),
 	[Music.MUSIC_ANGEL_BOSS] = Isaac.GetMusicIdByName("Excelsior Angel Fight"),
 	[Music.MUSIC_SATAN_BOSS_ALT] = Isaac.GetMusicIdByName("Excelsior Boss (Sheol - Satan)"),
 	[Music.MUSIC_MEGASATAN_BOSS] = Isaac.GetMusicIdByName("Excelsior Mega Satan"),
@@ -2285,33 +2305,35 @@ local random_boss_music = {
 	[17] = Music.MUSIC_DOGMA_BOSS,
 	[18] = Music.MUSIC_BEAST_BOSS,
 	[19] = Music.MUSIC_ULTRAGREEDIER_BOSS,
-	[20] = Music.MUSIC_ANGEL_BOSS,
-	[21] = Music.MUSIC_MEGASATAN_BOSS,
+	[20] = Music.MUSIC_DEVIL_WAVE_FIGHT,
+	[21] = Music.MUSIC_ANGEL_BOSS,
+	[22] = Music.MUSIC_MEGASATAN_BOSS,
 	--TAINTED START
-	[22] = Music.MUSIC_BOSS,
-	[23] = Music.MUSIC_BOSS2,
-	[24] = Music.MUSIC_BOSS3,
-	[25] = Music.MUSIC_CHALLENGE_FIGHT,
-	[26] = Music.MUSIC_BOSS_RUSH,
-	[27] = Music.MUSIC_MOM_BOSS,
-	[28] = Music.MUSIC_MOMS_HEART_BOSS,
-	[29] = Music.MUSIC_ISAAC_BOSS,
-	[30] = Music.MUSIC_SATAN_BOSS,
-	[31] = Music.MUSIC_DARKROOM_BOSS,
-	[32] = Music.MUSIC_BLUEBABY_BOSS,
-	[33] = Music.MUSIC_HUSH_BOSS,
-	[34] = Music.MUSIC_ULTRAGREED_BOSS,
-	[35] = Music.MUSIC_VOID_BOSS,
-	[36] = Music.MUSIC_MINESHAFT_ESCAPE,
-	[37] = Music.MUSIC_MOTHER_BOSS,
-	[38] = Music.MUSIC_DOGMA_BOSS,
-	[39] = Music.MUSIC_BEAST_BOSS,
-	[40] = Music.MUSIC_ULTRAGREEDIER_BOSS,
-	[41] = Music.MUSIC_ANGEL_BOSS,
-	[42] = Music.MUSIC_MEGASATAN_BOSS,
+	[23] = Music.MUSIC_BOSS,
+	[24] = Music.MUSIC_BOSS2,
+	[25] = Music.MUSIC_BOSS3,
+	[26] = Music.MUSIC_CHALLENGE_FIGHT,
+	[27] = Music.MUSIC_BOSS_RUSH,
+	[28] = Music.MUSIC_MOM_BOSS,
+	[29] = Music.MUSIC_MOMS_HEART_BOSS,
+	[30] = Music.MUSIC_ISAAC_BOSS,
+	[31] = Music.MUSIC_SATAN_BOSS,
+	[32] = Music.MUSIC_DARKROOM_BOSS,
+	[33] = Music.MUSIC_BLUEBABY_BOSS,
+	[34] = Music.MUSIC_HUSH_BOSS,
+	[35] = Music.MUSIC_ULTRAGREED_BOSS,
+	[36] = Music.MUSIC_VOID_BOSS,
+	[37] = Music.MUSIC_MINESHAFT_ESCAPE,
+	[38] = Music.MUSIC_MOTHER_BOSS,
+	[39] = Music.MUSIC_DOGMA_BOSS,
+	[40] = Music.MUSIC_BEAST_BOSS,
+	[41] = Music.MUSIC_ULTRAGREEDIER_BOSS,
+	[42] = Music.MUSIC_DEVIL_WAVE_FIGHT,
+	[43] = Music.MUSIC_ANGEL_BOSS,
+	[44] = Music.MUSIC_MEGASATAN_BOSS,
 }
-local random_boss_music_size = 43
-local random_boss_music_tainted_threshold = 21
+local random_boss_music_size = 45
+local random_boss_music_tainted_threshold = 22
 
 local random_special_music = {
 	[0] = Music.MUSIC_NULL,
@@ -2765,6 +2787,7 @@ local roomSeedTrack = { --TODO: these can be adjusted now that MMC no longer use
 	[Music.MUSIC_JINGLE_CHALLENGE_OUTRO] = 4,
 	[Music.MUSIC_SATAN_BOSS] = 4,
 	[Music.MUSIC_SATAN_BOSS_ALT] = 4,
+	[Music.MUSIC_DEVIL_WAVE_FIGHT] = 4,
 	
 	[Music.MUSIC_DEVIL_ROOM] = 5,
 	[Music.MUSIC_DEVIL_ROOM_ALT] = 5,
@@ -3365,8 +3388,12 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformAngelOverReplacement, Music.MUSIC_JINGLE_BOSS_OVER, Music.MUSIC_JINGLE_BOSS_OVER2, Music.MUSIC_JINGLE_BOSS_OVER3)
 
 function custommusiccollection:PerformDevilWaveGreedReplacement(trackId)
-	if modSaveData["devilwavegreedambush"] and Game():IsGreedMode() then
-		return NormalTaintedOrTarnished(Music.MUSIC_CHALLENGE_FIGHT)
+	if Game():IsGreedMode() then
+		if modSaveData["devilwavegreedtheme"] == 2 then
+			return NormalTaintedOrTarnished(Music.MUSIC_DEVIL_WAVE_FIGHT)
+		elseif modSaveData["devilwavegreedtheme"] == 1 then
+			return NormalTaintedOrTarnished(Music.MUSIC_CHALLENGE_FIGHT)
+		end
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDevilWaveGreedReplacement, Music.MUSIC_SATAN_BOSS)
@@ -3647,6 +3674,20 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	Music.MUSIC_JINGLE_BOSS_OVER,
 	Music.MUSIC_JINGLE_BOSS_OVER2,
 	Music.MUSIC_JINGLE_BOSS_OVER3)
+	
+	--disable treasure jingle in Knife Piece 1 room in Boiler
+	function custommusiccollection:DisableTreasureJingleInMirrorBoiler()
+		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			local roomDescriptor = Game():GetLevel():GetCurrentRoomDesc()
+			if roomDescriptor:GetDimension() == Dimension.MIRROR then
+				return MusicCancelValue()
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_0)
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_1)
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_2)
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_3)
 end
 
 function custommusiccollection:PerformAscentReversion(trackId)
@@ -4135,9 +4176,9 @@ if usingRGON then
 						end
 					elseif currentgreedwave == totalWaves then
 						--do for tainted characters no matter what
-						--do for non-tainted characters only if greed mode devil wave challenge music is on
+						--do for non-tainted characters only if greed mode devil wave music is not the Satan music
 						--Challenge fight and Satan fight have the same value for room seed track
-						if modSaveData["devilwavegreedambush"] or not PlayNormalVersion(Music.MUSIC_SATAN_BOSS) or not PlayNormalVersion(Music.MUSIC_BOSS_OVER) then
+						if modSaveData["devilwavegreedtheme"] > 0 or not PlayNormalVersion(Music.MUSIC_SATAN_BOSS) or not PlayNormalVersion(Music.MUSIC_BOSS_OVER) then
 							musicmgr:Crossfade(Music.MUSIC_BOSS_OVER) --no boss over jingle after Devil Deal Wave
 						end
 					end
