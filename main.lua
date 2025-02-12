@@ -96,6 +96,8 @@ function custommusiccollection:ResetSave()
 		ashpittainted = 2,
 		gehennatainted = 2,
 		mortistainted = 2,
+		boilertainted = true,
+		grottotainted = true,
 		ascenttainteddescent = true,
 		hometaintedintro = true,
 		darkhometaintednauseous = true,
@@ -184,6 +186,8 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["mortistainted"] == nil then modSaveData["mortistainted"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["boilertainted"] == nil then modSaveData["boilertainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["grottotainted"] == nil then modSaveData["grottotainted"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["ascenttainteddescent"] == nil then modSaveData["ascenttainteddescent"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["hometaintedintro"] == nil then modSaveData["hometaintedintro"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["darkhometaintednauseous"] == nil then modSaveData["darkhometaintednauseous"] = custommusiccollection:missingFillInBool() end
@@ -238,6 +242,8 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["bossrushtaintedspeedup"] = mode
 	modSaveData["megasatantaintedspeedup"] = mode
 	modSaveData["uterotaintedtsunami"] = mode
+	modSaveData["boilertainted"] = mode
+	modSaveData["grottotainted"] = mode
 	modSaveData["ascenttainteddescent"] = mode
 	modSaveData["hometaintedintro"] = mode
 	modSaveData["darkhometaintednauseous"] = mode
@@ -693,6 +699,54 @@ function custommusiccollection:SetUpMenu()
 					end,
 					Info = {
 						"Sets the Mortis music for Tainted characters."
+					}
+				})
+			end
+			if FFGRACE then
+				SMCM.AddSpace(category)
+				SMCM.AddText(category, "Boiler Theme (Tainted)")
+				SMCM.AddSetting(category, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["boilertainted"]
+					end,
+					Display = function()
+						if modSaveData["boilertainted"] then
+							return "The Trial"
+						else
+							return "Tempest in a Teapot"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["boilertainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Boiler music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category)
+				SMCM.AddText(category, "Grotto Theme (Tainted)")
+				SMCM.AddSetting(category, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["grottotainted"]
+					end,
+					Display = function()
+						if modSaveData["grottotainted"] then
+							return "The Drop"
+						else
+							return "Landslide"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["grottotainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Grotto music for Tainted characters."
 					}
 				})
 			end
@@ -1420,6 +1474,10 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 	--layouts are empty when returning to game
 	--Emperor? card - selects wrong bosses
 	--Genesis beam of light - leads to wrong floor
+	--pause menu and mod menus are reversed in mirror dimension
+	--the minimap in the mirror dimension isn't always flipped
+	--plays treasure jingle for mirror dimension treasure room (NOTE: fixed by this mod)
+	--when continuing, the stage music interrupts the start jingle
 	
 	local function angelBossDeathJingle()
 		local game = Game()
@@ -1560,8 +1618,9 @@ if not DarkRoomDevilDealSoundEffect then
 	else
 		function custommusiccollection:ReplaceChoirSound()
 			if darkroomstartroom then
+				local room = Game():GetRoom()
 				-- TODO: the SOUND_DEVILROOM_DEAL sound sometimes play when it shouldn't... why? Idea: only do this after 10 frames of the room?
-				if sound:IsPlaying(SoundEffect.SOUND_CHOIR_UNLOCK) then
+				if sound:IsPlaying(SoundEffect.SOUND_CHOIR_UNLOCK) and room:GetFrameCount() > 10 then
 					sound:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
 					sound:Play(SoundEffect.SOUND_DEVILROOM_DEAL,1,0,false,1)
 				end
@@ -3618,6 +3677,8 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformGehennaReversion, Music.MUSIC_GEHENNA)
 
 if usingRGON and StageAPI and StageAPI.Loaded then
+	--TODO: some of the below could be gated by LastJudgement and FFGRACE, but they would have to be moved to a MC_POST_MODS_LOADED function
+	
 	function custommusiccollection:PerformMortisReversion(trackId)
 		if PlayTaintedVersion(trackId) then
 			if modSaveData["mortistainted"] == 1 then
@@ -3627,7 +3688,27 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 			end
 		end
 	end
+	
+	function custommusiccollection:PerformBoilerReversion(trackId)
+		if not modSaveData["boilertainted"] and PlayTaintedVersion(Music.MUSIC_BOILER) then
+			return Music.MUSIC_BOILER
+		end
+	end
+	
+	function custommusiccollection:PerformBoilerReverseReversion(trackId)
+		if not modSaveData["boilertainted"] and PlayTaintedVersion(Music.MUSIC_BOILER_REVERSE) then
+			return Music.MUSIC_BOILER_REVERSE
+		end
+	end
+	
+	function custommusiccollection:PerformGrottoReversion(trackId)
+		if not modSaveData["grottotainted"] and PlayTaintedVersion(Music.MUSIC_GROTTO) then
+			return Music.MUSIC_GROTTO
+		end
+	end
 	--callback created post mods loading
+	
+	local tpriority = 0
 	
 	function custommusiccollection:PlayCorrectMortisStageMusicForStageAPI(musicID, roomType, musicRNG)
 		if musicID == Music.MUSIC_MORTIS and PlayTaintedVersion(musicID) then
@@ -3638,8 +3719,40 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 			end
 		end
 	end
-	local tpriority = 0
 	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectMortisStageMusicForStageAPI)
+	
+	function custommusiccollection:PlayCorrectBoilerStageMusicForStageAPI(musicID, roomtType, musicRNG)
+		if musicID == Music.MUSIC_BOILER and PlayTaintedVersion(musicID) then
+			if modSaveData["boilertainted"] then
+				return TaintedVersion(musicID)
+			else
+				return custommusiccollection:PerformBoilerReversion(musicID)
+			end
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectBoilerStageMusicForStageAPI)
+	
+	function custommusiccollection:PlayCorrectBoilerReverseStageMusicForStageAPI(musicID, roomtType, musicRNG)
+		if musicID == Music.MUSIC_BOILER_REVERSE and PlayTaintedVersion(musicID) then
+			if modSaveData["boilertainted"] then
+				return TaintedVersion(musicID)
+			else
+				return custommusiccollection:PerformBoilerReverseReversion(musicID)
+			end
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectBoilerReverseStageMusicForStageAPI)
+	
+	function custommusiccollection:PlayCorrectGrottoStageMusicForStageAPI(musicID, roomtType, musicRNG)
+		if musicID == Music.MUSIC_GROTTO and PlayTaintedVersion(musicID) then
+			if modSaveData["grottotainted"] then
+				return TaintedVersion(musicID)
+			else
+				return custommusiccollection:PerformGrottoReversion(musicID)
+			end
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectGrottoStageMusicForStageAPI)
 	
 	--stage api messes up some normal stages' music; let's fix that
 	function custommusiccollection:PlayCorrectNormalStageMusicForStageAPI(musicID, roomType, musicRNG)
@@ -3867,19 +3980,50 @@ end, Music.MUSIC_DANK_DEPTHS)--]]
 if usingRGON then
 	--will be called post mods loaded
 	function custommusiccollection:CheckForCustomStageMusic()
-		if StageAPI and StageAPI.Loaded and LastJudgement then
-			Music.MUSIC_MORTIS = LastJudgement.Music.Mortis
-			
-			normaltotainted[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted)")
-			normaltotaintedalt1[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop")
-			normaltotaintedalt2[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop 2")
-			--random_music --TODO: add Mortis music to DELETE THIS? I'm not sure I will, not without mixing in the Mortis backdrops into DELETE THIS
-			stageSeedTrack[Music.MUSIC_MORTIS] = 1
-			
-			custommusiccollection:CreateCallback(custommusiccollection.PerformMortisReversion, Music.MUSIC_MORTIS)
-			
-			if Epiphany then
-				normaltotarnished[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Excelsior Mortis")
+		if StageAPI and StageAPI.Loaded then
+			if LastJudgement then
+				Music.MUSIC_MORTIS = LastJudgement.Music.Mortis
+				
+				normaltotainted[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted)")
+				normaltotaintedalt1[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop")
+				normaltotaintedalt2[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop 2")
+				--random_music --TODO: add Mortis music to DELETE THIS? I'm not sure I will, not without mixing in the Mortis backdrops into DELETE THIS
+				stageSeedTrack[Music.MUSIC_MORTIS] = 1
+				
+				custommusiccollection:CreateCallback(custommusiccollection.PerformMortisReversion, Music.MUSIC_MORTIS)
+				
+				if Epiphany then
+					normaltotarnished[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Excelsior Mortis")
+				end
+			end
+			if FFGRACE then
+				Music.MUSIC_BOILER = FFGRACE.MUSIC.BOILER
+				Music.MUSIC_BOILER_REVERSE = FFGRACE.MUSIC.BOILER_MIRROR
+				Music.MUSIC_GROTTO = FFGRACE.MUSIC.GROTTO
+				
+				normaltotainted[Music.MUSIC_BOILER] = Isaac.GetMusicIdByName("Boiler (tainted)")
+				normaltotaintedalt1[Music.MUSIC_BOILER] = Isaac.GetMusicIdByName("Boiler (tainted) nointro")
+				normaltotaintedalt2[Music.MUSIC_BOILER] = Isaac.GetMusicIdByName("Boiler (tainted) altloop")
+				normaltotainted[Music.MUSIC_BOILER_REVERSE] = Isaac.GetMusicIdByName("Boiler (reversed, tainted)")
+				normaltotainted[Music.MUSIC_GROTTO] = Isaac.GetMusicIdByName("Grotto (tainted)")
+				normaltotaintedalt1[Music.MUSIC_GROTTO] = Isaac.GetMusicIdByName("Grotto (tainted) altloop")
+				normaltotaintedalt2[Music.MUSIC_GROTTO] = Isaac.GetMusicIdByName("Grotto (tainted)")
+				
+				--random_music
+				
+				stageSeedTrack[Music.MUSIC_BOILER] = 1
+				stageSeedTrack[Music.MUSIC_BOILER_REVERSE] = 1
+				stageSeedTrack[Music.MUSIC_GROTTO] = 1
+				
+				custommusiccollection:CreateCallback(custommusiccollection.PerformBoilerReversion, Music.MUSIC_BOILER)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformBoilerReverseReversion, Music.MUSIC_BOILER_REVERSE)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformGrottoReversion, Music.MUSIC_GROTTO)
+				
+				if Epiphany then
+					normaltotarnished[Music.MUSIC_BOILER] = Isaac.GetMusicIdByName("Excelsior Boiler")
+					normaltotarnished[Music.MUSIC_BOILER_REVERSE] = Isaac.GetMusicIdByName("Excelsior Boiler reversed")
+					normaltotarnished[Music.MUSIC_GROTTO] = Isaac.GetMusicIdByName("Excelsior Grotto")
+				end
 			end
 		end
 	end
@@ -3928,12 +4072,17 @@ end
 local soundJingleTimer
 local soundJingleVolume = false
 
+--TODOO: rename PlayTarnishedVersion to PlayExcelsiorVersion
+
 if usingRGON then
 	function custommusiccollection:PerformMainJingleReplacement(trackId)
 		if trackId > 0 then
 			local returnTrack = NormalTaintedOrTarnished(trackId)
 			if modSaveData["playsfxjinglereplacements"] and not PlayNormalVersion(trackId) then
+				--this method doesn't work for Custom Stages because Stage API literally updates the volume every MC_POST_RENDER, which prevents VolumeSlide from working
 				SFXManager():Play(returnTrack,1,0,false,1)
+				--TODOO: need to rewrite all involving playsfxjinglereplacements to run through separate functions to avoid returning a sound id
+				--rewrite this function to check existing sfx BEFORE ever calling NormalTaintedOrTarnished
 				if PlayTarnishedVersion(trackId) then
 					soundJingleTimer = 100 --roughly 2 seconds
 				else
@@ -4226,8 +4375,15 @@ if usingRGON then
 			StageAPI.StopOverridingMusic(normaltotainted[Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO])
 			StageAPI.StopOverridingMusic(normaltotainted[Music.MUSIC_JINGLE_MOTHER_OVER])
 			
+			--TODOO: tarnished Mortis theme interrupts tarnished nightmare jingle; also, tarnished nightmare jingle didn't play when going from Boiler to Downpour
 			StageAPI.StopOverridingMusic(Music.MUSIC_JINGLE_ANGEL_OVER)
 			StageAPI.StopOverridingMusic(normaltotainted[Music.MUSIC_JINGLE_ANGEL_OVER])
+			
+			--TODOO: tainted and tarnished secret room jingle from mineshaft buttons doesn't decrease volume in the Grotto... check for Mines and Ashpit
+			
+			--TODOO: changing to Excelsior soundtrack in Custom Stage doesn't change back to the Excelsior soundtrack... probably solved by updating the StageAPI callbacks to include all options
+			--also test switching Tarnished soundtrack in a normal stage (should change after each room change) -> doesn't work changing from normal to tainted or tarnished
+			--need to add a section to the CheckDifferentMusic function (PlayerIsTarnished and the setting is greater than zero and current playing music id is the rebirth version, then play stage music on new room)
 			
 			if Epiphany then
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_GAME_OVER], false, true)
