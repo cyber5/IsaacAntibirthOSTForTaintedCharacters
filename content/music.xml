@@ -218,6 +218,12 @@
 	<track name="Mortis (tainted)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" />
 	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" />
 	<track name="Mortis (tainted) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" />
+	<track name="Boiler (tainted)" intro="CustomStage/Boiler - The Trial [Intro].ogg" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
+	<track name="Boiler (tainted) nointro" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
+	<track name="Boiler (tainted) altloop" path="CustomStage/Boiler - The Trial [Loop - Alt].ogg" loop="true" />
+	<track name="Boiler (reversed, tainted)" path="CustomStage/Boiler - The Trial [Loop - Reversed].ogg" loop="true" />
+	<track name="Grotto (tainted)" path="CustomStage/Grotto - The Drop [Loop].ogg" loop="true" />
+	<track name="Grotto (tainted) altloop" path="CustomStage/Grotto - The Drop [Loop - Alt].ogg" loop="true" />
 	
 	<!-- Excelsior -->
 	<track name="Excelsior Basement" intro="Excelsior/Diptera Sonata Intro.ogg" path="Excelsior/Diptera Sonata(Basement).ogg" loop="true" mul="1.5" />
@@ -251,7 +257,7 @@
 	<track name="Excelsior Boss Room (empty)" intro="Excelsior/The Calm intro.ogg" path="Excelsior/The Calm.ogg" loop="true" mul="2" />
 	<track name="Excelsior Challenge Room (fight)" path="Excelsior/Ambush.ogg" loop="true" />
 	<track name="Excelsior Library Room" intro="Excelsior/Library Intro.ogg" path="Excelsior/Library.ogg" loop="true" mul="1.5" />
-	<track name="Excelsior Secret Room" intro="Excelsior/Secret to Everyone Intro.ogg" path="Excelsior/Secret to Everyone.ogg" loop="true" />
+	<track name="Excelsior Secret Room" intro="Excelsior/Secret to Everyone Intro.ogg" path="Excelsior/Secret to Everyone.ogg" loop="true" mul="1.5" />
 	<track name="Excelsior Devil Room" path="Excelsior/Deal With the Devil.ogg" loop="true" />
 	<track name="Excelsior Angel Room" intro="Excelsior/Angel Room intro.ogg" path="Excelsior/Angel Room.ogg" loop="true" />
 	<track name="Excelsior Shop Room" intro="Excelsior/Store Loop Intro.ogg" path="Excelsior/Store Loop.ogg" loop="true" />
@@ -331,5 +337,9 @@
 	<track name="Excelsior I Am Error" path="Excelsior/Excelsior i am error.ogg" loop="true" mul="1.5" />
 	<track name="Excelsior Hush Outro (jingle)" path="Excelsior/Ambush Jinle outro V3_04.ogg" loop="false" />
 	
+	<!-- Excelsior Custom Stages -->
 	<track name="Excelsior Mortis" path="Excelsior/Excelsior mortis.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Boiler" path="Excelsior/Excelsior boiler.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Boiler reversed" path="Excelsior/Excelsior boiler reversed.ogg" loop="true" mul="1.5" />
+	<track name="Excelsior Grotto" path="Excelsior/Excelsior grotto.ogg" loop="true" mul="1.5" />
 </music>
