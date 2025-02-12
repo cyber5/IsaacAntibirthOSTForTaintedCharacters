@@ -2167,11 +2167,7 @@ custommusiccollection:AddCallback(ModCallbacks.MC_USE_ITEM, resetLoopVersion, Co
 
 function TarnishedVersion(trackId)
 	if normaltotarnished[trackId] then
-		if usingRGON and modSaveData["playsfxjinglereplacements"] and tarnishedsfxid[trackId] then
-			return tarnishedsfxid[trackId]
-		else
-			return normaltotarnished[trackId]
-		end
+		return normaltotarnished[trackId]
 	else
 		return trackId
 	end
@@ -2197,20 +2193,14 @@ function TaintedVersion(trackId)
 		
 		if not usingRGON and taintedjinglelength[trackId] then
 			return normaltotainted[trackId], nil, taintedjinglelength[trackId]
-		elseif (modSaveData["playsfxjinglereplacements"] or not usingRGON) and taintedsfxid[trackId] then
-			local tempTsfx
+		elseif not usingRGON and taintedsfxid[trackId] then
 			if treasurejingles[trackId] then
 				local rng = math.random(0,8)
-				tempTsfx = taintedtreasurejinglesfx[rng]
+				return 0, nil, taintedtreasurejinglesfx[rng]
 			else
-				tempTsfx = taintedsfxid[trackId]
+				return 0, nil, taintedsfxid[trackId]
 			end
-			if usingRGON then
-				return tempTsfx
-			else
-				return 0, nil, tempTsfx
-			end
-		elseif usingRGON and not modSaveData["playsfxjinglereplacements"] and treasurejingles[trackId] then
+		elseif usingRGON and treasurejingles[trackId] then
 			local rng = math.random(0,8)
 			return taintedtreasurejingles[rng]
 		elseif loopversion == 2 and normaltotaintedalt2[trackId] then
@@ -4050,24 +4040,39 @@ end
 local soundJingleTimer
 local soundJingleVolume = false
 
---TODOO: rename PlayTarnishedVersion to PlayExcelsiorVersion
+--TODOO: rename tarnished variables and functions to excelsior as appropriate
 
 if usingRGON then
 	function custommusiccollection:PerformMainJingleReplacement(trackId)
 		if trackId > 0 then
 			local returnTrack = NormalTaintedOrTarnished(trackId)
-			if modSaveData["playsfxjinglereplacements"] and not PlayNormalVersion(trackId) then
+			if modSaveData["playsfxjinglereplacements"] and not PlayNormalVersion(trackId) and not (StageAPI and StageAPI.Loaded and StageAPI.CurrentStage) then
 				--this method doesn't work for Custom Stages because Stage API literally updates the volume every MC_POST_RENDER, which prevents VolumeSlide from working
-				SFXManager():Play(returnTrack,1,0,false,1)
-				--TODOO: need to rewrite all involving playsfxjinglereplacements to run through separate functions to avoid returning a sound id
-				--rewrite this function to check existing sfx BEFORE ever calling NormalTaintedOrTarnished
-				if PlayTarnishedVersion(trackId) then
-					soundJingleTimer = 100 --roughly 2 seconds
-				else
-					soundJingleTimer = 145 --roughly 3 seconds
+				
+				local sfx
+				if PlayTarnishedVersion(trackId) and tarnishedsfxid[trackId] then
+					sfx = tarnishedsfxid[trackId]
+				elseif PlayTaintedVersion(trackId) and taintedsfxid[trackId] then
+					if treasurejingles[trackId] then
+						local rng = math.random(0,8)
+						sfx = taintedtreasurejinglesfx[rng]
+					else
+						sfx = taintedsfxid[trackId]
+					end
 				end
-				soundJingleVolume = false
-				return MusicCancelValue()
+				
+				if sfx then
+					SFXManager():Play(sfx,1,0,false,1)
+					if PlayTarnishedVersion(trackId) then
+						soundJingleTimer = 100 --roughly 2 seconds
+					else
+						soundJingleTimer = 145 --roughly 3 seconds
+					end
+					soundJingleVolume = false
+					return MusicCancelValue()
+				else
+					return returnTrack
+				end
 			else
 				return returnTrack
 			end
@@ -4154,6 +4159,8 @@ if usingRGON then
 			local stage = GetEffectiveLevelStage()
 			local stage_type = GetEffectiveStageType()
 			local player = Isaac.GetPlayer()
+			
+			--TODOO: remove much of the below by updating the Mod Config Menu functions to immediately play the new setting's music
 			
 			if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
 				local curMusic = musicmgr:GetCurrentMusicID()
@@ -4364,12 +4371,6 @@ if usingRGON then
 			--TODOO: tarnished Mortis theme interrupts tarnished nightmare jingle; also, tarnished nightmare jingle didn't play when going from Boiler to Downpour
 			StageAPI.StopOverridingMusic(Music.MUSIC_JINGLE_ANGEL_OVER)
 			StageAPI.StopOverridingMusic(normaltotainted[Music.MUSIC_JINGLE_ANGEL_OVER])
-			
-			--TODOO: tainted and tarnished secret room jingle from mineshaft buttons doesn't decrease volume in the Grotto... check for Mines and Ashpit
-			
-			--TODOO: changing to Excelsior soundtrack in Custom Stage doesn't change back to the Excelsior soundtrack... probably solved by updating the StageAPI callbacks to include all options
-			--also test switching Tarnished soundtrack in a normal stage (should change after each room change) -> doesn't work changing from normal to tainted or tarnished
-			--need to add a section to the CheckDifferentMusic function (PlayerIsTarnished and the setting is greater than zero and current playing music id is the rebirth version, then play stage music on new room)
 			
 			if Epiphany then
 				StageAPI.StopOverridingMusic(normaltotarnished[Music.MUSIC_GAME_OVER], false, true)
