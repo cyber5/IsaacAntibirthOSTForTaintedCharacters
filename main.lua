@@ -1264,7 +1264,6 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Beast fight music for Tainted characters."
 				}
 			})
-			--playsfxjinglereplacements
 			if usingRGON then
 				SMCM.AddSpace(category)
 				SMCM.AddText(category, "Legacy Jingle Replacement Method")
@@ -3710,49 +3709,28 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	
 	local tpriority = 0
 	
-	function custommusiccollection:PlayCorrectMortisStageMusicForStageAPI(musicID, roomType, musicRNG)
-		if musicID == Music.MUSIC_MORTIS and PlayTaintedVersion(musicID) then
-			if modSaveData["mortistainted"] == 2 then
-				return TaintedVersion(musicID)
-			else
-				return custommusiccollection:PerformMortisReversion(musicID)
+	function custommusiccollection:PlayCorrectCustomStageMusicForStageAPI(musicID, roomType, musicRNG)
+		if (Music.MUSIC_MORTIS and musicID == Music.MUSIC_MORTIS)
+		or (Music.MUSIC_BOILER and musicID == Music.MUSIC_BOILER)
+		or (Music.MUSIC_BOILER_REVERSE and musicID == Music.MUSIC_BOILER_REVERSE)
+		or (Music.MUSIC_GROTTO and musicID == Music.MUSIC_GROTTO) then
+			local returnTrack
+			if (Music.MUSIC_MORTIS and musicID == Music.MUSIC_MORTIS) then
+				returnTrack = custommusiccollection:PerformMortisReversion(musicID)
+			elseif (Music.MUSIC_BOILER and musicID == Music.MUSIC_BOILER) then
+				returnTrack = custommusiccollection:PerformBoilerReversion(musicID)
+			elseif (Music.MUSIC_BOILER_REVERSE and musicID == Music.MUSIC_BOILER_REVERSE) then
+				returnTrack = custommusiccollection:PerformBoilerReverseReversion(musicID)
+			elseif (Music.MUSIC_GROTTO and musicID == Music.MUSIC_GROTTO) then
+				returnTrack = custommusiccollection:PerformGrottoReversion(musicID)
 			end
+			if returnTrack == nil then
+				returnTrack = NormalTaintedOrTarnished(musicID)
+			end
+			return returnTrack
 		end
 	end
-	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectMortisStageMusicForStageAPI)
-	
-	function custommusiccollection:PlayCorrectBoilerStageMusicForStageAPI(musicID, roomtType, musicRNG)
-		if musicID == Music.MUSIC_BOILER and PlayTaintedVersion(musicID) then
-			if modSaveData["boilertainted"] then
-				return TaintedVersion(musicID)
-			else
-				return custommusiccollection:PerformBoilerReversion(musicID)
-			end
-		end
-	end
-	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectBoilerStageMusicForStageAPI)
-	
-	function custommusiccollection:PlayCorrectBoilerReverseStageMusicForStageAPI(musicID, roomtType, musicRNG)
-		if musicID == Music.MUSIC_BOILER_REVERSE and PlayTaintedVersion(musicID) then
-			if modSaveData["boilertainted"] then
-				return TaintedVersion(musicID)
-			else
-				return custommusiccollection:PerformBoilerReverseReversion(musicID)
-			end
-		end
-	end
-	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectBoilerReverseStageMusicForStageAPI)
-	
-	function custommusiccollection:PlayCorrectGrottoStageMusicForStageAPI(musicID, roomtType, musicRNG)
-		if musicID == Music.MUSIC_GROTTO and PlayTaintedVersion(musicID) then
-			if modSaveData["grottotainted"] then
-				return TaintedVersion(musicID)
-			else
-				return custommusiccollection:PerformGrottoReversion(musicID)
-			end
-		end
-	end
-	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectGrottoStageMusicForStageAPI)
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectCustomStageMusicForStageAPI)
 	
 	--stage api messes up some normal stages' music; let's fix that
 	function custommusiccollection:PlayCorrectNormalStageMusicForStageAPI(musicID, roomType, musicRNG)
@@ -4175,12 +4153,20 @@ if usingRGON then
 			--normal floor music
 			local stage = GetEffectiveLevelStage()
 			local stage_type = GetEffectiveStageType()
+			local player = Isaac.GetPlayer()
 			
 			if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
 				local curMusic = musicmgr:GetCurrentMusicID()
 				if not StageAPI.CanOverrideMusic(curMusic) then
 					local stageApiMusic = StageAPI.GetCurrentStage():GetPlayingMusic()
 					musicmgr:Crossfade(stageApiMusic)
+				end
+			elseif PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] > 0 then
+				local curMusic = musicmgr:GetCurrentMusicID()
+				if curMusic ~= TaintedVersion(curMusic) and curMusic ~= TarnishedVersion(curMusic) then --in other words, a "normal" track
+					if cdmLastMusicID > 0 and cdmLastMusicID == curMusic then
+						musicmgr:Crossfade(curMusic)
+					end
 				end
 			elseif Game():IsGreedMode() then
 				if stage == LevelStage.STAGE6_GREED then
