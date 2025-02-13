@@ -141,9 +141,9 @@
 	<track name="Mausoleum (tainted)" intro="Mausoleum - The Machine in the Walls [Intro].ogg" path="Mausoleum - The Machine in the Walls [Loop].ogg" loop="true" />
 	<track name="Mausoleum (tainted) nointro" path="Mausoleum - The Machine in the Walls [Loop].ogg" loop="true" />
 	<track name="Mausoleum (tainted) altloop" path="Mausoleum - The Machine in the Walls [Loop - Alt].ogg" loop="true" />
-	<track name="Corpse (tainted)" intro="Corpse - Drowning [Intro].ogg" path="Corpse - Drowning [Loop].ogg" loop="true" />
-	<track name="Corpse (tainted) nointro" path="Corpse - Drowning [Loop].ogg" loop="true" />
-	<track name="Corpse (tainted) altloop" path="Corpse - Drowning [Loop - Alt].ogg" loop="true" />
+	<track name="Corpse (tainted)" intro="Corpse - Drowning [Intro].ogg" path="Corpse - Drowning [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Corpse (tainted) nointro" path="Corpse - Drowning [Loop].ogg" loop="true" mul="1.25" />
+	<track name="Corpse (tainted) altloop" path="Corpse - Drowning [Loop - Alt].ogg" loop="true" mul="1.25" />
 	<track name="Dross (tainted)" intro="bsides/Torrent intro.ogg" path="bsides/Torrent loop.ogg" loop="true" />
 	<track name="Dross (tainted) nointro" path="bsides/Torrent loop.ogg" loop="true" />
 	<track name="Dross (tainted) altloop" path="bsides/Torrent altloop.ogg" loop="true" />
@@ -174,9 +174,9 @@
 	<track name="Mega Satan (tainted, alt)" intro="Fights/Mega Satan - Flagbearer [Intro].ogg" path="Fights/Mega Satan - Flagbearer [Loop].ogg" loop="true" />
 	<track name="Black Market (tainted)" path="Black Market - Depression Shop Reversed [Loop].ogg" loop="true" />
 	<track name="Delirium (tainted) outro" path="Fights/Delirium - Terminal Lucidity [Outro].ogg" loop="false" />
-	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="5" />
-	<track name="Greed Floor 6 (tainted) nointro" path="Greed/Stars and spades loop.ogg" loop="true" mul="5" />
-	<track name="Greed Floor 6 (tainted) altloop" path="Greed/Stars and spades altloop.ogg" loop="true" mul="5" />
+	<track name="Greed Floor 6 (tainted)" intro="Greed/Stars and spades intro.ogg" path="Greed/Stars and spades loop.ogg" loop="true" mul="7" />
+	<track name="Greed Floor 6 (tainted) nointro" path="Greed/Stars and spades loop.ogg" loop="true" mul="7" />
+	<track name="Greed Floor 6 (tainted) altloop" path="Greed/Stars and spades altloop.ogg" loop="true" mul="7" />
 	<track name="Happy Anniversary" intro="Happy Anniversary [Intro].ogg" path="Happy Anniversary [Loop].ogg" loop="true" />
 	<track name="Happy Anniversary nointro" path="Happy Anniversary [Loop].ogg" loop="true" />
 	<track name="Happy Anniversary altloop" path="Happy Anniversary [Loop - Alt].ogg" loop="true" />
@@ -215,15 +215,15 @@
 	<track name="Ultra Greedier outro" path="Greed/locus outro.ogg" loop="false" mul="1.25" />
 	
 	<!-- Custom Stages -->
-	<track name="Mortis (tainted)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" />
-	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" />
-	<track name="Mortis (tainted) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" />
+	<track name="Mortis (tainted)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" mul="1.25" />
+	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" mul="1.25" />
+	<track name="Mortis (tainted) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" mul="1.25" />
 	<track name="Boiler (tainted)" intro="CustomStage/Boiler - The Trial [Intro].ogg" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
 	<track name="Boiler (tainted) nointro" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
 	<track name="Boiler (tainted) altloop" path="CustomStage/Boiler - The Trial [Loop - Alt].ogg" loop="true" />
 	<track name="Boiler (reversed, tainted)" path="CustomStage/Boiler - The Trial [Loop - Reversed].ogg" loop="true" />
-	<track name="Grotto (tainted)" path="CustomStage/Grotto - The Drop [Loop].ogg" loop="true" />
-	<track name="Grotto (tainted) altloop" path="CustomStage/Grotto - The Drop [Loop - Alt].ogg" loop="true" />
+	<track name="Grotto (tainted)" path="CustomStage/Grotto - The Drop [Loop].ogg" loop="true" mul="0.9" />
+	<track name="Grotto (tainted) altloop" path="CustomStage/Grotto - The Drop [Loop - Alt].ogg" loop="true" mul="0.9" />
 	
 	<!-- Excelsior -->
 	<track name="Excelsior Basement" intro="Excelsior/Diptera Sonata Intro.ogg" path="Excelsior/Diptera Sonata(Basement).ogg" loop="true" mul="1.5" />
