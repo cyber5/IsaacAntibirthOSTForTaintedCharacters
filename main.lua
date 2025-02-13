@@ -13,13 +13,10 @@ elseif REPENTOGON and MMC then --TODO: maybe lift this restriction after further
 	return
 end
 
---TODOO: compatibility with Fall From Grace
 --TODOO: compatibility with Revelations
 --TODOO: compatibility with The Future
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
---TODOO: add preachers to tarnished dogma fight?
-
 
 local usingRGON = false
 if REPENTOGON and not MMC then
@@ -2709,7 +2706,7 @@ function custommusiccollection:PerformDeleteThisMainReplacement(trackId)
 			local seeds = Game():GetSeeds()
 			local stage = GetEffectiveLevelStage()
 			local stageseed = seeds:GetStageSeed(stage)
-			return getRandomStageMusic(stageseed)
+			return custommusiccollection:PlayIfNecessary(getRandomStageMusic(stageseed))
 		end
 	end
 end
@@ -3033,9 +3030,9 @@ function custommusiccollection:PerformDarkHomeReplacement(trackId)
 			if stage_type == StageType.STAGETYPE_WOTL then
 				if PlayTaintedVersion(Music.MUSIC_ISAACS_HOUSE) then
 					if modSaveData["darkhometaintednauseous"] then
-						return TaintedVersion(Music.MUSIC_DARK_CLOSET)
+						return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_DARK_CLOSET))
 					else
-						return Music.MUSIC_ISAACS_HOUSE
+						return custommusiccollection:PlayIfNecessary(Music.MUSIC_ISAACS_HOUSE)
 					end
 				end
 			end
@@ -3052,7 +3049,7 @@ if usingRGON then
 				local stage_type = GetEffectiveStageType()
 				if stage_type == StageType.STAGETYPE_WOTL then
 					local curMusic = musicmgr:GetCurrentMusicID()
-					if not PlayTaintedVersion(Music.MUSIC_ISAACS_HOUSE) and (curMusic == Music.MUSIC_ISAACS_HOUSE or curMusic == TarnishedVersion(Music.MUSIC_ISAACS_HOUSE)) then
+					if not (PlayTaintedVersion(Music.MUSIC_ISAACS_HOUSE) and modSaveData["darkhometaintednauseous"]) and (curMusic == Music.MUSIC_ISAACS_HOUSE or curMusic == TarnishedVersion(Music.MUSIC_ISAACS_HOUSE)) then
 						musicmgr:EnableLayer()
 					end
 				end
@@ -3494,7 +3491,7 @@ function custommusiccollection:PerformShopRoomReplacement(trackId)
 		if modSaveData["lateshoproomtheme"] and (stage == LevelStage.STAGE4_GREED or stage == LevelStage.STAGE5_GREED) then
 			return NormalTaintedOrTarnished(Music.MUSIC_SHOP_ROOM_ALT)
 		elseif modSaveData["shopfloorgreedtheme"] and stage == LevelStage.STAGE6_GREED then
-			return NormalTaintedOrTarnished(Music.MUSIC_FLOOR_6_GREED)
+			return custommusiccollection:PlayIfNecessary(NormalTaintedOrTarnished(Music.MUSIC_FLOOR_6_GREED))
 		end
 	else
 		if modSaveData["lateshoproomtheme"] and stage > LevelStage.STAGE3_2 then
@@ -3518,7 +3515,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformGreedShopChall
 function custommusiccollection:PerformBlueWombAltReplacement(trackId)
 	if modSaveData["bluewombdevoid"] and PlayNormalVersion(trackId) then
 		if Game():GetStateFlag(GameStateFlag.STATE_BLUEWOMB_DONE) then
-			return Music.MUSIC_BLUE_WOMB_ALT
+			return custommusiccollection:PlayIfNecessary(Music.MUSIC_BLUE_WOMB_ALT)
 		end
 	end
 end
@@ -3526,28 +3523,28 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformBlueWombAltRep
 
 function custommusiccollection:PerformDepthsGreedReplacement(trackId)
 	if modSaveData["depthsgreeddepressoloco"] and Game():IsGreedMode() then
-		return NormalTaintedOrTarnished(Music.MUSIC_DEPTHS_GREED)
+		return custommusiccollection:PlayIfNecessary(NormalTaintedOrTarnished(Music.MUSIC_DEPTHS_GREED))
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDepthsGreedReplacement, Music.MUSIC_DEPTHS)
 
 function custommusiccollection:PerformCatacombsGreedReplacement(trackId)
 	if modSaveData["catacombsgreedregeneratione"] and Game():IsGreedMode() then
-		return NormalTaintedOrTarnished(Music.MUSIC_CATACOMBS_GREED)
+		return custommusiccollection:PlayIfNecessary(NormalTaintedOrTarnished(Music.MUSIC_CATACOMBS_GREED))
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformCatacombsGreedReplacement, Music.MUSIC_CATACOMBS)
 
 function custommusiccollection:PerformUteroGreedReplacement(trackId)
 	if modSaveData["uterogreedviscera"] and Game():IsGreedMode() and PlayNormalVersion(Music.MUSIC_UTERO) then
-		return NormalTaintedOrTarnished(Music.MUSIC_UTERO_GREED)
+		return custommusiccollection:PlayIfNecessary(NormalTaintedOrTarnished(Music.MUSIC_UTERO_GREED))
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformUteroGreedReplacement, Music.MUSIC_UTERO)
 
 function custommusiccollection:PerformSheolGreedReplacement(trackId)
 	if modSaveData["sheolgreedinfernum"] and Game():IsGreedMode() then
-		return NormalTaintedOrTarnished(Music.MUSIC_SHEOL_GREED)
+		return custommusiccollection:PlayIfNecessary(NormalTaintedOrTarnished(Music.MUSIC_SHEOL_GREED))
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformSheolGreedReplacement, Music.MUSIC_SHEOL)
@@ -3585,7 +3582,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformSatanBossRepla
 
 function custommusiccollection:PerformCathedralReplacement(trackId)
 	if PlayNormalVersion(Music.MUSIC_CATHEDRAL) then
-		return Music.MUSIC_CATHEDRAL_ALT
+		return custommusiccollection:PlayIfNecessary(Music.MUSIC_CATHEDRAL_ALT)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformCathedralReplacement, Music.MUSIC_CATHEDRAL)
@@ -3593,7 +3590,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformCathedralRepla
 --play the original Dark Room music
 function custommusiccollection:PerformDarkRoomReversion(trackId)
 	if not modSaveData["darkroomdescensum"] and PlayNormalVersion(Music.MUSIC_DARK_ROOM) then
-		return Music.MUSIC_BLUE_WOMB
+		return custommusiccollection:PlayIfNecessary(Music.MUSIC_BLUE_WOMB)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformDarkRoomReversion, Music.MUSIC_DARK_ROOM)
@@ -3601,7 +3598,7 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformDarkRoomRevers
 --play the original Blue Womb music
 function custommusiccollection:PerformBlueWombReversion(trackId)
 	if not modSaveData["bluewombdevoid"] and PlayNormalVersion(Music.MUSIC_BLUE_WOMB) then
-		return Music.MUSIC_WOMB_UTERO
+		return custommusiccollection:PlayIfNecessary(Music.MUSIC_WOMB_UTERO)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformBlueWombReversion, Music.MUSIC_BLUE_WOMB)
@@ -3609,14 +3606,14 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformBlueWombRevers
 --play the original Womb music
 function custommusiccollection:PerformWombReversion(trackId)
 	if not modSaveData["wombnativitate"] and PlayNormalVersion(Music.MUSIC_WOMB_UTERO) then
-		return Music.MUSIC_UTERO_GREED
+		return custommusiccollection:PlayIfNecessary(Music.MUSIC_UTERO_GREED)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformWombReversion, Music.MUSIC_WOMB_UTERO)
 
 function custommusiccollection:PerformUteroReversion(trackId)
 	if not modSaveData["uterotaintedtsunami"] and PlayTaintedVersion(Music.MUSIC_UTERO) then
-		return TaintedVersion(Music.MUSIC_WOMB_UTERO)
+		return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_WOMB_UTERO))
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformUteroReversion, Music.MUSIC_UTERO)
@@ -3624,9 +3621,9 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformUteroReversion
 function custommusiccollection:PerformDrossReversion(trackId)
 	if PlayTaintedVersion(trackId) then
 		if modSaveData["drosstainted"] == 1 then
-			return TaintedVersion(Music.MUSIC_DOWNPOUR)
+			return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_DOWNPOUR))
 		elseif modSaveData["drosstainted"] == 0 then
-			return trackId
+			return custommusiccollection:PlayIfNecessary(trackId)
 		end
 	end
 end
@@ -3635,9 +3632,9 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformDrossReversion
 function custommusiccollection:PerformDrossReverseReversion(trackId)
 	if PlayTaintedVersion(trackId) then
 		if modSaveData["drosstainted"] == 1 then
-			return TaintedVersion(Music.MUSIC_DOWNPOUR_REVERSE)
+			return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_DOWNPOUR_REVERSE))
 		elseif modSaveData["drosstainted"] == 0 then
-			return trackId
+			return custommusiccollection:PlayIfNecessary(trackId)
 		end
 	end
 end
@@ -3646,9 +3643,9 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformDrossReverseRe
 function custommusiccollection:PerformAshpitReversion(trackId)
 	if PlayTaintedVersion(trackId) then
 		if modSaveData["ashpittainted"] == 1 then
-			return TaintedVersion(Music.MUSIC_MINES)
+			return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_MINES))
 		elseif modSaveData["ashpittainted"] == 0 then
-			return trackId
+			return custommusiccollection:PlayIfNecessary(trackId)
 		end
 	end
 end
@@ -3657,9 +3654,9 @@ custommusiccollection:CreateCallback(custommusiccollection.PerformAshpitReversio
 function custommusiccollection:PerformGehennaReversion(trackId)
 	if PlayTaintedVersion(trackId) then
 		if modSaveData["gehennatainted"] == 1 then
-			return TaintedVersion(Music.MUSIC_MAUSOLEUM)
+			return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_MAUSOLEUM))
 		elseif modSaveData["gehennatainted"] == 0 then
-			return trackId
+			return custommusiccollection:PlayIfNecessary(trackId)
 		end
 	end
 end
@@ -3671,28 +3668,28 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	function custommusiccollection:PerformMortisReversion(trackId)
 		if PlayTaintedVersion(trackId) then
 			if modSaveData["mortistainted"] == 1 then
-				return TaintedVersion(Music.MUSIC_CORPSE)
+				return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_CORPSE))
 			elseif modSaveData["mortistainted"] == 0 then
-				return trackId
+				return custommusiccollection:PlayIfNecessary(trackId)
 			end
 		end
 	end
 	
 	function custommusiccollection:PerformBoilerReversion(trackId)
 		if not modSaveData["boilertainted"] and PlayTaintedVersion(Music.MUSIC_BOILER) then
-			return Music.MUSIC_BOILER
+			return custommusiccollection:PlayIfNecessary(Music.MUSIC_BOILER)
 		end
 	end
 	
 	function custommusiccollection:PerformBoilerReverseReversion(trackId)
 		if not modSaveData["boilertainted"] and PlayTaintedVersion(Music.MUSIC_BOILER_REVERSE) then
-			return Music.MUSIC_BOILER_REVERSE
+			return custommusiccollection:PlayIfNecessary(Music.MUSIC_BOILER_REVERSE)
 		end
 	end
 	
 	function custommusiccollection:PerformGrottoReversion(trackId)
 		if not modSaveData["grottotainted"] and PlayTaintedVersion(Music.MUSIC_GROTTO) then
-			return Music.MUSIC_GROTTO
+			return custommusiccollection:PlayIfNecessary(Music.MUSIC_GROTTO)
 		end
 	end
 	--callback created post mods loading
@@ -3727,9 +3724,13 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 		if musicID == Music.MUSIC_CATACOMBS or musicID == Music.MUSIC_NECROPOLIS or musicID == Music.MUSIC_UTERO then
 			local returnTrack
 			if musicID == Music.MUSIC_CATACOMBS then
-				returnTrack = custommusiccollection:PerformCatacombsGreedReplacement()
+				returnTrack = custommusiccollection:PerformCatacombsGreedReplacement(musicID)
 			elseif musicID == Music.MUSIC_UTERO then
-				returnTrack = custommusiccollection:PerformUteroGreedReplacement()
+				if Game():IsGreedMode() then
+					returnTrack = custommusiccollection:PerformUteroGreedReplacement(musicID)
+				else
+					returnTrack = custommusiccollection:PerformUteroReversion(musicID)
+				end
 			end
 			if returnTrack == nil then
 				returnTrack = NormalTaintedOrTarnished(musicID)
@@ -3790,14 +3791,14 @@ end
 
 function custommusiccollection:PerformAscentReversion(trackId)
 	if not modSaveData["ascenttainteddescent"] and PlayTaintedVersion(trackId) then
-		return trackId
+		return custommusiccollection:PlayIfNecessary(trackId)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformAscentReversion, Music.MUSIC_REVERSE_GENESIS)
 
 function custommusiccollection:PerformHomeReversion(trackId)
 	if not modSaveData["hometaintedintro"] and PlayTaintedVersion(trackId) then
-		return trackId
+		return custommusiccollection:PlayIfNecessary(trackId)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformHomeReversion, Music.MUSIC_ISAACS_HOUSE)
@@ -3997,34 +3998,33 @@ if usingRGON then
 	end
 end
 
+function custommusiccollection:PlayIfNecessary(trackId)
+	if usingRGON and trackId == musicmgr:GetCurrentMusicID() then
+		if StageAPI and StageAPI.Loaded then
+			--handle floor transition shenanigans (transitions.lua pauses the music)
+			local level = Game():GetLevel()
+			local room = Game():GetRoom()
+			local roomdesc = level:GetCurrentRoomDesc()
+			local roomdata = roomdesc.Data
+			
+			if room:IsFirstVisit() and (roomdata.Name == "Start Room" or roomdata.Name == "Starting Room" or roomdata.Name == "Isaac's Bedroom" or InChapter6StartRoom()) then
+				musicmgr:Resume()
+				musicmgr:UpdateVolume()
+			end
+		end
+		
+		return MusicCancelValue()
+	else
+		return trackId
+	end
+end
+
 function custommusiccollection:PerformMainTrackReplacement(trackId)
 	if trackId > 0 and not skiptainted[trackId] then
 		--NOTE: this mod will not allow other mods that are later in the load order to handle music callbacks
-		--if we want to change this, check for trackToReturn ~= trackId before returning trackToReturn
-		if usingRGON then
-			local returnTrack = NormalTaintedOrTarnished(trackId)
-			if returnTrack == musicmgr:GetCurrentMusicID() then
-				
-				if StageAPI and StageAPI.Loaded then
-					--handle floor transition shenanigans (transitions.lua pauses the music)
-					local level = Game():GetLevel()
-					local room = Game():GetRoom()
-					local roomdesc = level:GetCurrentRoomDesc()
-					local roomdata = roomdesc.Data
-					
-					if room:IsFirstVisit() and (roomdata.Name == "Start Room" or roomdata.Name == "Starting Room" or roomdata.Name == "Isaac's Bedroom" or InChapter6StartRoom()) then
-						musicmgr:Resume()
-						musicmgr:UpdateVolume()
-					end
-				end
-				
-				return MusicCancelValue()
-			else
-				return returnTrack
-			end
-		else
-			return NormalTaintedOrTarnished(trackId)
-		end
+		--if we want to change this, check for returnTrack ~= trackId before returning returnTrack
+		local returnTrack = NormalTaintedOrTarnished(trackId)
+		return custommusiccollection:PlayIfNecessary(returnTrack)
 	end
 end
 if usingRGON then
@@ -4040,7 +4040,7 @@ end
 local soundJingleTimer
 local soundJingleVolume = false
 
---TODOO: rename tarnished variables and functions to excelsior as appropriate
+--TODO: rename tarnished variables and functions to excelsior as appropriate
 
 if usingRGON then
 	function custommusiccollection:PerformMainJingleReplacement(trackId)
@@ -4160,12 +4160,13 @@ if usingRGON then
 			local stage_type = GetEffectiveStageType()
 			local player = Isaac.GetPlayer()
 			
-			--TODOO: remove much of the below by updating the Mod Config Menu functions to immediately play the new setting's music
+			--TODO: remove much of the below by updating the Mod Config Menu functions to immediately play the new setting's music
 			
-			if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage then
 				local curMusic = musicmgr:GetCurrentMusicID()
 				if not StageAPI.CanOverrideMusic(curMusic) then
 					local stageApiMusic = StageAPI.GetCurrentStage():GetPlayingMusic()
+					--TODOO: try putting if curMusic ~= stageApiMusic here, and test that it still works
 					musicmgr:Crossfade(stageApiMusic)
 				end
 			elseif PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] > 0 then
@@ -4390,7 +4391,7 @@ if usingRGON then
 	custommusiccollection:AddCallback(ModCallbacks.MC_POST_MODS_LOADED, custommusiccollection.HandleStageAPI)
 	
 	function custommusiccollection:SetUpMusicForCustomStage()
-		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage then
 			local currentstage = StageAPI.GetCurrentStage()
 			currentstage:SetMusic(NormalTaintedOrTarnished(Music.MUSIC_I_AM_ERROR), RoomType.ROOM_ERROR)
 			currentstage:SetMusic(NormalTaintedOrTarnished(Music.MUSIC_BLACKMARKET_ROOM), RoomType.ROOM_BLACK_MARKET)
