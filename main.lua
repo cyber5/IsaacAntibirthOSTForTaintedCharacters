@@ -4166,8 +4166,9 @@ if usingRGON then
 				local curMusic = musicmgr:GetCurrentMusicID()
 				if not StageAPI.CanOverrideMusic(curMusic) then
 					local stageApiMusic = StageAPI.GetCurrentStage():GetPlayingMusic()
-					--TODOO: try putting if curMusic ~= stageApiMusic here, and test that it still works
-					musicmgr:Crossfade(stageApiMusic)
+					if stageApiMusic and curMusic ~= stageApiMusic then
+						musicmgr:Crossfade(stageApiMusic)
+					end
 				end
 			elseif PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] > 0 then
 				local curMusic = musicmgr:GetCurrentMusicID()
