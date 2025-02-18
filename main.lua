@@ -18,6 +18,10 @@ end
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
+--TODOO: why did boss over greed version not play after the Ultra Greedier outro after beating him as The Lost? see PerformUltraGreedierOver
+
+--TODOO: add alt Dystension as option for tainted Utero
+
 local usingRGON = false
 if REPENTOGON and not MMC then
 	usingRGON = true
@@ -2432,32 +2436,27 @@ local random_fight_jingle = {
 	[5] = Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO,
 	[6] = Music.MUSIC_JINGLE_GAME_OVER,
 	[7] = Music.MUSIC_JINGLE_HUSH_OVER,
-	[8] = Music.MUSIC_JINGLE_MOTHER_OVER,
-	[9] = Music.MUSIC_JINGLE_DOGMA_OVER,
-	[10] = Music.MUSIC_JINGLE_BEAST_OVER,
-	[11] = Music.MUSIC_MOTHERS_SHADOW_INTRO,
-	[12] = Music.MUSIC_JINGLE_GAME_START,
-	[13] = Music.MUSIC_JINGLE_GAME_START_ALT,
-	[14] = Music.MUSIC_JINGLE_DELIRIUM_OVER,
-	[15] = Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER,
+	[8] = Music.MUSIC_JINGLE_DOGMA_OVER,
+	[9] = Music.MUSIC_JINGLE_BEAST_OVER,
+	[10] = Music.MUSIC_MOTHERS_SHADOW_INTRO,
+	[11] = Music.MUSIC_JINGLE_GAME_START,
+	[12] = Music.MUSIC_JINGLE_GAME_START_ALT,
+	[13] = Music.MUSIC_JINGLE_DELIRIUM_OVER,
+	[14] = Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER,
 	--TAINTED START
-	[16] = Music.MUSIC_JINGLE_BOSS_OVER,
-	[17] = Music.MUSIC_JINGLE_BOSS_OVER2,
-	[18] = Music.MUSIC_JINGLE_BOSS_OVER3,
-	[19] = Music.MUSIC_JINGLE_CHALLENGE_OUTRO,
-	[20] = Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO,
-	[21] = Music.MUSIC_JINGLE_GAME_OVER,
-	[22] = Music.MUSIC_JINGLE_ANGEL_OVER,
-	[23] = Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER,
-	[24] = Music.MUSIC_JINGLE_DELIRIUM_OVER,
-	[25] = Music.MUSIC_JINGLE_MOTHER_OVER,
-	--[26] = Music.MUSIC_JINGLE_HUSH_OVER, --doesn't exist
-	--[27] = Music.MUSIC_JINGLE_DOGMA_OVER, --doesn't exist
-	--[28] = Music.MUSIC_JINGLE_BEAST_OVER, --doesn't exist
-	--[29] = Music.MUSIC_MOTHERS_SHADOW_INTRO, --doesn't exist
+	[15] = Music.MUSIC_JINGLE_BOSS_OVER,
+	[16] = Music.MUSIC_JINGLE_BOSS_OVER2,
+	[17] = Music.MUSIC_JINGLE_BOSS_OVER3,
+	[18] = Music.MUSIC_JINGLE_CHALLENGE_OUTRO,
+	[19] = Music.MUSIC_JINGLE_BOSS_RUSH_OUTRO,
+	[20] = Music.MUSIC_JINGLE_GAME_OVER,
+	[21] = Music.MUSIC_JINGLE_ANGEL_OVER,
+	[22] = Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER,
+	[23] = Music.MUSIC_JINGLE_DELIRIUM_OVER,
+	-- Music.MUSIC_JINGLE_MOTHER_OVER, --redundant
 }
-local random_fight_jingle_size = 26
-local random_fight_jingle_tainted_threshold = 15
+local random_fight_jingle_size = 24
+local random_fight_jingle_tainted_threshold = 14
 
 random_jingle = {
 	[0] = Music.MUSIC_NULL,
@@ -3465,10 +3464,20 @@ function custommusiccollection:PerformUltraGreedierOver(trackId)
 		local room = Game():GetRoom()
 		if room:GetBossID() == 62 then
 			if Game().Difficulty == Difficulty.DIFFICULTY_GREEDIER then
+				local overTrack = NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER)
+				local queueTrack
+				
 				if modSaveData["postbossgreedspiritum"] then
-					return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER_GREED)
+					queueTrack = NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER_GREED)
 				else
-					return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER), NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER)
+					queueTrack = NormalTaintedOrTarnished(Music.MUSIC_BOSS_OVER)
+				end
+				
+				if usingRGON then
+					musicmgr:Queue(queueTrack)
+					return overTrack
+				else
+					return overTrack, queueTrack
 				end
 			end
 		end
@@ -4023,8 +4032,12 @@ function custommusiccollection:PerformMainTrackReplacement(trackId)
 	if trackId > 0 and not skiptainted[trackId] then
 		--NOTE: this mod will not allow other mods that are later in the load order to handle music callbacks
 		--if we want to change this, check for returnTrack ~= trackId before returning returnTrack
-		local returnTrack = NormalTaintedOrTarnished(trackId)
-		return custommusiccollection:PlayIfNecessary(returnTrack)
+		if usingRGON then
+			local returnTrack = NormalTaintedOrTarnished(trackId)
+			return custommusiccollection:PlayIfNecessary(returnTrack)
+		else
+			return NormalTaintedOrTarnished(trackId)
+		end
 	end
 end
 if usingRGON then
