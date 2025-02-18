@@ -18,9 +18,8 @@ end
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
---TODOO: why did boss over greed version not play after the Ultra Greedier outro after beating him as The Lost? see PerformUltraGreedierOver
-
---TODOO: add alt Dystension as option for tainted Utero
+--TODOO: add alt Dystension as option for tainted Utero (settings update, convert uterotaintedtsunami to uterotainted)
+--TODOO: add a setting for playing Challenge music during the pre-Ultra Greed boss fight
 
 local usingRGON = false
 if REPENTOGON and not MMC then
@@ -3464,6 +3463,8 @@ function custommusiccollection:PerformUltraGreedierOver(trackId)
 		local room = Game():GetRoom()
 		if room:GetBossID() == 62 then
 			if Game().Difficulty == Difficulty.DIFFICULTY_GREEDIER then
+				ultragreedalivebossroom = false
+				
 				local overTrack = NormalTaintedOrTarnished(Music.MUSIC_JINGLE_ULTRAGREEDIER_OVER)
 				local queueTrack
 				
@@ -3474,8 +3475,9 @@ function custommusiccollection:PerformUltraGreedierOver(trackId)
 				end
 				
 				if usingRGON then
+					musicmgr:Crossfade(overTrack)
 					musicmgr:Queue(queueTrack)
-					return overTrack
+					return MusicCancelValue()
 				else
 					return overTrack, queueTrack
 				end
