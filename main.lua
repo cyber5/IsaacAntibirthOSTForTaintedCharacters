@@ -4185,7 +4185,7 @@ if usingRGON then
 						musicmgr:Crossfade(stageApiMusic)
 					end
 				end
-			elseif PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] > 0 then
+			elseif PlayerIsTarnished(player) and modSaveData["tarnishedsoundtrack"] ~= nil and modSaveData["tarnishedsoundtrack"] > 0 then
 				local curMusic = musicmgr:GetCurrentMusicID()
 				if curMusic ~= TaintedVersion(curMusic) and curMusic ~= TarnishedVersion(curMusic) then --in other words, a "normal" track
 					if cdmLastMusicID > 0 and cdmLastMusicID == curMusic then
@@ -4240,20 +4240,20 @@ if usingRGON then
 						musicmgr:Crossfade(cdmLastMusicID)
 					end
 				elseif (stage == LevelStage.STAGE3_1 or stage == LevelStage.STAGE3_2) and stage_type == StageType.STAGETYPE_REPENTANCE_B then
-					if modSaveData["gehennatainted"] > 0 and cdmLastMusicID == Music.MUSIC_GEHENNA and PlayTaintedVersion(Music.MUSIC_GEHENNA) then
+					if modSaveData["gehennatainted"] ~= nil and modSaveData["gehennatainted"] > 0 and cdmLastMusicID == Music.MUSIC_GEHENNA and PlayTaintedVersion(Music.MUSIC_GEHENNA) then
 						musicmgr:Crossfade(cdmLastMusicID)
 					end
 				elseif (stage == LevelStage.STAGE2_1 or stage == LevelStage.STAGE2_2) and stage_type == StageType.STAGETYPE_REPENTANCE_B then
-					if modSaveData["ashpittainted"] > 0 and cdmLastMusicID == Music.MUSIC_ASHPIT and PlayTaintedVersion(Music.MUSIC_ASHPIT) then
+					if modSaveData["ashpittainted"] ~= nil and modSaveData["ashpittainted"] > 0 and cdmLastMusicID == Music.MUSIC_ASHPIT and PlayTaintedVersion(Music.MUSIC_ASHPIT) then
 						musicmgr:Crossfade(cdmLastMusicID)
 					end
 				elseif (stage == LevelStage.STAGE1_1 or stage == LevelStage.STAGE1_2) and stage_type == StageType.STAGETYPE_REPENTANCE_B then
 					if room:IsMirrorWorld() then
-						if modSaveData["drosstainted"] > 0 and cdmLastMusicID == Music.MUSIC_DROSS_REVERSE and PlayTaintedVersion(Music.MUSIC_DROSS_REVERSE) then
+						if modSaveData["drosstainted"] ~= nil and modSaveData["drosstainted"] > 0 and cdmLastMusicID == Music.MUSIC_DROSS_REVERSE and PlayTaintedVersion(Music.MUSIC_DROSS_REVERSE) then
 							musicmgr:Crossfade(cdmLastMusicID)
 						end
 					else
-						if modSaveData["drosstainted"] > 0 and cdmLastMusicID == Music.MUSIC_DROSS and PlayTaintedVersion(Music.MUSIC_DROSS) then
+						if modSaveData["drosstainted"] ~= nil and modSaveData["drosstainted"] > 0 and cdmLastMusicID == Music.MUSIC_DROSS and PlayTaintedVersion(Music.MUSIC_DROSS) then
 							musicmgr:Crossfade(cdmLastMusicID)
 						end
 					end
