@@ -3695,6 +3695,29 @@ function custommusiccollection:PerformGehennaReversion(trackId)
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformGehennaReversion, Music.MUSIC_GEHENNA)
 
+if StageAPI and StageAPI.Loaded then
+	--stage api messes up some normal stages' music; let's fix that
+	local tpriority = 0
+	function custommusiccollection:PlayCorrectNormalStageMusicForStageAPI(musicID, roomType, musicRNG)
+		if musicID == Music.MUSIC_CATACOMBS or musicID == Music.MUSIC_NECROPOLIS or musicID == Music.MUSIC_UTERO then
+			local returnTrack
+			if musicID == Music.MUSIC_CATACOMBS then
+				returnTrack = custommusiccollection:PerformCatacombsGreedReplacement(musicID)
+			elseif musicID == Music.MUSIC_UTERO then
+				returnTrack = custommusiccollection:PerformUteroGreedReplacement(musicID)
+				if returnTrack == nil then
+					returnTrack = custommusiccollection:PerformUteroReversion(musicID)
+				end
+			end
+			if returnTrack == nil then
+				returnTrack = NormalTaintedOrTarnished(musicID)
+			end
+			return returnTrack
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectNormalStageMusicForStageAPI)
+end
+
 if usingRGON and StageAPI and StageAPI.Loaded then
 	--TODO: some of the below could be gated by LastJudgement and FFGRACE, but they would have to be moved to a MC_POST_MODS_LOADED function
 	
@@ -3751,26 +3774,6 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 		end
 	end
 	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectCustomStageMusicForStageAPI)
-	
-	--stage api messes up some normal stages' music; let's fix that
-	function custommusiccollection:PlayCorrectNormalStageMusicForStageAPI(musicID, roomType, musicRNG)
-		if musicID == Music.MUSIC_CATACOMBS or musicID == Music.MUSIC_NECROPOLIS or musicID == Music.MUSIC_UTERO then
-			local returnTrack
-			if musicID == Music.MUSIC_CATACOMBS then
-				returnTrack = custommusiccollection:PerformCatacombsGreedReplacement(musicID)
-			elseif musicID == Music.MUSIC_UTERO then
-				returnTrack = custommusiccollection:PerformUteroGreedReplacement(musicID)
-				if returnTrack == nil then
-					returnTrack = custommusiccollection:PerformUteroReversion(musicID)
-				end
-			end
-			if returnTrack == nil then
-				returnTrack = NormalTaintedOrTarnished(musicID)
-			end
-			return returnTrack
-		end
-	end
-	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectNormalStageMusicForStageAPI)
 	
 	--handle boss over jingles in custom stages
 	function custommusiccollection:PerformMotherOverForStageAPI(musicID, isCleared, musicRNG)
