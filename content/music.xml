@@ -166,7 +166,7 @@
 	<track name="Descent Twisted" intro="beforevol4/Descent Twisted Intro.ogg" path="beforevol4/Descent Twisted Loop.ogg" loop="true" />
 	<track name="Angel Fight (tainted)" path="Room of Angel - The Thief [Intro - Alt].ogg" loop="true" />
 	<track name="Angel Fight (tainted) outro" path="You Died jingle.ogg" loop="false" />
-	<track name="Devil Wave Fight (tainted)" path="Fights/Devil Wave Fight - King of Diamonds [Loop].ogg" loop="true" />
+	<track name="Devil Wave Fight (tainted)" path="Fights/Devil Wave Fight - King of Diamonds [Loop].ogg" loop="true" mul="1.2" />
 	<track name="Ultra Greedier (tainted)" path="Fights/Ultra Greedier - Memento Mori Metal [Loop - Alt].ogg" loop="true" mul="1.5" />
 	<track name="Ultra Greedier (tainted) outro" path="Fights/Ultra Greedier - Memento Mori Metal [Outro].ogg" loop="false" mul="1.5" />
 	<track name="Mega Satan (tainted)" intro="Fights/Mega Satan - Spectrum of Sin [Intro].ogg" path="Fights/Mega Satan - Spectrum of Sin [Loop].ogg" loop="true" mul="1.25" />
@@ -180,6 +180,9 @@
 	<track name="Happy Anniversary" intro="Happy Anniversary [Intro].ogg" path="Happy Anniversary [Loop].ogg" loop="true" />
 	<track name="Happy Anniversary nointro" path="Happy Anniversary [Loop].ogg" loop="true" />
 	<track name="Happy Anniversary altloop" path="Happy Anniversary [Loop - Alt].ogg" loop="true" />
+	<track name="Utero alt (tainted)" intro="beforevol4/Dystension Alt Intro.ogg" path="beforevol4/Dystension Alt Loop.ogg" loop="true" mul="0.9" />
+	<track name="Utero alt (tainted) nointro" path="beforevol4/Dystension Alt Loop.ogg" loop="true" mul="0.9" />
+	<track name="Utero alt (tainted) altloop" path="beforevol4/Dystension Alt Altloop.ogg" loop="true" mul="0.9" />
 	
 	<!-- B-Sides -->
 	<!-- <track name="Caves (greed)" intro="bsides/Chum intro.ogg" path="bsides/Chum loop.ogg" loop="true" />
