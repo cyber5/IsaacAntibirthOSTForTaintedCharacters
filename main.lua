@@ -18,7 +18,6 @@ end
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
---TODOO: add alt Dystension as option for tainted Utero (settings update, convert uterotaintedtsunami to uterotainted)
 --TODOO: add a setting for playing Challenge music during the pre-Ultra Greed boss fight
 
 local usingRGON = false
@@ -91,7 +90,7 @@ function custommusiccollection:ResetSave()
 		megasatantaintedspeedup = true,
 		megasatantaintedflagbearer = 0, -- play Flagbearer during tainted Mega Satan
 		boss2taintedflagbearer = true, --play Tandava for tainted alt boss
-		uterotaintedtsunami = true,
+		uterotainted = 2,
 		drosstainted = 2,
 		ashpittainted = 2,
 		gehennatainted = 2,
@@ -158,6 +157,16 @@ function custommusiccollection:FillInMissingSaveData()
 		end
 		modSaveData["devilwavegreedambush"] = nil
 	end
+	if modSaveData["uterotaintedtsunami"] ~= nil then
+		if modSaveData["uterotainted"] == nil then
+			if modSaveData["uterotaintedtsunami"] then
+				modSaveData["uterotainted"] = 2
+			else
+				modSaveData["uterotainted"] = 0
+			end
+		end
+		modSaveData["uterotaintedtsunami"] = nil
+	end
 	
 	--fill in missing data based on the Soundtrack Mode (default to "on" if custom or expanded, default to "off" if simple)
 	if modSaveData["ultragreediertheme"] == nil then modSaveData["ultragreediertheme"] = custommusiccollection:missingFillInBool() end
@@ -181,7 +190,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["latedevilroomtheme"] == nil then modSaveData["latedevilroomtheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["bossrushtaintedspeedup"] == nil then modSaveData["bossrushtaintedspeedup"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["megasatantaintedspeedup"] == nil then modSaveData["megasatantaintedspeedup"] = custommusiccollection:missingFillInBool() end
-	if modSaveData["uterotaintedtsunami"] == nil then modSaveData["uterotaintedtsunami"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["uterotainted"] == nil then modSaveData["uterotainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = custommusiccollection:missingFillInInt(2) end
@@ -241,7 +250,6 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["latedevilroomtheme"] = mode
 	modSaveData["bossrushtaintedspeedup"] = mode
 	modSaveData["megasatantaintedspeedup"] = mode
-	modSaveData["uterotaintedtsunami"] = mode
 	modSaveData["boilertainted"] = mode
 	modSaveData["grottotainted"] = mode
 	modSaveData["ascenttainteddescent"] = mode
@@ -257,6 +265,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	
 	if mode then
 		modSaveData["devilwavegreedtheme"] = 2
+		modSaveData["uterotainted"] = 2
 		modSaveData["drosstainted"] = 2
 		modSaveData["ashpittainted"] = 2
 		modSaveData["gehennatainted"] = 2
@@ -264,6 +273,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 		modSaveData["tarnishedsoundtrack"] = 3
 	else
 		modSaveData["devilwavegreedtheme"] = 0
+		modSaveData["uterotainted"] = 0
 		modSaveData["drosstainted"] = 0
 		modSaveData["ashpittainted"] = 0
 		modSaveData["gehennatainted"] = 0
@@ -572,20 +582,24 @@ function custommusiccollection:SetUpMenu()
 			SMCM.AddSpace(category)
 			SMCM.AddText(category, "Utero Theme (Tainted)")
 			SMCM.AddSetting(category, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
 				CurrentSetting = function()
-					return modSaveData["uterotaintedtsunami"]
+					return modSaveData["uterotainted"]
 				end,
+				Minimum = 0,
+				Maximum = 2,
 				Display = function()
-					if modSaveData["uterotaintedtsunami"] then
+					if modSaveData["uterotainted"] == 2 then
 						return "Tsunami"
+					elseif modSaveData["uterotainted"] == 1 then
+						return "Dystension (Alt Version)"
 					else
 						return "Dystension"
 					end
 				end,
 				OnChange = function(value)
-					modSaveData["uterotaintedtsunami"] = value
+					modSaveData["uterotainted"] = value
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
@@ -1650,6 +1664,7 @@ Music.MUSIC_SHOP_ROOM_ALT = Isaac.GetMusicIdByName("Shop Room (late)")
 Music.MUSIC_I_AM_ERROR = Isaac.GetMusicIdByName("I Am Error")
 Music.MUSIC_BLUE_WOMB_ALT = Isaac.GetMusicIdByName("Armarium")
 Music.MUSIC_CATHEDRAL_ALT = Isaac.GetMusicIdByName("Cathedral Alt")
+Music.MUSIC_UTERO_ALT = Isaac.GetMusicIdByName("Utero alt (tainted)")
 Music.MUSIC_HAPPY_ANNIVERSARY = Isaac.GetMusicIdByName("Happy Anniversary")
 Music.MUSIC_CREDITS1 = Isaac.GetMusicIdByName("Credits original")
 Music.MUSIC_CREDITS2 = Isaac.GetMusicIdByName("Credits credits")
@@ -1749,6 +1764,7 @@ normaltotainted = {
 	[Music.MUSIC_SCARRED_WOMB] = Isaac.GetMusicIdByName("Scarred Womb (tainted)"),
 	[Music.MUSIC_BLUE_WOMB] = Isaac.GetMusicIdByName("Blue Womb (tainted)"),
 	[Music.MUSIC_UTERO] = Isaac.GetMusicIdByName("Utero (tainted)"),
+	[Music.MUSIC_UTERO_ALT] = Isaac.GetMusicIdByName("Utero alt (tainted)"),
 	[Music.MUSIC_MOM_BOSS] = Isaac.GetMusicIdByName("Boss (Depths - Mom, tainted)"),
 	[Music.MUSIC_MOMS_HEART_BOSS] = Isaac.GetMusicIdByName("Boss (Womb - Mom's Heart, tainted)"),
 	[Music.MUSIC_ISAAC_BOSS] = Isaac.GetMusicIdByName("Boss (Cathedral - Isaac, tainted)"),
@@ -1857,6 +1873,7 @@ normaltotaintedalt1 = {
 	[Music.MUSIC_SCARRED_WOMB] = Isaac.GetMusicIdByName("Scarred Womb (tainted) altloop"),
 	[Music.MUSIC_BLUE_WOMB] = Isaac.GetMusicIdByName("Blue Womb (tainted) altloop"),
 	[Music.MUSIC_UTERO] = Isaac.GetMusicIdByName("Utero (tainted) nointro"),
+	[Music.MUSIC_UTERO_ALT] = Isaac.GetMusicIdByName("Utero alt (tainted) nointro"),
 	[Music.MUSIC_VOID] = Isaac.GetMusicIdByName("Void (tainted) nointro"),
 	[Music.MUSIC_DOWNPOUR] = Isaac.GetMusicIdByName("Downpour (tainted) nointro"),
 	[Music.MUSIC_MINES] = Isaac.GetMusicIdByName("Mines (tainted) nointro"),
@@ -1896,6 +1913,7 @@ normaltotaintedalt2 = {
 	[Music.MUSIC_SCARRED_WOMB] = Isaac.GetMusicIdByName("Scarred Womb (tainted)"),
 	[Music.MUSIC_BLUE_WOMB] = Isaac.GetMusicIdByName("Blue Womb (tainted) altloop 2"),
 	[Music.MUSIC_UTERO] = Isaac.GetMusicIdByName("Utero (tainted) altloop"),
+	[Music.MUSIC_UTERO_ALT] = Isaac.GetMusicIdByName("Utero alt (tainted) altloop"),
 	[Music.MUSIC_VOID] = Isaac.GetMusicIdByName("Void (tainted) altloop"),
 	[Music.MUSIC_DOWNPOUR] = Isaac.GetMusicIdByName("Downpour (tainted) altloop"),
 	[Music.MUSIC_MINES] = Isaac.GetMusicIdByName("Mines (tainted) altloop"),
@@ -3623,8 +3641,12 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformWombReversion, Music.MUSIC_WOMB_UTERO)
 
 function custommusiccollection:PerformUteroReversion(trackId)
-	if not modSaveData["uterotaintedtsunami"] and PlayTaintedVersion(Music.MUSIC_UTERO) then
-		return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_WOMB_UTERO))
+	if PlayTaintedVersion(trackId) then
+		if modSaveData["uterotainted"] == 1 then
+			return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_UTERO_ALT))
+		elseif modSaveData["uterotainted"] == 0 then
+			return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_WOMB_UTERO))
+		end
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformUteroReversion, Music.MUSIC_UTERO)
@@ -3737,9 +3759,8 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 			if musicID == Music.MUSIC_CATACOMBS then
 				returnTrack = custommusiccollection:PerformCatacombsGreedReplacement(musicID)
 			elseif musicID == Music.MUSIC_UTERO then
-				if Game():IsGreedMode() then
-					returnTrack = custommusiccollection:PerformUteroGreedReplacement(musicID)
-				else
+				returnTrack = custommusiccollection:PerformUteroGreedReplacement(musicID)
+				if returnTrack == nil then
 					returnTrack = custommusiccollection:PerformUteroReversion(musicID)
 				end
 			end
