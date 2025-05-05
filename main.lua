@@ -19,6 +19,11 @@ end
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
 --TODOO: add a setting for playing Challenge music during the pre-Ultra Greed boss fight
+--TODOO: add a setting (custom only) for not using loop versions
+--TODOO: add a setting (custom only) for not having angel sacrifice boss music
+--TODOO: add a setting (custom only) for playing Planetarium music for tainted game over
+--TODOO: reorder the settings in each tab to be shared settings, then Classic, then Tainted
+--TODOO: handle/expand upon boss portrait boss music starting, possibly with a config setting
 
 local usingRGON = false
 if REPENTOGON and not MMC then
@@ -114,7 +119,7 @@ function custommusiccollection:ResetSave()
 		settingsmode = 1 --custom
 		
 		--future potential requests:
-		--devilwavegreedtainted = 2, --play The Turn during tainted devil wave
+		--play The Turn during tainted devil wave
 		--gameovertaintedunderscore = true, --play tainted Planetarium theme for tainted game over
 		--sacrificeroomangels = true,
 		--bluewombcontinue = true,
@@ -318,18 +323,29 @@ function custommusiccollection:SetUpMenu()
 	custommusiccollection:LoadFromFile()
 	if ModConfigMenu then
 		local category = "Tainted Antibirth"
+		local subCategoryMode = "Mode"
+		local subCategoryStage = "Stage"
+		local subCategoryBattle = "Battle"
+		local subCategorySpecialRooms = "Rooms"
+		local subCategoryMisc = "Misc."
 		
 		--refresh menu when mode is changed
         local existingmenu = SMCM.GetCategoryIDByName(category)
 		if existingmenu ~= nil then
-           SMCM.MenuData[existingmenu].Subcategories[1].Options = {}
+		   local scModeID = SMCM.GetSubcategoryIDByName(category,subCategoryMode)
+		   
+           SMCM.MenuData[existingmenu].Subcategories[scModeID].Options = {}
+		   SMCM.RemoveSubcategory(category, subCategoryStage)
+		   SMCM.RemoveSubcategory(category, subCategoryBattle)
+		   SMCM.RemoveSubcategory(category, subCategorySpecialRooms)
+		   SMCM.RemoveSubcategory(category, subCategoryMisc)
         end
 		
 		SMCM.UpdateCategory(category, {
             Info = "Customize the changes to the soundtrack made by the expanded version of Antibirth OST for Tainted Characters"
         })
-		SMCM.AddText(category, "Soundtrack Mode")
-		SMCM.AddSetting(category, {
+		SMCM.AddText(category, subCategoryMode, "Soundtrack Mode")
+		SMCM.AddSetting(category, subCategoryMode, {
 			Type = SMCM.OptionType.NUMBER,
 			Default = 1,
 			CurrentSetting = function()
@@ -372,9 +388,8 @@ function custommusiccollection:SetUpMenu()
 			}
 		})
 		if modSaveData["settingsmode"] == 1 then
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Dark Room Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddText(category, subCategoryStage, "Dark Room Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -392,12 +407,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Dark Room music for non-Tainted characters."
+					"Sets the Dark Room music for Classic characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Blue Womb Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Blue Womb Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -415,12 +430,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Blue Womb music for non-Tainted characters."
+					"Sets the Blue Womb music for Classic characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Womb Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Womb Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -438,12 +453,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Womb music for non-Tainted characters."
+					"Sets the Womb music for Classic characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Utero Theme (Greed)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Utero Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -461,12 +476,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Utero music for non-Tainted characters in Greed Mode."
+					"Sets the Utero music for Classic characters in Greed Mode."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Catacombs Theme (Greed)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Catacombs Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -484,12 +499,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Catacombs music for non-Tainted characters in Greed Mode."
+					"Sets the Catacombs music for Classic characters in Greed Mode."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Depths Theme (Greed)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Depths Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -507,12 +522,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Depths music for non-Tainted characters in Greed Mode."
+					"Sets the Depths music for Classic characters in Greed Mode."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Sheol Theme (Greed)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Sheol Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -530,12 +545,11 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Sheol music for non-Tainted characters in Greed Mode."
+					"Sets the Sheol music for Classic characters in Greed Mode."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Post-Boss Theme (Greed)")
-			SMCM.AddSetting(category, {
+			SMCM.AddText(category, subCategorySpecialRooms, "Post-Boss Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -553,12 +567,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the post-boss music for non-Tainted characters in Greed Mode."
+					"Sets the post-boss music for Classic characters in Greed Mode."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Shop Floor (Greed) Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Shop Floor Greed Theme")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -579,9 +593,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets whether the Shop floor in Greed Mode has its own unique stage music."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Utero Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Utero Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.NUMBER,
 				Default = 2,
 				CurrentSetting = function()
@@ -606,9 +620,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Utero music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Dross Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Dross Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.NUMBER,
 				Default = 2,
 				CurrentSetting = function()
@@ -633,9 +647,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Dross music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Ashpit Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Ashpit Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.NUMBER,
 				Default = 2,
 				CurrentSetting = function()
@@ -660,9 +674,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Ashpit music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Gehenna Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Gehenna Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.NUMBER,
 				Default = 2,
 				CurrentSetting = function()
@@ -688,9 +702,9 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			if LastJudgement then
-				SMCM.AddSpace(category)
-				SMCM.AddText(category, "Mortis Theme (Tainted)")
-				SMCM.AddSetting(category, {
+				SMCM.AddSpace(category, subCategoryStage)
+				SMCM.AddText(category, subCategoryStage, "Mortis Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryStage, {
 					Type = SMCM.OptionType.NUMBER,
 					Default = 2,
 					CurrentSetting = function()
@@ -717,9 +731,9 @@ function custommusiccollection:SetUpMenu()
 				})
 			end
 			if FFGRACE then
-				SMCM.AddSpace(category)
-				SMCM.AddText(category, "Boiler Theme (Tainted)")
-				SMCM.AddSetting(category, {
+				SMCM.AddSpace(category, subCategoryStage)
+				SMCM.AddText(category, subCategoryStage, "Boiler Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryStage, {
 					Type = SMCM.OptionType.BOOLEAN,
 					Default = true,
 					CurrentSetting = function()
@@ -740,9 +754,9 @@ function custommusiccollection:SetUpMenu()
 						"Sets the Boiler music for Tainted characters."
 					}
 				})
-				SMCM.AddSpace(category)
-				SMCM.AddText(category, "Grotto Theme (Tainted)")
-				SMCM.AddSetting(category, {
+				SMCM.AddSpace(category, subCategoryStage)
+				SMCM.AddText(category, subCategoryStage, "Grotto Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryStage, {
 					Type = SMCM.OptionType.BOOLEAN,
 					Default = true,
 					CurrentSetting = function()
@@ -764,9 +778,9 @@ function custommusiccollection:SetUpMenu()
 					}
 				})
 			end
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "The Ascent Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "The Ascent Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -787,9 +801,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Ascent music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Home Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Home Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -810,9 +824,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Home music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Dark Home Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Dark Home Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -833,9 +847,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Dark Home music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Death Certificate Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Death Certificate Theme (Tainted)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -856,9 +870,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Death Certificate music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Cathedral Heavy Layer")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Cathedral Heavy Layer (Classic)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -876,12 +890,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"For non-Tainted characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
+					"For Classic characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Black Market Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Black Market Theme")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -902,9 +916,9 @@ function custommusiccollection:SetUpMenu()
 					"Play unique music in Black Market rooms."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Genesis Room Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Genesis Room Theme")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -925,9 +939,9 @@ function custommusiccollection:SetUpMenu()
 					"Play unique music in Genesis rooms."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "I AM ERROR Room Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "I AM ERROR Room Theme")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -948,9 +962,9 @@ function custommusiccollection:SetUpMenu()
 					"Play unique music in I AM ERROR rooms."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Late Shop Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Late Shop Theme (Classic)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -968,12 +982,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"For non-Tainted characters, play the unused layer of Murmur of the Harvestman in Shops past Chapter 3."
+					"For Classic characters, play the unused layer of Murmur of the Harvestman in Shops past Chapter 3."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Late Devil Room Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Late Devil Room Theme (Classic)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -991,12 +1005,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"For non-Tainted characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
+					"For Classic characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Mineshaft Ambient Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Mineshaft Ambient Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1017,9 +1031,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Mineshaft Ambient music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Mineshaft Escape Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Mineshaft Escape Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1040,9 +1054,8 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Mineshaft Escape music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Satan Fight Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddText(category, subCategoryBattle, "Satan Fight Theme (Classic)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1060,12 +1073,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Satan fight music for non-Tainted characters."
+					"Sets the Satan fight music for Classic characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Ultra Greedier Theme")
-			SMCM.AddSetting(category, { 
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Ultra Greedier Theme")
+			SMCM.AddSetting(category, subCategoryBattle, { 
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1086,9 +1099,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets whether unique boss music will play during the Ultra Greedier battle."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Angel Fight Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Angel Fight Theme")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1109,9 +1122,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets whether unique boss music will play during Angel battles."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Greed Mode Devil Wave Theme")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Greed Mode Devil Wave Theme")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.NUMBER,
 				Default = 2,
 				CurrentSetting = function()
@@ -1136,9 +1149,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the fight music for devil waves during Greed Mode."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Boss Rush Tainted Speedup")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Boss Rush Speedup (Tainted)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1159,9 +1172,9 @@ function custommusiccollection:SetUpMenu()
 					"For Tainted characters, play A Baleful Circus 10% faster during Boss Rush."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Mega Satan Tainted Speedup")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Mega Satan Speedup (Tainted)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1182,9 +1195,9 @@ function custommusiccollection:SetUpMenu()
 					"For Tainted characters, play Spectrum of Sin 10% faster during the Mega Satan fight."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Mega Satan Fight Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Mega Satan Fight Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.NUMBER,
 				Default = 2,
 				CurrentSetting = function()
@@ -1209,9 +1222,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Mega Satan fight music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Boss Alt Theme for Tainted Characters")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Boss Alt Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1232,9 +1245,9 @@ function custommusiccollection:SetUpMenu()
 					"Tandava always plays in the alt path. Decide which track accompanies Invictus on the normal path."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Dogma Fight Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Dogma Fight Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1255,9 +1268,9 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Dogma fight music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "The Beast Fight Theme (Tainted)")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "The Beast Fight Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1279,9 +1292,8 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			if usingRGON then
-				SMCM.AddSpace(category)
-				SMCM.AddText(category, "Legacy Jingle Replacement Method")
-				SMCM.AddSetting(category, {
+				SMCM.AddText(category, subCategoryMisc, "Legacy Jingle Replacement Method")
+				SMCM.AddSetting(category, subCategoryMisc, {
 					Type = SMCM.OptionType.BOOLEAN,
 					Default = true,
 					CurrentSetting = function()
@@ -1302,10 +1314,10 @@ function custommusiccollection:SetUpMenu()
 						"Disabling this setting will set the mod to use Repentogon's jingle replacement callback, which causes a blip when changing rooms."
 					}
 				})
+				SMCM.AddSpace(category, subCategoryMisc)
 			end
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "Blended Co-op Soundtrack")
-			SMCM.AddSetting(category, {
+			SMCM.AddText(category, subCategoryMisc, "Blended Co-op Soundtrack")
+			SMCM.AddSetting(category, subCategoryMisc, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1323,12 +1335,12 @@ function custommusiccollection:SetUpMenu()
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Blend the two soundtracks when at least one non-Tainted character and at least one Tainted character are present during co-op."
+					"Blend the two soundtracks when at least one Classic character and at least one Tainted character are present during co-op."
 				}
 			})
-			SMCM.AddSpace(category)
-			SMCM.AddText(category, "DELETE THIS Enhancement")
-			SMCM.AddSetting(category, {
+			SMCM.AddSpace(category, subCategoryMisc)
+			SMCM.AddText(category, subCategoryMisc, "DELETE THIS Enhancement")
+			SMCM.AddSetting(category, subCategoryMisc, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
@@ -1350,9 +1362,9 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			if Epiphany then
-				SMCM.AddSpace(category)
-				SMCM.AddText(category, "Tarnished Soundtrack")
-				SMCM.AddSetting(category, {
+				SMCM.AddSpace(category, subCategoryMisc)
+				SMCM.AddText(category, subCategoryMisc, "Tarnished Soundtrack")
+				SMCM.AddSetting(category, subCategoryMisc, {
 					Type = SMCM.OptionType.NUMBER,
 					Default = 3,
 					CurrentSetting = function()
@@ -1632,7 +1644,7 @@ if not DarkRoomDevilDealSoundEffect then
 		function custommusiccollection:ReplaceChoirSound()
 			if darkroomstartroom then
 				local room = Game():GetRoom()
-				-- TODO: the SOUND_DEVILROOM_DEAL sound sometimes play when it shouldn't... why? Idea: only do this after 10 frames of the room?
+				-- TODO: the SOUND_DEVILROOM_DEAL sound sometimes play when it shouldn't... why? Frame count check did not work. Idea: check to see if one of the characters is doing the "item lift" animation?
 				if sound:IsPlaying(SoundEffect.SOUND_CHOIR_UNLOCK) and room:GetFrameCount() > 10 then
 					sound:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
 					sound:Play(SoundEffect.SOUND_DEVILROOM_DEAL,1,0,false,1)
