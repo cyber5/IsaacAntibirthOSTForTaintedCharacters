@@ -388,6 +388,29 @@ function custommusiccollection:SetUpMenu()
 			}
 		})
 		if modSaveData["settingsmode"] == 1 then
+			SMCM.AddText(category, subCategoryStage, "Shop Floor Greed Theme")
+			SMCM.AddSetting(category, subCategoryStage, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["shopfloorgreedtheme"]
+				end,
+				Display = function()
+					if modSaveData["shopfloorgreedtheme"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["shopfloorgreedtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether the Shop floor in Greed Mode has its own unique stage music."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryStage)
 			SMCM.AddText(category, subCategoryStage, "Dark Room Theme (Classic)")
 			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -549,26 +572,26 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category, subCategoryStage)
-			SMCM.AddText(category, subCategoryStage, "Shop Floor Greed Theme")
+			SMCM.AddText(category, subCategoryStage, "Cathedral Heavy Layer (Classic)")
 			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
-					return modSaveData["shopfloorgreedtheme"]
+					return modSaveData["cathedralsacris"]
 				end,
 				Display = function()
-					if modSaveData["shopfloorgreedtheme"] then
+					if modSaveData["cathedralsacris"] then
 						return "On"
 					else
 						return "Off"
 					end
 				end,
 				OnChange = function(value)
-					modSaveData["shopfloorgreedtheme"] = value
+					modSaveData["cathedralsacris"] = value
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets whether the Shop floor in Greed Mode has its own unique stage music."
+					"For Classic characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
 				}
 			})
 			SMCM.AddSpace(category, subCategoryStage)
@@ -826,29 +849,6 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category, subCategoryStage)
-			SMCM.AddText(category, subCategoryStage, "Cathedral Heavy Layer (Classic)")
-			SMCM.AddSetting(category, subCategoryStage, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["cathedralsacris"]
-				end,
-				Display = function()
-					if modSaveData["cathedralsacris"] then
-						return "On"
-					else
-						return "Off"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["cathedralsacris"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"For Classic characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
-				}
-			})
-			SMCM.AddSpace(category, subCategoryStage)
 			SMCM.AddText(category, subCategoryStage, "Mineshaft Ambient Theme (Tainted)")
 			SMCM.AddSetting(category, subCategoryStage, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -894,52 +894,7 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Mineshaft Escape music for Tainted characters."
 				}
 			})
-			SMCM.AddText(category, subCategorySpecialRooms, "Post-Boss Greed Theme (Classic)")
-			SMCM.AddSetting(category, subCategorySpecialRooms, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["postbossgreedspiritum"]
-				end,
-				Display = function()
-					if modSaveData["postbossgreedspiritum"] then
-						return "Spiritum"
-					else
-						return "The Calm"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["postbossgreedspiritum"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Sets the post-boss music for Classic characters in Greed Mode."
-				}
-			})
-			SMCM.AddSpace(category, subCategorySpecialRooms)
-			SMCM.AddText(category, subCategorySpecialRooms, "Death Certificate Theme (Tainted)")
-			SMCM.AddSetting(category, subCategorySpecialRooms, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["deathcertificatedescenttwisted"]
-				end,
-				Display = function()
-					if modSaveData["deathcertificatedescenttwisted"] then
-						return "Descent Twisted"
-					else
-						return "Echoes Reverse"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["deathcertificatedescenttwisted"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Sets the Death Certificate music for Tainted characters."
-				}
-			})
-			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddSpace(category, subCategoryStage)
 			SMCM.AddText(category, subCategorySpecialRooms, "Black Market Theme")
 			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -1009,6 +964,29 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Post-Boss Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["postbossgreedspiritum"]
+				end,
+				Display = function()
+					if modSaveData["postbossgreedspiritum"] then
+						return "Spiritum"
+					else
+						return "The Calm"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["postbossgreedspiritum"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the post-boss music for Classic characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category, subCategorySpecialRooms)
 			SMCM.AddText(category, subCategorySpecialRooms, "Late Shop Theme (Classic)")
 			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -1054,26 +1032,54 @@ function custommusiccollection:SetUpMenu()
 					"For Classic characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
 				}
 			})
-			SMCM.AddText(category, subCategoryBattle, "Satan Fight Theme (Classic)")
-			SMCM.AddSetting(category, subCategoryBattle, {
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Death Certificate Theme (Tainted)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
 				Type = SMCM.OptionType.BOOLEAN,
 				Default = true,
 				CurrentSetting = function()
-					return modSaveData["satanfightsatan666"]
+					return modSaveData["deathcertificatedescenttwisted"]
 				end,
 				Display = function()
-					if modSaveData["satanfightsatan666"] then
-						return "Satan 666"
+					if modSaveData["deathcertificatedescenttwisted"] then
+						return "Descent Twisted"
 					else
-						return "Hericide"
+						return "Echoes Reverse"
 					end
 				end,
 				OnChange = function(value)
-					modSaveData["satanfightsatan666"] = value
+					modSaveData["deathcertificatedescenttwisted"] = value
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the Satan fight music for Classic characters."
+					"Sets the Death Certificate music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategoryBattle, "Greed Mode Devil Wave Theme")
+			SMCM.AddSetting(category, subCategoryBattle, {
+				Type = SMCM.OptionType.NUMBER,
+				Default = 2,
+				CurrentSetting = function()
+					return modSaveData["devilwavegreedtheme"]
+				end,
+				Minimum = 0,
+				Maximum = 2,
+				Display = function()
+					if modSaveData["devilwavegreedtheme"] == 2 then
+						return "Special Theme"
+					elseif modSaveData["devilwavegreedtheme"] == 1 then
+						return "Challenge Fight Theme"
+					else
+						return "Satan Fight Theme"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["devilwavegreedtheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the fight music for devil waves during Greed Mode."
 				}
 			})
 			SMCM.AddSpace(category, subCategoryBattle)
@@ -1123,30 +1129,26 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category, subCategoryBattle)
-			SMCM.AddText(category, subCategoryBattle, "Greed Mode Devil Wave Theme")
+			SMCM.AddText(category, subCategoryBattle, "Satan Fight Theme (Classic)")
 			SMCM.AddSetting(category, subCategoryBattle, {
-				Type = SMCM.OptionType.NUMBER,
-				Default = 2,
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
 				CurrentSetting = function()
-					return modSaveData["devilwavegreedtheme"]
+					return modSaveData["satanfightsatan666"]
 				end,
-				Minimum = 0,
-				Maximum = 2,
 				Display = function()
-					if modSaveData["devilwavegreedtheme"] == 2 then
-						return "Special Theme"
-					elseif modSaveData["devilwavegreedtheme"] == 1 then
-						return "Challenge Fight Theme"
+					if modSaveData["satanfightsatan666"] then
+						return "Satan 666"
 					else
-						return "Satan Fight Theme"
+						return "Hericide"
 					end
 				end,
 				OnChange = function(value)
-					modSaveData["devilwavegreedtheme"] = value
+					modSaveData["satanfightsatan666"] = value
 					custommusiccollection:SaveToFile()
 				end,
 				Info = {
-					"Sets the fight music for devil waves during Greed Mode."
+					"Sets the Satan fight music for Classic characters."
 				}
 			})
 			SMCM.AddSpace(category, subCategoryBattle)
@@ -1278,7 +1280,7 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Display = function()
 					if modSaveData["beastfighttaintedapocalypse"] then
-						return "My Innermost Apocalypse [Metal cover]"
+						return "My Innermost Apocalypse [Metal]"
 					else
 						return "Revelations 13-1"
 					end
@@ -1291,6 +1293,7 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Beast fight music for Tainted characters."
 				}
 			})
+			SMCM.AddSpace(category, subCategoryBattle)
 			if usingRGON then
 				SMCM.AddText(category, subCategoryMisc, "Legacy Jingle Replacement Method")
 				SMCM.AddSetting(category, subCategoryMisc, {
@@ -1392,6 +1395,7 @@ function custommusiccollection:SetUpMenu()
 					}
 				})
 			end
+			SMCM.AddSpace(category, subCategoryMisc)
 		end
 	end
 end
