@@ -325,8 +325,8 @@ function custommusiccollection:SetUpMenu()
 		local category = "Tainted Antibirth"
 		local subCategoryMode = "Mode"
 		local subCategoryStage = "Stage"
-		local subCategoryBattle = "Battle"
 		local subCategorySpecialRooms = "Rooms"
+		local subCategoryBattle = "Battle"
 		local subCategoryMisc = "Misc."
 		
 		--refresh menu when mode is changed
@@ -336,8 +336,8 @@ function custommusiccollection:SetUpMenu()
 		   
            SMCM.MenuData[existingmenu].Subcategories[scModeID].Options = {}
 		   SMCM.RemoveSubcategory(category, subCategoryStage)
-		   SMCM.RemoveSubcategory(category, subCategoryBattle)
 		   SMCM.RemoveSubcategory(category, subCategorySpecialRooms)
+		   SMCM.RemoveSubcategory(category, subCategoryBattle)
 		   SMCM.RemoveSubcategory(category, subCategoryMisc)
         end
 		
@@ -546,28 +546,6 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"Sets the Sheol music for Classic characters in Greed Mode."
-				}
-			})
-			SMCM.AddText(category, subCategorySpecialRooms, "Post-Boss Greed Theme (Classic)")
-			SMCM.AddSetting(category, subCategorySpecialRooms, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["postbossgreedspiritum"]
-				end,
-				Display = function()
-					if modSaveData["postbossgreedspiritum"] then
-						return "Spiritum"
-					else
-						return "The Calm"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["postbossgreedspiritum"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Sets the post-boss music for Classic characters in Greed Mode."
 				}
 			})
 			SMCM.AddSpace(category, subCategoryStage)
@@ -847,29 +825,6 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Dark Home music for Tainted characters."
 				}
 			})
-			SMCM.AddSpace(category, subCategorySpecialRooms)
-			SMCM.AddText(category, subCategorySpecialRooms, "Death Certificate Theme (Tainted)")
-			SMCM.AddSetting(category, subCategorySpecialRooms, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["deathcertificatedescenttwisted"]
-				end,
-				Display = function()
-					if modSaveData["deathcertificatedescenttwisted"] then
-						return "Descent Twisted"
-					else
-						return "Echoes Reverse"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["deathcertificatedescenttwisted"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Sets the Death Certificate music for Tainted characters."
-				}
-			})
 			SMCM.AddSpace(category, subCategoryStage)
 			SMCM.AddText(category, subCategoryStage, "Cathedral Heavy Layer (Classic)")
 			SMCM.AddSetting(category, subCategoryStage, {
@@ -891,6 +846,97 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"For Classic characters, in the Cathedral, play a heavy music layer in rooms containing bosses."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Mineshaft Ambient Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["mineshaftambienttaintednaught"]
+				end,
+				Display = function()
+					if modSaveData["mineshaftambienttaintednaught"] then
+						return "Want For Naught (Part 1)"
+					else
+						return "Vast Empty Chasm"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["mineshaftambienttaintednaught"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Mineshaft Ambient music for Tainted characters."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryStage)
+			SMCM.AddText(category, subCategoryStage, "Mineshaft Escape Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryStage, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["mineshaftescapetaintedturn"]
+				end,
+				Display = function()
+					if modSaveData["mineshaftescapetaintedturn"] then
+						return "The Turn"
+					else
+						return "Want For Naught (Part 2)"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["mineshaftescapetaintedturn"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Mineshaft Escape music for Tainted characters."
+				}
+			})
+			SMCM.AddText(category, subCategorySpecialRooms, "Post-Boss Greed Theme (Classic)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["postbossgreedspiritum"]
+				end,
+				Display = function()
+					if modSaveData["postbossgreedspiritum"] then
+						return "Spiritum"
+					else
+						return "The Calm"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["postbossgreedspiritum"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the post-boss music for Classic characters in Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category, subCategorySpecialRooms)
+			SMCM.AddText(category, subCategorySpecialRooms, "Death Certificate Theme (Tainted)")
+			SMCM.AddSetting(category, subCategorySpecialRooms, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["deathcertificatedescenttwisted"]
+				end,
+				Display = function()
+					if modSaveData["deathcertificatedescenttwisted"] then
+						return "Descent Twisted"
+					else
+						return "Echoes Reverse"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["deathcertificatedescenttwisted"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the Death Certificate music for Tainted characters."
 				}
 			})
 			SMCM.AddSpace(category, subCategorySpecialRooms)
@@ -1006,52 +1052,6 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"For Classic characters, play the unused layer of Anima Vendit in Devil Rooms past Chapter 4."
-				}
-			})
-			SMCM.AddSpace(category, subCategoryStage)
-			SMCM.AddText(category, subCategoryStage, "Mineshaft Ambient Theme (Tainted)")
-			SMCM.AddSetting(category, subCategoryStage, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["mineshaftambienttaintednaught"]
-				end,
-				Display = function()
-					if modSaveData["mineshaftambienttaintednaught"] then
-						return "Want For Naught (Part 1)"
-					else
-						return "Vast Empty Chasm"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["mineshaftambienttaintednaught"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Sets the Mineshaft Ambient music for Tainted characters."
-				}
-			})
-			SMCM.AddSpace(category, subCategoryStage)
-			SMCM.AddText(category, subCategoryStage, "Mineshaft Escape Theme (Tainted)")
-			SMCM.AddSetting(category, subCategoryStage, {
-				Type = SMCM.OptionType.BOOLEAN,
-				Default = true,
-				CurrentSetting = function()
-					return modSaveData["mineshaftescapetaintedturn"]
-				end,
-				Display = function()
-					if modSaveData["mineshaftescapetaintedturn"] then
-						return "The Turn"
-					else
-						return "Want For Naught (Part 2)"
-					end
-				end,
-				OnChange = function(value)
-					modSaveData["mineshaftescapetaintedturn"] = value
-					custommusiccollection:SaveToFile()
-				end,
-				Info = {
-					"Sets the Mineshaft Escape music for Tainted characters."
 				}
 			})
 			SMCM.AddText(category, subCategoryBattle, "Satan Fight Theme (Classic)")
