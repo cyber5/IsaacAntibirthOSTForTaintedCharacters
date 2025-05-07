@@ -97,6 +97,7 @@ function custommusiccollection:ResetSave()
 		boss2taintedflagbearer = true, --play Tandava for tainted alt boss
 		sacrificeroomangelmusic = true,
 		useloopversions = true,
+		gameovertaintedunderscore = true,
 		uterotainted = 2,
 		drosstainted = 2,
 		ashpittainted = 2,
@@ -154,6 +155,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["playsfxjinglereplacements"] == nil then modSaveData["playsfxjinglereplacements"] = true end
 	if modSaveData["sacrificeroomangelmusic"] == nil then modSaveData["sacrificeroomangelmusic"] = true end
 	if modSaveData["useloopversions"] == nil then modSaveData["useloopversions"] = true end
+	if modSaveData["gameovertaintedunderscore"] == nil then modSaveData["gameovertaintedunderscore"] = true end
 	
 	--translate obsolete settings to current settings
 	if modSaveData["devilwavegreedambush"] ~= nil then
@@ -297,7 +299,8 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["boss2taintedflagbearer"] = true
 	modSaveData["playsfxjinglereplacements"] = true
 	modSaveData["sacrificeroomangelmusic"] = true
-	modSaveData["useloopversions"] true
+	modSaveData["useloopversions"] = true
+	modSaveData["gameovertaintedunderscore"] = true
 end
 
 function custommusiccollection:SaveToFile()
@@ -1439,6 +1442,29 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"Sets whether stage music for Tainted characters will use multiple loop starting points."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryMisc)
+			SMCM.AddText(category, subCategoryMisc, "Game Over Theme (Tainted)")
+			SMCM.AddSetting(category, subCategoryMisc, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["gameovertaintedunderscore"]
+				end,
+				Display = function()
+					if modSaveData["gameovertaintedunderscore"] then
+						return "Underscore"
+					else
+						return "Journey from a Jar to the Sky"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["gameovertaintedunderscore"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets the game over music for Tainted characters."
 				}
 			})
 			if Epiphany then
@@ -4071,6 +4097,13 @@ function custommusiccollection:PerformTaintedBossAltOverReversion(trackId)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformTaintedBossAltOverReversion, Music.MUSIC_JINGLE_BOSS_OVER2)
+
+function custommusiccollection:PerformTaintedGameOverReplacement(trackId)
+	if PlayTaintedVersion(Music.MUSIC_GAME_OVER) and not modSaveData["gameovertaintedunderscore"] then
+		return TaintedVersion(Music.MUSIC_PLANETARIUM)
+	end
+end
+custommusiccollection:CreateCallback(custommusiccollection.PerformTaintedGameOverReplacement, Music.MUSIC_GAME_OVER)
 
 --[[MMC.AddMusicCallback(custommusiccollection, function()
 	if Game():IsGreedMode() then
