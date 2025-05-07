@@ -18,11 +18,10 @@ end
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
---TODOO: add a setting for playing Challenge music during the pre-Ultra Greed boss fight
 --TODOO: add a setting (custom only) for not using loop versions
 --TODOO: add a setting (custom only) for not having angel sacrifice boss music
 --TODOO: add a setting (custom only) for playing Planetarium music for tainted game over
---TODOO: reorder the settings in each tab to be shared settings, then Classic, then Tainted
+--TODOO: fix loop for Isaac fight and Mother fight
 --TODOO: handle/expand upon boss portrait boss music starting, possibly with a config setting
 
 local usingRGON = false
@@ -85,6 +84,7 @@ function custommusiccollection:ResetSave()
 		postbossgreedspiritum = true,
 		satanfightsatan666 = true,
 		devilwavegreedtheme = 2,
+		preultragreedchallengetheme = true,
 		angelfighttheme = true,
 		blackmarketroomtheme = true,
 		genesisroomtheme = true,
@@ -187,6 +187,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["postbossgreedspiritum"] == nil then modSaveData["postbossgreedspiritum"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["satanfightsatan666"] == nil then modSaveData["satanfightsatan666"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["devilwavegreedtheme"] == nil then modSaveData["devilwavegreedtheme"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["preultragreedchallengetheme"] == nil then modSaveData["preultragreedchallengetheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["angelfighttheme"] == nil then modSaveData["angelfighttheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["blackmarketroomtheme"] == nil then modSaveData["blackmarketroomtheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["genesisroomtheme"] == nil then modSaveData["genesisroomtheme"] = custommusiccollection:missingFillInBool() end
@@ -247,6 +248,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["shopfloorgreedtheme"] = mode
 	modSaveData["postbossgreedspiritum"] = mode
 	modSaveData["satanfightsatan666"] = mode
+	modSaveData["preultragreedchallengetheme"] = mode
 	modSaveData["angelfighttheme"] = mode
 	modSaveData["blackmarketroomtheme"] = mode
 	modSaveData["genesisroomtheme"] = mode
@@ -1080,6 +1082,29 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"Sets the fight music for devil waves during Greed Mode."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Pre-Ultra Greed Ambush Theme")
+			SMCM.AddSetting(category, subCategoryBattle, { 
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["preultragreedchallengetheme"]
+				end,
+				Display = function()
+					if modSaveData["preultragreedchallengetheme"] then
+						return "Challenge Theme"
+					else
+						return "Boss Theme"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["preultragreedchallengetheme"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets which music will play during the ambush in the room before the Ultra Greed battle."
 				}
 			})
 			SMCM.AddSpace(category, subCategoryBattle)
@@ -3556,6 +3581,28 @@ function custommusiccollection:PerformGreedShopChallengeCancel(trackId)
 	end
 end
 custommusiccollection:CreateCallback(custommusiccollection.PerformGreedShopChallengeCancel, Music.MUSIC_CHALLENGE_FIGHT, Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
+
+function custommusiccollection:PerformPreUltraGreedAmbushReplacement(trackId)
+	if modSaveData["preultragreedchallengetheme"] and Game():IsGreedMode() then
+		local stage = GetEffectiveLevelStage()
+		local room = Game():GetRoom()
+		if stage == LevelStage.STAGE7_GREED and room:GetType() == RoomType.ROOM_BOSS and room:GetBossID() == 0 then
+			return NormalTaintedOrTarnished(Music.MUSIC_CHALLENGE_FIGHT)
+		end
+	end
+end
+custommusiccollection:CreateCallback(custommusiccollection.PerformPreUltraGreedAmbushReplacement, Music.MUSIC_BOSS, Music.MUSIC_BOSS2)
+
+function custommusiccollection:PerformPreUltraGreedAmbushJingleReplacement(trackId)
+	if modSaveData["preultragreedchallengetheme"] and Game():IsGreedMode() then
+		local stage = GetEffectiveLevelStage()
+		local room = Game():GetRoom()
+		if stage == LevelStage.STAGE7_GREED and room:GetType() == RoomType.ROOM_BOSS and room:GetBossID() == 0 then
+			return NormalTaintedOrTarnished(Music.MUSIC_JINGLE_CHALLENGE_OUTRO)
+		end
+	end
+end
+custommusiccollection:CreateCallback(custommusiccollection.PerformPreUltraGreedAmbushJingleReplacement, Music.MUSIC_JINGLE_BOSS_OVER, Music.MUSIC_JINGLE_BOSS_OVER2)
 
 function custommusiccollection:PerformBlueWombAltReplacement(trackId)
 	if modSaveData["bluewombdevoid"] and PlayNormalVersion(trackId) then
