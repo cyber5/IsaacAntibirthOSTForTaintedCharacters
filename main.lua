@@ -96,6 +96,7 @@ function custommusiccollection:ResetSave()
 		megasatantaintedflagbearer = 0, -- play Flagbearer during tainted Mega Satan
 		boss2taintedflagbearer = true, --play Tandava for tainted alt boss
 		sacrificeroomangelmusic = true,
+		useloopversions = true,
 		uterotainted = 2,
 		drosstainted = 2,
 		ashpittainted = 2,
@@ -152,6 +153,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["boss2taintedflagbearer"] == nil then modSaveData["boss2taintedflagbearer"] = true end
 	if modSaveData["playsfxjinglereplacements"] == nil then modSaveData["playsfxjinglereplacements"] = true end
 	if modSaveData["sacrificeroomangelmusic"] == nil then modSaveData["sacrificeroomangelmusic"] = true end
+	if modSaveData["useloopversions"] == nil then modSaveData["useloopversions"] = true end
 	
 	--translate obsolete settings to current settings
 	if modSaveData["devilwavegreedambush"] ~= nil then
@@ -295,6 +297,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["boss2taintedflagbearer"] = true
 	modSaveData["playsfxjinglereplacements"] = true
 	modSaveData["sacrificeroomangelmusic"] = true
+	modSaveData["useloopversions"] true
 end
 
 function custommusiccollection:SaveToFile()
@@ -1415,6 +1418,29 @@ function custommusiccollection:SetUpMenu()
 					"During the DELETE THIS challenge, use music from both soundtracks, and play random music for bosses, special rooms, and jingles."
 				}
 			})
+			SMCM.AddSpace(category, subCategoryMisc)
+			SMCM.AddText(category, subCategoryMisc, "Loop Versions (Tainted)")
+			SMCM.AddSetting(category, subCategoryMisc, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["useloopversions"]
+				end,
+				Display = function()
+					if modSaveData["useloopversions"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["useloopversions"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether stage music for Tainted characters will use multiple loop starting points."
+				}
+			})
 			if Epiphany then
 				SMCM.AddSpace(category, subCategoryMisc)
 				SMCM.AddText(category, subCategoryMisc, "Tarnished Soundtrack")
@@ -2288,9 +2314,9 @@ function TaintedVersion(trackId)
 		elseif usingRGON and treasurejingles[trackId] then
 			local rng = math.random(0,8)
 			return taintedtreasurejingles[rng]
-		elseif loopversion == 2 and normaltotaintedalt2[trackId] then
+		elseif loopversion == 2 and normaltotaintedalt2[trackId] and modSaveData["useloopversions"] then
 			return normaltotaintedalt2[trackId]
-		elseif loopversion == 1 and normaltotaintedalt1[trackId] then
+		elseif loopversion == 1 and normaltotaintedalt1[trackId] and modSaveData["useloopversions"] then
 			return normaltotaintedalt1[trackId]
 		else
 			return normaltotainted[trackId]
