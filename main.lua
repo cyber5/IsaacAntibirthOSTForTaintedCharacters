@@ -95,6 +95,7 @@ function custommusiccollection:ResetSave()
 		megasatantaintedspeedup = true,
 		megasatantaintedflagbearer = 0, -- play Flagbearer during tainted Mega Satan
 		boss2taintedflagbearer = true, --play Tandava for tainted alt boss
+		sacrificeroomangelmusic = true,
 		uterotainted = 2,
 		drosstainted = 2,
 		ashpittainted = 2,
@@ -150,6 +151,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["megasatantaintedflagbearer"] == nil then modSaveData["megasatantaintedflagbearer"] = 0 end
 	if modSaveData["boss2taintedflagbearer"] == nil then modSaveData["boss2taintedflagbearer"] = true end
 	if modSaveData["playsfxjinglereplacements"] == nil then modSaveData["playsfxjinglereplacements"] = true end
+	if modSaveData["sacrificeroomangelmusic"] == nil then modSaveData["sacrificeroomangelmusic"] = true end
 	
 	--translate obsolete settings to current settings
 	if modSaveData["devilwavegreedambush"] ~= nil then
@@ -292,6 +294,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["megasatantaintedflagbearer"] = 0
 	modSaveData["boss2taintedflagbearer"] = true
 	modSaveData["playsfxjinglereplacements"] = true
+	modSaveData["sacrificeroomangelmusic"] = true
 end
 
 function custommusiccollection:SaveToFile()
@@ -1154,6 +1157,29 @@ function custommusiccollection:SetUpMenu()
 				}
 			})
 			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Sacrifice Room Angel Music")
+			SMCM.AddSetting(category, subCategoryBattle, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["sacrificeroomangelmusic"]
+				end,
+				Display = function()
+					if modSaveData["sacrificeroomangelmusic"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["sacrificeroomangelmusic"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether boss music will play during Angel battles in Sacrifice Rooms."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryBattle)
 			SMCM.AddText(category, subCategoryBattle, "Satan Fight Theme (Classic)")
 			SMCM.AddSetting(category, subCategoryBattle, {
 				Type = SMCM.OptionType.BOOLEAN,
@@ -1560,7 +1586,7 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		
-		if roomtype == RoomType.ROOM_SACRIFICE then
+		if roomtype == RoomType.ROOM_SACRIFICE and modSaveData["sacrificeroomangelmusic"] then
 			angelfightsacrificeroom = true
 			musicmgr:Crossfade(angelBossMusic())
 		end
@@ -1570,7 +1596,7 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 		local room = Game():GetRoom()
 		local roomtype = room:GetType()
 		
-		if roomtype == RoomType.ROOM_SACRIFICE and Isaac.CountBosses() <= 1 then
+		if roomtype == RoomType.ROOM_SACRIFICE and modSaveData["sacrificeroomangelmusic"] and Isaac.CountBosses() <= 1 then
 			musicmgr:Crossfade(angelBossDeathJingle())
 			musicmgr:Queue(Music.MUSIC_BOSS_OVER)
 		end
@@ -1587,7 +1613,7 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 			local room = Game():GetRoom()
 			local roomtype = room:GetType() --TODO: don't we already have the roomtype?
 			
-			if roomtype == RoomType.ROOM_SACRIFICE and angelfightsacrificeroom then
+			if roomtype == RoomType.ROOM_SACRIFICE and modSaveData["sacrificeroomangelmusic"] and angelfightsacrificeroom then
 				--NOTE: angel over jingle is set so that stage api can't override it
 				if Isaac.CountBosses() > 0 then
 					if modSaveData["angelfighttheme"] then
