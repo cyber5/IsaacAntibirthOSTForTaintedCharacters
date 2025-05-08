@@ -18,11 +18,9 @@ end
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
---TODOO: add a setting (custom only) for not using loop versions
---TODOO: add a setting (custom only) for not having angel sacrifice boss music
---TODOO: add a setting (custom only) for playing Planetarium music for tainted game over
 --TODOO: fix loop for Isaac fight and Mother fight
 --TODOO: handle/expand upon boss portrait boss music starting, possibly with a config setting
+--just add portrait music for Blue Baby fight, and remove intro from Gloria Filio
 
 local usingRGON = false
 if REPENTOGON and not MMC then
@@ -98,6 +96,7 @@ function custommusiccollection:ResetSave()
 		sacrificeroomangelmusic = true,
 		useloopversions = true,
 		gameovertaintedunderscore = true,
+		deliriumoutro = true,
 		uterotainted = 2,
 		drosstainted = 2,
 		ashpittainted = 2,
@@ -202,6 +201,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["latedevilroomtheme"] == nil then modSaveData["latedevilroomtheme"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["bossrushtaintedspeedup"] == nil then modSaveData["bossrushtaintedspeedup"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["megasatantaintedspeedup"] == nil then modSaveData["megasatantaintedspeedup"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["deliriumoutro"] == nil then modSaveData["deliriumoutro"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["uterotainted"] == nil then modSaveData["uterotainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = custommusiccollection:missingFillInInt(2) end
@@ -263,6 +263,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["latedevilroomtheme"] = mode
 	modSaveData["bossrushtaintedspeedup"] = mode
 	modSaveData["megasatantaintedspeedup"] = mode
+	modSaveData["deliriumoutro"] = mode
 	modSaveData["boilertainted"] = mode
 	modSaveData["grottotainted"] = mode
 	modSaveData["ascenttainteddescent"] = mode
@@ -1183,6 +1184,29 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Info = {
 					"Sets whether boss music will play during Angel battles in Sacrifice Rooms."
+				}
+			})
+			SMCM.AddSpace(category, subCategoryBattle)
+			SMCM.AddText(category, subCategoryBattle, "Delirium Outro")
+			SMCM.AddSetting(category, subCategoryBattle, {
+				Type = SMCM.OptionType.BOOLEAN,
+				Default = true,
+				CurrentSetting = function()
+					return modSaveData["deliriumoutro"]
+				end,
+				Display = function()
+					if modSaveData["deliriumoutro"] then
+						return "On"
+					else
+						return "Off"
+					end
+				end,
+				OnChange = function(value)
+					modSaveData["deliriumoutro"] = value
+					custommusiccollection:SaveToFile()
+				end,
+				Info = {
+					"Sets whether to use special outro music after defeating Delirium."
 				}
 			})
 			SMCM.AddSpace(category, subCategoryBattle)
@@ -3358,7 +3382,7 @@ end
 custommusiccollection:CreateCallback(custommusiccollection.PerformBlueWombExitMusic, Music.MUSIC_WOMB_UTERO, Music.MUSIC_UTERO, Music.MUSIC_SCARRED_WOMB, Music.MUSIC_BOSS_OVER)
 
 function custommusiccollection:PerformDeliriumOver(trackId)
-	if not Game():IsGreedMode() then
+	if not Game():IsGreedMode() and modSaveData["deliriumoutro"] then
 		local stage = GetEffectiveLevelStage()
 		if stage == LevelStage.STAGE7 then
 			local room = Game():GetRoom()
