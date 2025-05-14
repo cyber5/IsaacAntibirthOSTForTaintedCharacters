@@ -18,9 +18,7 @@ end
 
 --TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
 
---TODOO: fix loop for Isaac fight and Mother fight
 --TODOO: handle/expand upon boss portrait boss music starting, possibly with a config setting
---just add portrait music for Blue Baby fight, and remove intro from Gloria Filio
 
 local usingRGON = false
 if REPENTOGON and not MMC then
@@ -2839,6 +2837,7 @@ function custommusiccollection:PerformDeleteThisBossPortrait(trackId)
 		
 		if thisRoomBossMusic == normaltotainted[Music.MUSIC_MOTHER_BOSS]
 		or thisRoomBossMusic == normaltotainted[Music.MUSIC_ISAAC_BOSS]
+		or thisRoomBossMusic == normaltotainted[Music.MUSIC_BLUEBABY_BOSS]
 		or thisRoomBossMusic == normaltotainted[Music.MUSIC_ULTRAGREED_BOSS]
 		or thisRoomBossMusic == normaltotainted[Music.MUSIC_VOID_BOSS]
 		or thisRoomBossMusic == normaltotainted[Music.MUSIC_DOGMA_BOSS] then
@@ -3558,7 +3557,8 @@ function custommusiccollection:PerformBossPortraitBossMusic(trackId)
 	if ((stage == LevelStage.STAGE4_2 or (curseoflabyrinth and stage == LevelStage.STAGE4_1)) and stage_type >= StageType.STAGETYPE_REPENTANCE) --Mother
 	or (Isaac.GetChallenge() == Challenge.CHALLENGE_RED_REDEMPTION and stage == LevelStage.STAGE4_1) --Mother in Red Redemption challenge
 	or (stage == LevelStage.STAGE5 and stage_type == StageType.STAGETYPE_WOTL) --Isaac in Cathedral
-	or (stage == LevelStage.STAGE7 and (room:GetBossID() == 39 or room:GetBossID() == 70)) --Delirium and Isaac in Void
+	or (stage == LevelStage.STAGE6 and stage_type == StageType.STAGETYPE_WOTL) --Blue Baby in Chest
+	or (stage == LevelStage.STAGE7 and (room:GetBossID() == 39 or room:GetBossID() == 40 or room:GetBossID() == 70)) --Isaac, Blue Baby, and Delirium in Void
 	or (stage == LevelStage.STAGE7_GREED and Game():IsGreedMode() and room:GetBossID() == 62) --Ultra Greed
 	then
 		local bosstrack = GrabBossTrack()
