@@ -200,7 +200,7 @@
 	
 	<!-- TRACKS BELOW ARE ORIGINALLY FROM MODS OTHER THAN TAINTED MUDETH -->
 	<track name="Satan 666" path="Extra/satan 666.ogg" loop="true" mul="1.25" />
-	<track name="Satan 666 Outro" path="Extra/satan 666 outro.ogg" loop="false" mul="1.25" />
+	<track name="Satan 666 Outro" path="Extra/satan 666 outro.ogg" loop="false" mul="1.5" />
 	<track name="Mega Satan" path="Fight Ogg/Satan Fight.ogg" loop="true" />
 	<track name="Pool of Yule" path="Extra/pool of yule.ogg" loop="true" mul="1.25" />
 	<track name="Pool of Yule outro" path="JINGLE OGG/Ambush Jinle outro V3_04.ogg" loop="false" />
@@ -218,9 +218,12 @@
 	<track name="Ultra Greedier outro" path="Greed/locus outro.ogg" loop="false" mul="1.25" />
 	
 	<!-- Custom Stages -->
-	<track name="Mortis (tainted)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" mul="1.25" />
-	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" mul="1.25" />
-	<track name="Mortis (tainted) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" mul="1.25" />
+	<track name="Mortis (tainted old)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" mul="1.25" />
+	<track name="Mortis (tainted old) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" mul="1.25" />
+	<track name="Mortis (tainted old) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" mul="1.25" />
+	<track name="Mortis (tainted)" intro="CustomStage/Mortis - Ultimum Supplicium Mei [Intro].ogg" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop].ogg" loop="true" />
+	<track name="Mortis (tainted) nointro" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop].ogg" loop="true" />
+	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop - Alt].ogg" loop="true" />
 	<track name="Boiler (tainted)" intro="CustomStage/Boiler - The Trial [Intro].ogg" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
 	<track name="Boiler (tainted) nointro" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
 	<track name="Boiler (tainted) altloop" path="CustomStage/Boiler - The Trial [Loop - Alt].ogg" loop="true" />
