@@ -99,7 +99,7 @@ function custommusiccollection:ResetSave()
 		drosstainted = 2,
 		ashpittainted = 2,
 		gehennatainted = 2,
-		mortistainted = 2,
+		mortistainted = 3,
 		boilertainted = true,
 		grottotainted = true,
 		ascenttainteddescent = true,
@@ -154,6 +154,13 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["useloopversions"] == nil then modSaveData["useloopversions"] = true end
 	if modSaveData["gameovertaintedunderscore"] == nil then modSaveData["gameovertaintedunderscore"] = true end
 	
+	--update settings to account for new defaults
+	if modSaveData["settingsmode"] == 2 then
+		if modSaveData["mortistainted"] == 2 then
+			modSaveData["mortistainted"] = 3
+		end
+	end
+	
 	--translate obsolete settings to current settings
 	if modSaveData["devilwavegreedambush"] ~= nil then
 		if modSaveData["devilwavegreedtheme"] == nil then
@@ -204,7 +211,7 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["drosstainted"] == nil then modSaveData["drosstainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["ashpittainted"] == nil then modSaveData["ashpittainted"] = custommusiccollection:missingFillInInt(2) end
 	if modSaveData["gehennatainted"] == nil then modSaveData["gehennatainted"] = custommusiccollection:missingFillInInt(2) end
-	if modSaveData["mortistainted"] == nil then modSaveData["mortistainted"] = custommusiccollection:missingFillInInt(2) end
+	if modSaveData["mortistainted"] == nil then modSaveData["mortistainted"] = custommusiccollection:missingFillInInt(3) end
 	if modSaveData["boilertainted"] == nil then modSaveData["boilertainted"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["grottotainted"] == nil then modSaveData["grottotainted"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["ascenttainteddescent"] == nil then modSaveData["ascenttainteddescent"] = custommusiccollection:missingFillInBool() end
@@ -281,7 +288,7 @@ function custommusiccollection:SetOptionsToPreset(mode)
 		modSaveData["drosstainted"] = 2
 		modSaveData["ashpittainted"] = 2
 		modSaveData["gehennatainted"] = 2
-		modSaveData["mortistainted"] = 2
+		modSaveData["mortistainted"] = 3
 		modSaveData["tarnishedsoundtrack"] = 3
 	else
 		modSaveData["devilwavegreedtheme"] = 0
@@ -717,14 +724,16 @@ function custommusiccollection:SetUpMenu()
 				SMCM.AddText(category, subCategoryStage, "Mortis Theme (Tainted)")
 				SMCM.AddSetting(category, subCategoryStage, {
 					Type = SMCM.OptionType.NUMBER,
-					Default = 2,
+					Default = 3,
 					CurrentSetting = function()
 						return modSaveData["mortistainted"]
 					end,
 					Minimum = 0,
-					Maximum = 2,
+					Maximum = 3,
 					Display = function()
-						if modSaveData["mortistainted"] == 2 then
+						if modSaveData["mortistainted"] == 3 then
+							return "Ultimum Supplicium Mei"
+						elseif modSaveData["mortistainted"] == 2 then
 							return "Malpractice"
 						elseif modSaveData["mortistainted"] == 1 then
 							return "Drowning"
@@ -1807,6 +1816,7 @@ Music.MUSIC_BLUE_WOMB_ALT = Isaac.GetMusicIdByName("Armarium")
 Music.MUSIC_CATHEDRAL_ALT = Isaac.GetMusicIdByName("Cathedral Alt")
 Music.MUSIC_UTERO_ALT = Isaac.GetMusicIdByName("Utero alt (tainted)")
 Music.MUSIC_HAPPY_ANNIVERSARY = Isaac.GetMusicIdByName("Happy Anniversary")
+Music.MUSIC_MALPRACTICE = Isaac.GetMusicIdByName("Mortis (tainted old)")
 Music.MUSIC_CREDITS1 = Isaac.GetMusicIdByName("Credits original")
 Music.MUSIC_CREDITS2 = Isaac.GetMusicIdByName("Credits credits")
 Music.MUSIC_CREDITS3 = Isaac.GetMusicIdByName("Credits greed")
@@ -1990,6 +2000,7 @@ normaltotainted = {
 	[Music.MUSIC_SHOP_ROOM_ALT] = Isaac.GetMusicIdByName("Shop Room (tainted)"),
 	[Music.MUSIC_I_AM_ERROR] = Isaac.GetMusicIdByName("I Am Error (tainted)"),
 	[Music.MUSIC_HAPPY_ANNIVERSARY] = Isaac.GetMusicIdByName("Happy Anniversary"),
+	[Music.MUSIC_MALPRACTICE] = Isaac.GetMusicIdByName("Mortis (tainted old)"),
 	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted)"),
 	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted)"),
 	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted)"),
@@ -2030,6 +2041,7 @@ normaltotaintedalt1 = {
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) nointro"),
 	[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted) nointro"),
 	[Music.MUSIC_HAPPY_ANNIVERSARY] = Isaac.GetMusicIdByName("Happy Anniversary nointro"),
+	[Music.MUSIC_MALPRACTICE] = Isaac.GetMusicIdByName("Mortis (tainted old) altloop"),
 	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted) nointro"),
 	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted) nointro"),
 	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted) nointro"),
@@ -2070,6 +2082,7 @@ normaltotaintedalt2 = {
 	[Music.MUSIC_FLOOR_6_GREED] = Isaac.GetMusicIdByName("Greed Floor 6 (tainted) altloop"),
 	[Music.MUSIC_ISAACS_HOUSE] = Isaac.GetMusicIdByName("Home (tainted) altloop"),
 	[Music.MUSIC_HAPPY_ANNIVERSARY] = Isaac.GetMusicIdByName("Happy Anniversary altloop"),
+	[Music.MUSIC_MALPRACTICE] = Isaac.GetMusicIdByName("Mortis (tainted old) altloop 2"),
 	--[[[Music.MUSIC_CAVES_GREED] = Isaac.GetMusicIdByName("Caves (tainted) altloop"),
 	[Music.MUSIC_FLOODED_CAVES_GREED] = Isaac.GetMusicIdByName("Flooded Caves (tainted) altloop"),
 	[Music.MUSIC_NECROPOLIS_GREED] = Isaac.GetMusicIdByName("Necropolis (tainted) altloop"),
@@ -3888,7 +3901,9 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	
 	function custommusiccollection:PerformMortisReversion(trackId)
 		if PlayTaintedVersion(trackId) then
-			if modSaveData["mortistainted"] == 1 then
+			if modSaveData["mortistainted"] == 2 then
+				return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_MALPRACTICE))
+			elseif modSaveData["mortistainted"] == 1 then
 				return custommusiccollection:PlayIfNecessary(TaintedVersion(Music.MUSIC_CORPSE))
 			elseif modSaveData["mortistainted"] == 0 then
 				return custommusiccollection:PlayIfNecessary(trackId)
@@ -4161,8 +4176,8 @@ if usingRGON then
 				Music.MUSIC_MORTIS = LastJudgement.Music.Mortis
 				
 				normaltotainted[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted)")
-				normaltotaintedalt1[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop")
-				normaltotaintedalt2[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop 2")
+				normaltotaintedalt1[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) nointro")
+				normaltotaintedalt2[Music.MUSIC_MORTIS] = Isaac.GetMusicIdByName("Mortis (tainted) altloop")
 				--random_music --TODO: add Mortis music to DELETE THIS? I'm not sure I will, not without mixing in the Mortis backdrops into DELETE THIS
 				stageSeedTrack[Music.MUSIC_MORTIS] = 1
 				
