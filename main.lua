@@ -4392,12 +4392,10 @@ if StageAPI and StageAPI.Loaded then
 				local returnTrack
 				local currentMusicID = musicmgr:GetCurrentMusicID()
 				if (Music.MUSIC_GLACIER and musicID == Music.MUSIC_GLACIER) then
-					--Isaac.DebugString("roomType in PlayCorrectCustomStageMusicForRevelations Glacier is "..tostring(roomType))
 					if StageAPI.GetCurrentRoomType() == "Mirror" then
 						if PlayTaintedVersion(Music.MUSIC_GLACIER_MIRROR) and currentMusicID == TaintedVersion(Music.MUSIC_GLACIER_MIRROR) and not revel.data.run.NarcissusGlacierDefeated and modSaveData["glaciermirrortainted"] then
 							returnTrack = currentMusicID
 						else
-							--Isaac.DebugString("cancelling because in MIRROR room")
 							return
 						end
 					elseif REVEL.IsEliteRoom("Chuck") then
@@ -4405,23 +4403,19 @@ if StageAPI and StageAPI.Loaded then
 							if modSaveData["glacierelitetainted"] and PlayTaintedVersion(Music.MUSIC_GLACIER_ELITE) then
 								returnTrack = NormalTaintedOrTarnished(Music.MUSIC_GLACIER_ELITE)
 							else
-								--Isaac.DebugString("cancelling because deferring to default unnamed elite music function in Chuck room")
 								return
 							end
 						else
-							--Isaac.DebugString("cancelling because in cleared Chuck room")
 							return
 						end
 					else
 						returnTrack = custommusiccollection:PerformGlacierReversion(musicID)
 					end
 				elseif (Music.MUSIC_TOMB and musicID == Music.MUSIC_TOMB) then
-					--Isaac.DebugString("roomType in PlayCorrectCustomStageMusicForRevelations Tomb is "..tostring(roomType))
 					if StageAPI.GetCurrentRoomType() == "Mirror" then
 						if PlayTaintedVersion(Music.MUSIC_TOMB_MIRROR) and currentMusicID == TaintedVersion(Music.MUSIC_TOMB_MIRROR) and not revel.data.run.NarcissusTombDefeated and modSaveData["tombmirrortainted"] then
 							returnTrack = currentMusicID	
 						else
-							--Isaac.DebugString("cancelling because in MIRROR2 room")
 							return
 						end
 					elseif REVEL.IsEliteRoom("Dungo") then
@@ -4429,11 +4423,9 @@ if StageAPI and StageAPI.Loaded then
 							if modSaveData["tombelitetainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_ELITE) then
 								returnTrack = NormalTaintedOrTarnished(Music.MUSIC_TOMB_ELITE)
 							else
-								--Isaac.DebugString("cancelling because deferring to default unnamed elite music function in Dungo room")
 								return
 							end
 						else
-							--Isaac.DebugString("cancelling because in cleared Dungo room")
 							return
 						end
 					elseif REVEL.IsEliteRoom("Ragtime") then
@@ -4441,11 +4433,9 @@ if StageAPI and StageAPI.Loaded then
 							if modSaveData["tombragtimetainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_RAGTIME) and currentMusic == TaintedVersion(Music.MUSIC_TOMB_RAGTIME) then
 								returnTrack = NormalTaintedOrTarnished(Music.MUSIC_TOMB_RAGTIME)
 							else
-								--Isaac.DebugString("cancelling because deferring to default unnamed elite music function in Ragtime room")
 								return
 							end
 						else
-							--Isaac.DebugString("cancelling because in cleared Ragtime room")
 							return
 						end
 					else
@@ -4455,7 +4445,6 @@ if StageAPI and StageAPI.Loaded then
 				if returnTrack == nil then
 					returnTrack = NormalTaintedOrTarnished(musicID)
 				end
-				--Isaac.DebugString("returnTrack in PlayCorrectCustomStageMusicForRevelations is "..tostring(returnTrack))
 				return returnTrack
 			end
 		end
@@ -4464,10 +4453,6 @@ if StageAPI and StageAPI.Loaded then
 	--TODOO: why does tainted Narc II music take a few seconds to start?
 	--TODOO: test that there's no issue with fighting Ragtime for a whole loop of the song
 	--(seed: XPSE8QBH, Hard Mode, Tomb 2)
-	
-	--I'm so close! Just do this, then commit and upload
-	--TODOOO: for some reason, with classic character (The Lost), Narc II boss music started playing for a split second just before the boss portrait after going through mirror door without breaking it
-	--in mod description, emphasize that Revelations should not be used without Repentogon; also mention the new songs used for Tainted Revelations
 	
 	--handle boss music and jingles in custom stages
 	function custommusiccollection:AssistStageAPIBossPortraitJingle(trackId)
@@ -4772,6 +4757,16 @@ if usingRGON then
 				end
 				custommusiccollection:CreateCallback(custommusiccollection.EnforceRagtimeSpecialIntro, Music.MUSIC_TOMB_RAGTIME)
 				
+				--mirror funkiness
+				function custommusiccollection:DoNotPlayTombMirrorBossEarly(trackId)
+					if revel and REVEL then
+						if not isRevMirrorRoomPost then
+							return MusicCancelValue()
+						end
+					end
+				end
+				custommusiccollection:CreateCallback(custommusiccollection.DoNotPlayTombMirrorBossEarly, Music.MUSIC_TOMB_MIRROR, normaltotainted[Music.MUSIC_TOMB_MIRROR])
+				
 				--random_music
 				
 				stageSeedTrack[Music.MUSIC_GLACIER] = 1
@@ -4806,6 +4801,21 @@ if usingRGON then
 			end
 		end
 	end
+	
+	--TODO: use revRoomTypes for Mirror, DanteSatanBig, FlamingTombs, etc
+	
+	isRevMirrorRoomPost = false
+	
+	function custommusiccollection:SetMirrorPostRoomVariable()
+		if usingRGON and revel and REVEL and StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			if StageAPI.GetCurrentRoomType() == "Mirror" then
+				isRevMirrorRoomPost = true
+			else
+				isRevMirrorRoomPost = false
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.SetMirrorPostRoomVariable)
 	
 	function custommusiccollection:ManipulateRagtimeTrack()
 		if usingRGON and revel and REVEL and StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
