@@ -16,9 +16,14 @@ end
 --TODOO: compatibility with Revelations
 --TODOO: compatibility with The Future
 
---TODOO: Revelations boss portrait jingle? Is it supposed to cut off so blatantly? If not, why does it do that?
-
---TODOO: handle/expand upon boss portrait boss music starting, possibly with a config setting
+--TODO: handle/expand upon boss portrait boss music starting, possibly with a config setting
+--TODO: add option for Tainted Boiler: Trials of the Departed
+--TODO: add option between Uncut and Secrets Never Revealed?
+--TODO: add option between Arena Mode and The Hard Fight?
+--TODO: add option for Ultra Greedier: Locust?
+--TODO: add option for Mines: DeFault Lines?
+--TODO: add option for The Calm after Revelations Elite Minibosses (would only play first time)
+--TODO: add option for Ragtime edit?
 
 local usingRGON = false
 if REPENTOGON and not MMC then
@@ -89,7 +94,7 @@ function custommusiccollection:ResetSave()
 		latedevilroomtheme = true,
 		bossrushtaintedspeedup = true,
 		megasatantaintedspeedup = true,
-		megasatantaintedflagbearer = 0, -- play Flagbearer during tainted Mega Satan
+		megasatantaintedflagbearer = 0, --play Flagbearer during tainted Mega Satan
 		boss2taintedflagbearer = true, --play Tandava for tainted alt boss
 		sacrificeroomangelmusic = true,
 		useloopversions = true,
@@ -115,13 +120,24 @@ function custommusiccollection:ResetSave()
 		deletethisenhancement = true,
 		tarnishedsoundtrack = 3,
 		
+		--Revelations settings
+		glaciertainted = true,
+		glacierbosstainted = true,
+		glacierelitetainted = true,
+		glaciermirrortainted = true,
+		glacierspecialtainted = true,
+		tombtainted = true,
+		tombbosstainted = true,
+		tombelitetainted = true,
+		tombragtimetainted = true,
+		tombmirrortainted = true,
+		tombspecialtainted = true,
+		
 		savedcustomsettings = {},
 		settingsmode = 1 --custom
 		
 		--future potential requests:
 		--play The Turn during tainted devil wave
-		--gameovertaintedunderscore = true, --play tainted Planetarium theme for tainted game over
-		--sacrificeroomangels = true,
 		--bluewombcontinue = true,
 	}
 end
@@ -225,6 +241,17 @@ function custommusiccollection:FillInMissingSaveData()
 	if modSaveData["blendedcoopsoundtrack"] == nil then modSaveData["blendedcoopsoundtrack"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["deletethisenhancement"] == nil then modSaveData["deletethisenhancement"] = custommusiccollection:missingFillInBool() end
 	if modSaveData["tarnishedsoundtrack"] == nil then modSaveData["tarnishedsoundtrack"] = custommusiccollection:missingFillInInt(3) end
+	if modSaveData["glaciertainted"] == nil then modSaveData["glaciertainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["glacierbosstainted"] == nil then modSaveData["glacierbosstainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["glacierelitetainted"] == nil then modSaveData["glacierelitetainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["glaciermirrortainted"] == nil then modSaveData["glaciermirrortainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["glacierspecialtainted"] == nil then modSaveData["glacierspecialtainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tombtainted"] == nil then modSaveData["tombtainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tombbosstainted"] == nil then modSaveData["tombbosstainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tombelitetainted"] == nil then modSaveData["tombelitetainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tombragtimetainted"] == nil then modSaveData["tombragtimetainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tombmirrortainted"] == nil then modSaveData["tombmirrortainted"] = custommusiccollection:missingFillInBool() end
+	if modSaveData["tombspecialtainted"] == nil then modSaveData["tombspecialtainted"] = custommusiccollection:missingFillInBool() end
 end
 
 function custommusiccollection:SaveCustomOptions()
@@ -281,6 +308,17 @@ function custommusiccollection:SetOptionsToPreset(mode)
 	modSaveData["mineshaftescapetaintedturn"] = mode
 	modSaveData["blendedcoopsoundtrack"] = mode
 	modSaveData["deletethisenhancement"] = mode
+	modSaveData["glaciertainted"] = mode
+	modSaveData["glacierbosstainted"] = mode
+	modSaveData["glacierelitetainted"] = mode
+	modSaveData["glaciermirrortainted"] = mode
+	modSaveData["glacierspecialtainted"] = mode
+	modSaveData["tombtainted"] = mode
+	modSaveData["tombbosstainted"] = mode
+	modSaveData["tombelitetainted"] = mode
+	modSaveData["tombragtimetainted"] = mode
+	modSaveData["tombmirrortainted"] = mode
+	modSaveData["tombspecialtainted"] = mode
 	
 	if mode then
 		modSaveData["devilwavegreedtheme"] = 2
@@ -900,7 +938,7 @@ function custommusiccollection:SetUpMenu()
 				end,
 				Display = function()
 					if modSaveData["mineshaftescapetaintedturn"] then
-						return "The Turn"
+						return "The Turn (Alt Loop)"
 					else
 						return "Want For Naught (Part 2)"
 					end
@@ -913,6 +951,54 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Mineshaft Escape music for Tainted characters."
 				}
 			})
+			if revel and REVEL then
+				SMCM.AddSpace(category, subCategoryStage)
+				SMCM.AddText(category, subCategoryStage, "Glacier Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryStage, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["glaciertainted"]
+					end,
+					Display = function()
+						if modSaveData["glaciertainted"] then
+							return "Sarah"
+						else
+							return "Frozen Tears"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["glaciertainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Glacier music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryStage)
+				SMCM.AddText(category, subCategoryStage, "Tomb Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryStage, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["tombtainted"]
+					end,
+					Display = function()
+						if modSaveData["tombtainted"] then
+							return "Trapped"
+						else
+							return "Heretical Circle"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tombtainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Tomb music for Tainted characters."
+					}
+				})
+			end
 			SMCM.AddSpace(category, subCategoryStage)
 			SMCM.AddText(category, subCategorySpecialRooms, "Black Market Theme")
 			SMCM.AddSetting(category, subCategorySpecialRooms, {
@@ -1074,6 +1160,54 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Death Certificate music for Tainted characters."
 				}
 			})
+			if revel and REVEL then
+				SMCM.AddSpace(category, subCategorySpecialRooms)
+				SMCM.AddText(category, subCategorySpecialRooms, "Glacier Special Area Theme (Tainted)")
+				SMCM.AddSetting(category, subCategorySpecialRooms, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["glacierspecialtainted"]
+					end,
+					Display = function()
+						if modSaveData["glacierspecialtainted"] then
+							return "Uncut"
+						else
+							return "A New Gate Opens"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["glacierspecialtainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the music in the special Glacier area for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategorySpecialRooms)
+				SMCM.AddText(category, subCategorySpecialRooms, "Tomb Special Area Theme (Tainted)")
+				SMCM.AddSetting(category, subCategorySpecialRooms, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["tombspecialtainted"]
+					end,
+					Display = function()
+						if modSaveData["tombspecialtainted"] then
+							return "Venturus Est"
+						else
+							return "The Second Gate Opens"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tombspecialtainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the music in the special Tomb area for Tainted characters."
+					}
+				})
+			end
 			SMCM.AddSpace(category, subCategorySpecialRooms)
 			SMCM.AddText(category, subCategoryBattle, "Greed Mode Devil Wave Theme")
 			SMCM.AddSetting(category, subCategoryBattle, {
@@ -1381,6 +1515,169 @@ function custommusiccollection:SetUpMenu()
 					"Sets the Beast fight music for Tainted characters."
 				}
 			})
+			if revel and REVEL then
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Glacier Boss Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["glacierbosstainted"]
+					end,
+					Display = function()
+						if modSaveData["glacierbosstainted"] then
+							return "The End of the Beginning (Alt Loop)"
+						else
+							return "The End of the Beginning"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["glacierbosstainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Glacier boss fight music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Chuck Miniboss Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["glacierelitetainted"]
+					end,
+					Display = function()
+						if modSaveData["glacierelitetainted"] then
+							return "Tundra Titan (Alt Loop)"
+						else
+							return "Tundra Titan"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["glacierelitetainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Chuck miniboss fight music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Narcissus Fight Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["glaciermirrortainted"]
+					end,
+					Display = function()
+						if modSaveData["glaciermirrortainted"] then
+							return "Afterlife Ascension"
+						else
+							return "Mirror Mirror on the Floor"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["glaciermirrortainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Narcissus fight music for Tainted characters. Only affects the Narcissus fight in the Glacier."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Tomb Boss Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["tombbosstainted"]
+					end,
+					Display = function()
+						if modSaveData["tombbosstainted"] then
+							return "Sand and Sunder (Alt Loop)"
+						else
+							return "Sand and Sunder"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tombbosstainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Tomb boss fight music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Dungo Miniboss Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["tombelitetainted"]
+					end,
+					Display = function()
+						if modSaveData["tombelitetainted"] then
+							return "Toxic Tumbler (Alt Loop)"
+						else
+							return "Toxic Tumbler"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tombelitetainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Dungo miniboss fight music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Ragtime Miniboss Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["tombragtimetainted"]
+					end,
+					Display = function()
+						if modSaveData["tombragtimetainted"] then
+							return "It's Rag Time (Alt Loop)"
+						else
+							return "It's Rag Time"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tombragtimetainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Ragtime miniboss fight music for Tainted characters."
+					}
+				})
+				SMCM.AddSpace(category, subCategoryBattle)
+				SMCM.AddText(category, subCategoryBattle, "Narcissus II Fight Theme (Tainted)")
+				SMCM.AddSetting(category, subCategoryBattle, {
+					Type = SMCM.OptionType.BOOLEAN,
+					Default = true,
+					CurrentSetting = function()
+						return modSaveData["tombmirrortainted"]
+					end,
+					Display = function()
+						if modSaveData["tombmirrortainted"] then
+							return "Arena Mode"
+						else
+							return "Narcissus Rising"
+						end
+					end,
+					OnChange = function(value)
+						modSaveData["tombmirrortainted"] = value
+						custommusiccollection:SaveToFile()
+					end,
+					Info = {
+						"Sets the Narcissus II fight music for Tainted characters. Only affects the Narcissus fight in the Tomb."
+					}
+				})
+			end
 			SMCM.AddSpace(category, subCategoryBattle)
 			if usingRGON then
 				SMCM.AddText(category, subCategoryMisc, "Legacy Jingle Replacement Method")
@@ -1633,7 +1930,6 @@ if not BossMusicForSacrificeRoomAngelsFlag then
 	--TODO: problems with Stage API:
 	--displays incorrect stage name on continue option on main menu
 	--ambush secret rooms don't work
-	--red key doesn't work
 	--layouts are empty when returning to game
 	--Emperor? card - selects wrong bosses
 	--Genesis beam of light - leads to wrong floor
@@ -3955,13 +4251,235 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	end
 	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectCustomStageMusicForStageAPI)
 	
-	--handle boss over jingles in custom stages
+	--handle Mother over jingle in Mortis
 	function custommusiccollection:PerformMotherOverForStageAPI(musicID, isCleared, musicRNG)
 		if musicID == Music.MUSIC_JINGLE_BOSS_OVER3 then
 			return custommusiccollection:PerformMotherOver(musicID)
 		end
 	end
 	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_BOSS_MUSIC, tpriority, custommusiccollection.PerformMotherOverForStageAPI)
+	
+	--disable treasure jingle in Knife Piece 1 room in Boiler
+	function custommusiccollection:DisableTreasureJingleInMirrorBoiler()
+		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			local roomDescriptor = Game():GetLevel():GetCurrentRoomDesc()
+			if roomDescriptor:GetDimension() == Dimension.MIRROR then
+				return MusicCancelValue()
+			end
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_0)
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_1)
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_2)
+	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_3)
+end
+
+if StageAPI and StageAPI.Loaded then
+	--unlike Last Judgement and Fall From Grace, Revelations does not require Repentogon
+	--TODO: some of the below could be gated by revel and REVEL, but they would have to be moved to a MC_POST_MODS_LOADED function
+	
+	function custommusiccollection:PerformGlacierReversion(trackId)
+		if not modSaveData["glaciertainted"] and PlayTaintedVersion(Music.MUSIC_GLACIER) then
+			return custommusiccollection:PlayIfNecessary(Music.MUSIC_GLACIER)
+		end
+	end
+	
+	function custommusiccollection:PerformGlacierBossReversion(trackId)
+		if not modSaveData["glacierbosstainted"] and PlayTaintedVersion(Music.MUSIC_GLACIER_BOSS) then
+			return Music.MUSIC_GLACIER_BOSS
+		end
+	end
+	
+	function custommusiccollection:PerformGlacierEliteReversion(trackId)
+		if not modSaveData["glacierelitetainted"] and PlayTaintedVersion(Music.MUSIC_GLACIER_ELITE) then
+			return Music.MUSIC_GLACIER_ELITE
+		end
+	end
+	
+	function custommusiccollection:PerformGlacierMirrorReversion(trackId) --for MIRROR and MIRROR_NOINTRO
+		if not modSaveData["glaciermirrortainted"] and PlayTaintedVersion(trackId) then
+			return trackId
+		end
+	end
+	
+	function custommusiccollection:PerformGlacierSpecialReversion(trackId)
+		if not modSaveData["glacierspecialtainted"] and PlayTaintedVersion(Music.MUSIC_GLACIER_SPECIAL) then
+			return Music.MUSIC_GLACIER_SPECIAL
+		end
+	end
+	
+	function custommusiccollection:PerformTombReversion(trackId)
+		if not modSaveData["tombtainted"] and PlayTaintedVersion(Music.MUSIC_TOMB) then
+			return custommusiccollection:PlayIfNecessary(Music.MUSIC_TOMB)
+		end
+	end
+	
+	function custommusiccollection:PerformTombBossReversion(trackId)
+		if not modSaveData["tombbosstainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_BOSS) then
+			return Music.MUSIC_TOMB_BOSS
+		end
+	end
+	
+	function custommusiccollection:PerformTombEliteReversion(trackId)
+		if not modSaveData["tombelitetainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_ELITE) then
+			return Music.MUSIC_TOMB_ELITE
+		end
+	end
+	
+	function custommusiccollection:PerformTombRagtimeReversion(trackId)
+		if not modSaveData["tombragtimetainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_RAGTIME) then
+			return Music.MUSIC_TOMB_RAGTIME
+		end
+	end
+	
+	function custommusiccollection:PerformTombMirrorReversion(trackId) --for MIRROR and MIRROR_NOINTRO
+		if not modSaveData["tombmirrortainted"] and PlayTaintedVersion(trackId) then
+			return trackId
+		end
+	end
+	
+	function custommusiccollection:PerformTombSpecialReversion(trackId)
+		if not modSaveData["tombspecialtainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_SPECIAL) then
+			return Music.MUSIC_TOMB_SPECIAL
+		end
+	end
+	--callback created post mods loading
+	
+	local tpriority = 0
+	
+	function custommusiccollection:PlayCorrectCustomBossMusicForRevelations(musicID, isCleared, musicRNG)
+		if revel and REVEL then
+			if (Music.MUSIC_GLACIER_BOSS and musicID == Music.MUSIC_GLACIER_BOSS)
+			or (Music.MUSIC_TOMB_BOSS and musicID == Music.MUSIC_TOMB_BOSS) then
+				local returnTrack
+				if (Music.MUSIC_GLACIER_BOSS and musicID == Music.MUSIC_GLACIER_BOSS) then
+					returnTrack = custommusiccollection:PerformGlacierBossReversion(musicID)
+				elseif (Music.MUSIC_TOMB_BOSS and musicID == Music.MUSIC_TOMB_BOSS) then
+					returnTrack = custommusiccollection:PerformTombBossReversion(musicID)
+				end
+				if returnTrack == nil then
+					returnTrack = NormalTaintedOrTarnished(musicID)
+				end
+				return returnTrack
+			end
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_BOSS_MUSIC, tpriority, custommusiccollection.PlayCorrectCustomBossMusicForRevelations)
+	
+	function custommusiccollection:PlayCorrectCustomRoomMusicForRevelations(musicID, baseRoomType, roomId, musicRNG)
+		if revel and REVEL then
+			if (Music.MUSIC_GLACIER_SPECIAL and musicID == Music.MUSIC_GLACIER_SPECIAL and roomId == "DanteSatanBig")
+			or (Music.MUSIC_TOMB_SPECIAL and musicID == Music.MUSIC_TOMB_SPECIAL and roomId == "FlamingTombs") then
+				local returnTrack
+				if (Music.MUSIC_GLACIER_SPECIAL and musicID == Music.MUSIC_GLACIER_SPECIAL and roomId == "DanteSatanBig") then
+					returnTrack = custommusiccollection:PerformGlacierSpecialReversion(musicID)
+				elseif (Music.MUSIC_TOMB_SPECIAL and musicID == Music.MUSIC_TOMB_SPECIAL and roomId == "FlamingTombs") then
+					returnTrack = custommusiccollection:PerformTombSpecialReversion(musicID)
+				end
+				if returnTrack == nil then
+					returnTrack = NormalTaintedOrTarnished(musicID)
+				end
+				return returnTrack
+			end
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_ROOM_MUSIC, tpriority, custommusiccollection.PlayCorrectCustomRoomMusicForRevelations)
+	
+	function custommusiccollection:PlayCorrectCustomStageMusicForRevelations(musicID, roomType, musicRNG) --TODO: maybe can use roomType instead of StageAPI.GetCurrentRoomType() in this function
+		if revel and REVEL then
+			if (Music.MUSIC_GLACIER and musicID == Music.MUSIC_GLACIER)
+			or (Music.MUSIC_TOMB and musicID == Music.MUSIC_TOMB) then
+				local returnTrack
+				local currentMusicID = musicmgr:GetCurrentMusicID()
+				if (Music.MUSIC_GLACIER and musicID == Music.MUSIC_GLACIER) then
+					--Isaac.DebugString("roomType in PlayCorrectCustomStageMusicForRevelations Glacier is "..tostring(roomType))
+					if StageAPI.GetCurrentRoomType() == "Mirror" then
+						if PlayTaintedVersion(Music.MUSIC_GLACIER_MIRROR) and currentMusicID == TaintedVersion(Music.MUSIC_GLACIER_MIRROR) and not revel.data.run.NarcissusGlacierDefeated and modSaveData["glaciermirrortainted"] then
+							returnTrack = currentMusicID
+						else
+							--Isaac.DebugString("cancelling because in MIRROR room")
+							return
+						end
+					elseif REVEL.IsEliteRoom("Chuck") then
+						if not REVEL.room:IsClear() then
+							if modSaveData["glacierelitetainted"] and PlayTaintedVersion(Music.MUSIC_GLACIER_ELITE) then
+								returnTrack = NormalTaintedOrTarnished(Music.MUSIC_GLACIER_ELITE)
+							else
+								--Isaac.DebugString("cancelling because deferring to default unnamed elite music function in Chuck room")
+								return
+							end
+						else
+							--Isaac.DebugString("cancelling because in cleared Chuck room")
+							return
+						end
+					else
+						returnTrack = custommusiccollection:PerformGlacierReversion(musicID)
+					end
+				elseif (Music.MUSIC_TOMB and musicID == Music.MUSIC_TOMB) then
+					--Isaac.DebugString("roomType in PlayCorrectCustomStageMusicForRevelations Tomb is "..tostring(roomType))
+					if StageAPI.GetCurrentRoomType() == "Mirror" then
+						if PlayTaintedVersion(Music.MUSIC_TOMB_MIRROR) and currentMusicID == TaintedVersion(Music.MUSIC_TOMB_MIRROR) and not revel.data.run.NarcissusTombDefeated and modSaveData["tombmirrortainted"] then
+							returnTrack = currentMusicID	
+						else
+							--Isaac.DebugString("cancelling because in MIRROR2 room")
+							return
+						end
+					elseif REVEL.IsEliteRoom("Dungo") then
+						if not REVEL.room:IsClear() then
+							if modSaveData["tombelitetainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_ELITE) then
+								returnTrack = NormalTaintedOrTarnished(Music.MUSIC_TOMB_ELITE)
+							else
+								--Isaac.DebugString("cancelling because deferring to default unnamed elite music function in Dungo room")
+								return
+							end
+						else
+							--Isaac.DebugString("cancelling because in cleared Dungo room")
+							return
+						end
+					elseif REVEL.IsEliteRoom("Ragtime") then
+						if not REVEL.room:IsClear() then
+							if modSaveData["tombragtimetainted"] and PlayTaintedVersion(Music.MUSIC_TOMB_RAGTIME) and currentMusic == TaintedVersion(Music.MUSIC_TOMB_RAGTIME) then
+								returnTrack = NormalTaintedOrTarnished(Music.MUSIC_TOMB_RAGTIME)
+							else
+								--Isaac.DebugString("cancelling because deferring to default unnamed elite music function in Ragtime room")
+								return
+							end
+						else
+							--Isaac.DebugString("cancelling because in cleared Ragtime room")
+							return
+						end
+					else
+						returnTrack = custommusiccollection:PerformTombReversion(musicID)
+					end
+				end
+				if returnTrack == nil then
+					returnTrack = NormalTaintedOrTarnished(musicID)
+				end
+				--Isaac.DebugString("returnTrack in PlayCorrectCustomStageMusicForRevelations is "..tostring(returnTrack))
+				return returnTrack
+			end
+		end
+	end
+	StageAPI.AddCallback(custommusiccollection.Name, StageAPI.Enum.Callbacks.POST_SELECT_STAGE_MUSIC, tpriority, custommusiccollection.PlayCorrectCustomStageMusicForRevelations)
+	--TODOO: why does tainted Narc II music take a few seconds to start?
+	--TODOO: test that there's no issue with fighting Ragtime for a whole loop of the song
+	--(seed: XPSE8QBH, Hard Mode, Tomb 2)
+	
+	--I'm so close! Just do this, then commit and upload
+	--TODOOO: for some reason, with classic character (The Lost), Narc II boss music started playing for a split second just before the boss portrait after going through mirror door without breaking it
+	--in mod description, emphasize that Revelations should not be used without Repentogon; also mention the new songs used for Tainted Revelations
+	
+	--handle boss music and jingles in custom stages
+	function custommusiccollection:AssistStageAPIBossPortraitJingle(trackId)
+		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			customStageBossIntro = StageAPI.GetCurrentStage().BossMusic.Intro
+			
+			if type(customStageBossIntro) ~= "table" and customStageBossIntro ~= trackId then
+				return customStageBossIntro
+			end
+		end
+	end
+	custommusiccollection:CreateCallback(custommusiccollection.AssistStageAPIBossPortraitJingle, Music.MUSIC_JINGLE_BOSS)
 	
 	function custommusiccollection:AssistStageAPIBossOverJingle(trackId)
 		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
@@ -3988,20 +4506,6 @@ if usingRGON and StageAPI and StageAPI.Loaded then
 	Music.MUSIC_JINGLE_BOSS_OVER,
 	Music.MUSIC_JINGLE_BOSS_OVER2,
 	Music.MUSIC_JINGLE_BOSS_OVER3)
-	
-	--disable treasure jingle in Knife Piece 1 room in Boiler
-	function custommusiccollection:DisableTreasureJingleInMirrorBoiler()
-		if StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
-			local roomDescriptor = Game():GetLevel():GetCurrentRoomDesc()
-			if roomDescriptor:GetDimension() == Dimension.MIRROR then
-				return MusicCancelValue()
-			end
-		end
-	end
-	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_0)
-	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_1)
-	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_2)
-	custommusiccollection:AddCallback(ModCallbacks.MC_PRE_MUSIC_PLAY_JINGLE, custommusiccollection.DisableTreasureJingleInMirrorBoiler, Music.MUSIC_JINGLE_TREASUREROOM_ENTRY_3)
 end
 
 function custommusiccollection:PerformAscentReversion(trackId)
@@ -4168,6 +4672,8 @@ MMC.AddMusicCallback(custommusiccollection, function()
 	end
 end, Music.MUSIC_DANK_DEPTHS)--]]
 
+noCustomStageInterrupt = {}
+
 if usingRGON then
 	--will be called post mods loaded
 	function custommusiccollection:CheckForCustomStageMusic()
@@ -4216,8 +4722,105 @@ if usingRGON then
 					normaltotarnished[Music.MUSIC_GROTTO] = Isaac.GetMusicIdByName("Excelsior Grotto")
 				end
 			end
+			if revel and REVEL then
+				Music.MUSIC_GLACIER = REVEL.MUSIC.GLACIER
+				Music.MUSIC_GLACIER_BOSS = REVEL.MUSIC.GLACIER_BOSS
+				Music.MUSIC_GLACIER_ELITE = REVEL.MUSIC.ELITE1
+				Music.MUSIC_GLACIER_MIRROR = REVEL.MUSIC.MIRROR_BOSS
+				Music.MUSIC_GLACIER_MIRROR_NOINTRO = REVEL.MUSIC.MIRROR_BOSS_NOINTRO
+				Music.MUSIC_GLACIER_SPECIAL = REVEL.MUSIC.GLACIER_ENTRANCE
+				Music.MUSIC_TOMB = REVEL.MUSIC.TOMB
+				Music.MUSIC_TOMB_BOSS = REVEL.MUSIC.TOMB_BOSS
+				Music.MUSIC_TOMB_ELITE = REVEL.MUSIC.ELITE2
+				Music.MUSIC_TOMB_RAGTIME = REVEL.MUSIC.ELITE_RAGTIME.Track --REVEL.MUSIC.ELITE_RAGTIME is a table with {Track, Name, Cues, Duration}
+				Music.MUSIC_TOMB_MIRROR = REVEL.MUSIC.MIRROR_BOSS_2
+				Music.MUSIC_TOMB_MIRROR_NOINTRO = REVEL.MUSIC.MIRROR_BOSS_2_NOINTRO
+				Music.MUSIC_TOMB_SPECIAL = REVEL.MUSIC.TOMB_ENTRANCE
+				
+				normaltotainted[Music.MUSIC_GLACIER] = Isaac.GetMusicIdByName("Glacier (tainted)")
+				normaltotaintedalt1[Music.MUSIC_GLACIER] = Isaac.GetMusicIdByName("Glacier (tainted) nointro")
+				normaltotaintedalt2[Music.MUSIC_GLACIER] = Isaac.GetMusicIdByName("Glacier (tainted) altloop")
+				normaltotainted[Music.MUSIC_GLACIER_BOSS] = Isaac.GetMusicIdByName("Glacier Boss (tainted)")
+				normaltotainted[Music.MUSIC_GLACIER_ELITE] = Isaac.GetMusicIdByName("Glacier Elite Miniboss (tainted)")
+				normaltotainted[Music.MUSIC_GLACIER_MIRROR] = Isaac.GetMusicIdByName("Glacier Mirror Boss (tainted)")
+				normaltotainted[Music.MUSIC_GLACIER_MIRROR_NOINTRO] = Isaac.GetMusicIdByName("Glacier Mirror Boss (tainted)")
+				normaltotainted[Music.MUSIC_GLACIER_SPECIAL] = Isaac.GetMusicIdByName("Glacier Special Area (tainted)")
+				normaltotainted[Music.MUSIC_TOMB] = Isaac.GetMusicIdByName("Tomb (tainted)")
+				normaltotaintedalt1[Music.MUSIC_TOMB] = Isaac.GetMusicIdByName("Tomb (tainted) nointro")
+				normaltotaintedalt2[Music.MUSIC_TOMB] = Isaac.GetMusicIdByName("Tomb (tainted) altloop")
+				normaltotainted[Music.MUSIC_TOMB_BOSS] = Isaac.GetMusicIdByName("Tomb Boss (tainted)")
+				normaltotainted[Music.MUSIC_TOMB_ELITE] = Isaac.GetMusicIdByName("Tomb Elite Miniboss (tainted)")
+				normaltotainted[Music.MUSIC_TOMB_RAGTIME] = Isaac.GetMusicIdByName("Tomb Elite Ragtime (tainted)")
+				normaltotainted[Music.MUSIC_TOMB_MIRROR] = Isaac.GetMusicIdByName("Tomb Mirror Boss (tainted)")
+				normaltotainted[Music.MUSIC_TOMB_MIRROR_NOINTRO] = Isaac.GetMusicIdByName("Tomb Mirror Boss (tainted)")
+				normaltotainted[Music.MUSIC_TOMB_SPECIAL] = Isaac.GetMusicIdByName("Tomb Special Area (tainted)")
+				
+				--ragtime funkiness
+				REVEL.CuesByTrackId[normaltotainted[Music.MUSIC_TOMB_RAGTIME]] = REVEL.MUSIC.ELITE_RAGTIME --use the same table in memory
+				
+				function custommusiccollection:EnforceRagtimeSpecialIntro(trackId)
+					if revel and REVEL then
+						if REVEL.IsEliteRoom("Ragtime") then
+							local ragtimes = REVEL.ENT.RAGTIME:getInRoom()
+							if #ragtimes > 0 and REVEL.every(ragtimes, function(ent)
+								return not REVEL.GetData(ent).Init
+							end) then
+								return REVEL.MUSIC.BLANK_MUSIC
+							end
+						end
+					end
+				end
+				custommusiccollection:CreateCallback(custommusiccollection.EnforceRagtimeSpecialIntro, Music.MUSIC_TOMB_RAGTIME)
+				
+				--random_music
+				
+				stageSeedTrack[Music.MUSIC_GLACIER] = 1
+				roomSeedTrack[Music.MUSIC_GLACIER_BOSS] = 1
+				roomSeedTrack[Music.MUSIC_GLACIER_ELITE] = 1
+				roomSeedTrack[Music.MUSIC_GLACIER_MIRROR] = 1
+				roomSeedTrack[Music.MUSIC_GLACIER_MIRROR_NOINTRO] = 1
+				roomSeedTrack[Music.MUSIC_GLACIER_SPECIAL] = 1
+				stageSeedTrack[Music.MUSIC_TOMB] = 1
+				roomSeedTrack[Music.MUSIC_TOMB_BOSS] = 1
+				roomSeedTrack[Music.MUSIC_TOMB_ELITE] = 1
+				roomSeedTrack[Music.MUSIC_TOMB_RAGTIME] = 1
+				roomSeedTrack[Music.MUSIC_TOMB_MIRROR] = 1
+				roomSeedTrack[Music.MUSIC_TOMB_MIRROR_NOINTRO] = 1
+				roomSeedTrack[Music.MUSIC_TOMB_SPECIAL] = 1
+				
+				custommusiccollection:CreateCallback(custommusiccollection.PerformGlacierReversion, Music.MUSIC_GLACIER)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformGlacierBossReversion, Music.MUSIC_GLACIER_BOSS)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformGlacierEliteReversion, Music.MUSIC_GLACIER_ELITE)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformGlacierMirrorReversion, Music.MUSIC_GLACIER_MIRROR, Music.MUSIC_GLACIER_MIRROR_NOINTRO)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformGlacierSpecialReversion, Music.MUSIC_GLACIER_SPECIAL)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformTombReversion, Music.MUSIC_TOMB)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformTombBossReversion, Music.MUSIC_TOMB_BOSS)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformTombEliteReversion, Music.MUSIC_TOMB_ELITE)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformTombRagtimeReversion, Music.MUSIC_TOMB_RAGTIME)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformTombMirrorReversion, Music.MUSIC_TOMB_MIRROR, Music.MUSIC_TOMB_MIRROR_NOINTRO)
+				custommusiccollection:CreateCallback(custommusiccollection.PerformTombSpecialReversion, Music.MUSIC_TOMB_SPECIAL)
+				
+				noCustomStageInterrupt[REVEL.MUSIC.MIRROR_BOSS_JINGLE] = true
+				
+				--if Epiphany
+			end
 		end
 	end
+	
+	function custommusiccollection:ManipulateRagtimeTrack()
+		if usingRGON and revel and REVEL and StageAPI and StageAPI.Loaded and StageAPI.CurrentStage and StageAPI.InNewStage() then
+			local tempRagtimeTrack
+			
+			if REVEL.IsEliteRoom("Ragtime") and not REVEL.room:IsClear() and PlayTaintedVersion(Music.MUSIC_TOMB_ELITE) and modSaveData["tombragtimetainted"] then --use Dungo music track to determine whether tainted should play since ragtime track will be changing
+				tempRagtimeTrack = Isaac.GetMusicIdByName("Tomb Elite Ragtime (tainted)")
+			else
+				tempRagtimeTrack = Isaac.GetMusicIdByName("Tomb Elite Ragtime")
+			end
+			
+			REVEL.MUSIC.ELITE_RAGTIME.Track = tempRagtimeTrack
+		end
+	end
+	custommusiccollection:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, custommusiccollection.ManipulateRagtimeTrack)
 end
 
 function custommusiccollection:PlayIfNecessary(trackId)
@@ -4392,7 +4995,7 @@ if usingRGON then
 				local curMusic = musicmgr:GetCurrentMusicID()
 				if not StageAPI.CanOverrideMusic(curMusic) then
 					local stageApiMusic = StageAPI.GetCurrentStage():GetPlayingMusic()
-					if stageApiMusic and curMusic ~= stageApiMusic then
+					if stageApiMusic and curMusic ~= stageApiMusic and not noCustomStageInterrupt[curMusic] then
 						musicmgr:Crossfade(stageApiMusic)
 					end
 				end
