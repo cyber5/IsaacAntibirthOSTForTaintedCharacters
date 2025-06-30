@@ -221,15 +221,33 @@
 	<track name="Mortis (tainted old)" path="CustomStage/Mortis - Malpractice [Loop - A].ogg" loop="true" mul="1.25" />
 	<track name="Mortis (tainted old) altloop" path="CustomStage/Mortis - Malpractice [Loop - B].ogg" loop="true" mul="1.25" />
 	<track name="Mortis (tainted old) altloop 2" path="CustomStage/Mortis - Malpractice [Loop - C].ogg" loop="true" mul="1.25" />
-	<track name="Mortis (tainted)" intro="CustomStage/Mortis - Ultimum Supplicium Mei [Intro].ogg" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop].ogg" loop="true" />
-	<track name="Mortis (tainted) nointro" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop].ogg" loop="true" />
-	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop - Alt].ogg" loop="true" />
+	<track name="Mortis (tainted)" intro="CustomStage/Mortis - Ultimum Supplicium Mei [Intro].ogg" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop].ogg" loop="true" mul="0.9" />
+	<track name="Mortis (tainted) nointro" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop].ogg" loop="true" mul="0.9" />
+	<track name="Mortis (tainted) altloop" path="CustomStage/Mortis - Ultimum Supplicium Mei [Loop - Alt].ogg" loop="true" mul="0.9" />
 	<track name="Boiler (tainted)" intro="CustomStage/Boiler - The Trial [Intro].ogg" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
 	<track name="Boiler (tainted) nointro" path="CustomStage/Boiler - The Trial [Loop].ogg" loop="true" />
 	<track name="Boiler (tainted) altloop" path="CustomStage/Boiler - The Trial [Loop - Alt].ogg" loop="true" />
 	<track name="Boiler (reversed, tainted)" path="CustomStage/Boiler - The Trial [Loop - Reversed].ogg" loop="true" />
 	<track name="Grotto (tainted)" path="CustomStage/Grotto - The Drop [Loop].ogg" loop="true" mul="0.9" />
 	<track name="Grotto (tainted) altloop" path="CustomStage/Grotto - The Drop [Loop - Alt].ogg" loop="true" mul="0.9" />
+	
+	<!-- Revelations -->
+	<track name="Glacier (tainted)" intro="CustomStage/Revelations/Glacier - Sarah [Intro].ogg" path="CustomStage/Revelations/Glacier - Sarah [Loop].ogg" loop="true" />
+	<track name="Glacier (tainted) nointro" path="CustomStage/Revelations/Glacier - Sarah [Loop].ogg" loop="true" />
+	<track name="Glacier (tainted) altloop" path="CustomStage/Revelations/Glacier - Sarah [Loop - Alt].ogg" loop="true" />
+	<track name="Glacier Boss (tainted)" intro="CustomStage/Revelations/Glacier Boss Battle alt intro.ogg" path="CustomStage/Revelations/Glacier Boss Battle alt loop.ogg" loop="true" />
+	<track name="Glacier Elite Miniboss (tainted)" path="CustomStage/Revelations/Glacier Elite Miniboss alt loop.ogg" loop="true" />
+	<track name="Glacier Mirror Boss (tainted)" intro="CustomStage/Revelations/Afterlife Ascension intro.ogg" path="CustomStage/Revelations/Afterlife Ascension loop.ogg" loop="true" />
+	<track name="Glacier Special Area (tainted)" intro="CustomStage/Revelations/Uncut intro.ogg" path="CustomStage/Revelations/Uncut loop.ogg" loop="true" />
+	<track name="Tomb (tainted)" intro="CustomStage/Revelations/Tomb - Trapped [Intro].ogg" path="CustomStage/Revelations/Tomb - Trapped [Loop].ogg" loop="true" />
+	<track name="Tomb (tainted) nointro" path="CustomStage/Revelations/Tomb - Trapped [Loop].ogg" loop="true" />
+	<track name="Tomb (tainted) altloop" path="CustomStage/Revelations/Tomb - Trapped [Loop - Alt].ogg" loop="true" />
+	<track name="Tomb Boss (tainted)" path="CustomStage/Revelations/Tomb Boss alt loop.ogg" loop="true" />
+	<track name="Tomb Elite Miniboss (tainted)" path="CustomStage/Revelations/Tomb Elite Miniboss alt loop.ogg" loop="true" />
+	<track name="Tomb Elite Ragtime (tainted)" path="CustomStage/Revelations/Tomb Elite Ragtime alt loop.ogg" loop="true" />
+	<track name="Tomb Elite Ragtime (edit)" intro="CustomStage/Revelations/Tomb Elite Ragtime intro.ogg" path="CustomStage/Revelations/Tomb Elite Ragtime loop.ogg" loop="true" />
+	<track name="Tomb Mirror Boss (tainted)" intro="CustomStage/Revelations/Arena Mode intro.ogg" path="CustomStage/Revelations/Arena Mode loop.ogg" loop="true" />
+	<track name="Tomb Special Area (tainted)" path="CustomStage/Revelations/Venturus Est loop.ogg" loop="true" />
 	
 	<!-- Excelsior -->
 	<track name="Excelsior Basement" intro="Excelsior/Diptera Sonata Intro.ogg" path="Excelsior/Diptera Sonata(Basement).ogg" loop="true" mul="1.5" />
